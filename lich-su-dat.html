@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lịch sử đặt sân - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .history-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .history-tab {
+      padding: 12px 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .history-tab.active {
+      color: var(--green-dark);
+      border-bottom-color: var(--green);
+    }
+
+    .history-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+
+    .history-status {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-confirmed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .history-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="tai-khoan.html" class="btn-outline">Tài khoản</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container" style="padding-top: 24px;">
+      <h1 class="section-title" style="margin-bottom: 24px;">Lịch sử đặt sân</h1>
+
+      <div class="history-tabs">
+        <button class="history-tab active" onclick="filterHistory('all')">Tất cả</button>
+        <button class="history-tab" onclick="filterHistory('upcoming')">Sắp tới</button>
+        <button class="history-tab" onclick="filterHistory('past')">Đã qua</button>
+      </div>
+
+      <div id="bookings-container">
+        <!-- Bookings will be loaded here -->
+        <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải lịch sử...</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script>
+    let currentFilter = 'all';
+    let allBookings = [];
+
+    async function loadBookings() {
+      const user = await getCurrentUser();
+      if (!user) {
+        document.getElementById('bookings-container').innerHTML = `
+          <div style="text-align: center; padding: 40px;">
+            <p style="margin-bottom: 16px;">Vui lòng đăng nhập để xem lịch sử đặt sân</p>
+            <a href="dang-nhap.html" class="btn">Đăng nhập</a>
+          </div>
+        `;
+        return;
+      }
+
+      allBookings = await getUserBookings(user.id);
+      renderBookings();
+    }
+
+    function renderBookings() {
+      const container = document.getElementById('bookings-container');
+      
+      let filtered = allBookings;
+      if (currentFilter === 'upcoming') {
+        const now = new Date();
+        filtered = allBookings.filter(b => new Date(b.date) >= now);
+      } else if (currentFilter === 'past') {
+        const now = new Date();
+        filtered = allBookings.filter(b => new Date(b.date) < now);
+      }
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 40px; color: var(--muted);">
+            <p>Chưa có lịch sử đặt sân nào</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(booking => {
+        const date = new Date(booking.date);
+        const dateStr = date.toLocaleDateString('vi-VN');
+        const timeRange = `${booking.timeSlots[0]} - ${booking.timeSlots[booking.timeSlots.length - 1]}`;
+        const hours = booking.timeSlots.length;
+        const price = new Intl.NumberFormat('vi-VN').format(booking.totalPrice);
+        const bookingId = `SF-2025-${String(booking.id).padStart(6, '0')}`;
+        
+        const now = new Date();
+        const isPast = date < now;
+        const status = isPast ? 'Đã hoàn thành' : 'Đã xác nhận';
+        const statusClass = isPast ? 'status-completed' : 'status-confirmed';
+
+        return `
+          <div class="history-card">
+            <div class="history-header">
+              <div>
+                <div style="font-weight: 700; font-size: 18px; margin-bottom: 4px;">${booking.venueName}</div>
+                <div style="font-size: 13px; color: var(--muted);">${bookingId}</div>
+              </div>
+              <span class="history-status ${statusClass}">${status}</span>
+            </div>
+            <div style="margin-bottom: 12px;">
+              <div style="font-size: 14px; margin-bottom: 4px;">📅 Ngày ${dateStr}</div>
+              <div style="font-size: 14px; margin-bottom: 4px;">⏰ ${timeRange} (${hours} giờ)</div>
+              <div style="font-size: 14px;">💰 ${price}₫</div>
+            </div>
+            <div class="history-actions">
+              <button class="btn" onclick="window.location.href='bang-lich-trong.html?venue=${booking.venueId}'">Đặt lại</button>
+              ${isPast ? `<button class="btn-outline" onclick="window.location.href='danh-gia-san.html?id=${booking.venueId}'">Đánh giá</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterHistory(type) {
+      currentFilter = type;
+      document.querySelectorAll('.history-tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+      renderBookings();
+    }
+
+    // Load on page load
+    document.addEventListener('DOMContentLoaded', loadBookings);
+  </script>
+  <script src="assets/js/header.js"></script>
+</body>
+</html>
+

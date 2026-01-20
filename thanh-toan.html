@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thanh toán - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .checkout-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    .checkout-section {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .section-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-number.active {
+      background: var(--green-dark);
+    }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .payment-method {
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .payment-method:hover {
+      border-color: var(--green);
+    }
+
+    .payment-method.selected {
+      border-color: var(--green);
+      background: #dcfce7;
+    }
+
+    .booking-details {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 968px) {
+      .checkout-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+      <div class="header-cta">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container" style="padding-top: 24px;">
+      <h1 class="section-title" style="margin-bottom: 24px;">Thanh toán</h1>
+
+      <div class="checkout-grid">
+        <div>
+          <!-- Booking Details -->
+          <div class="checkout-section">
+            <div class="section-step">
+              <div class="step-number active">1</div>
+              <div>
+                <div style="font-weight: 600; font-size: 16px;">Thông tin đặt sân</div>
+                <div style="font-size: 13px; color: var(--muted);">Kiểm tra lại thông tin trước khi thanh toán</div>
+              </div>
+            </div>
+            <div class="booking-details" id="booking-details">
+              <!-- Loaded from sessionStorage -->
+            </div>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="checkout-section">
+            <div class="section-step">
+              <div class="step-number active">2</div>
+              <div>
+                <div style="font-weight: 600; font-size: 16px;">Thông tin liên hệ</div>
+                <div style="font-size: 13px; color: var(--muted);">Để nhận xác nhận đặt sân</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Họ và tên</label>
+              <input type="text" class="form-input" placeholder="Nhập họ và tên" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Số điện thoại</label>
+              <input type="tel" class="form-input" placeholder="0912345678" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email (tùy chọn)</label>
+              <input type="email" class="form-input" placeholder="email@example.com" />
+              <div class="form-help">Nhận xác nhận qua email</div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="checkout-section">
+            <div class="section-step">
+              <div class="step-number active">3</div>
+              <div>
+                <div style="font-weight: 600; font-size: 16px;">Phương thức thanh toán</div>
+                <div style="font-size: 13px; color: var(--muted);">Chọn cách thanh toán thuận tiện</div>
+              </div>
+            </div>
+            <div class="payment-methods">
+              <div class="payment-method selected" onclick="selectPayment('vnpay')">
+                <div style="font-size: 24px; margin-bottom: 8px;">💳</div>
+                <div style="font-weight: 600;">VNPay</div>
+              </div>
+              <div class="payment-method" onclick="selectPayment('momo')">
+                <div style="font-size: 24px; margin-bottom: 8px;">📱</div>
+                <div style="font-weight: 600;">MoMo</div>
+              </div>
+              <div class="payment-method" onclick="selectPayment('zalo')">
+                <div style="font-size: 24px; margin-bottom: 8px;">💰</div>
+                <div style="font-weight: 600;">ZaloPay</div>
+              </div>
+              <div class="payment-method" onclick="selectPayment('cash')">
+                <div style="font-size: 24px; margin-bottom: 8px;">💵</div>
+                <div style="font-weight: 600;">Thanh toán tại sân</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terms -->
+          <div class="checkout-section">
+            <label style="display: flex; align-items: start; gap: 8px; cursor: pointer;">
+              <input type="checkbox" required style="margin-top: 4px;" />
+              <span style="font-size: 13px;">
+                Tôi đã đọc và đồng ý với <a href="dieu-khoan.html" target="_blank" style="color: var(--blue);">Điều khoản sử dụng</a> và 
+                <a href="dieu-khoan.html#privacy" target="_blank" style="color: var(--blue);">Chính sách bảo mật</a>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div>
+          <div class="checkout-section" style="position: sticky; top: 80px;">
+            <div class="summary-title">Tóm tắt đơn hàng</div>
+            <div class="summary-item">
+              <span class="summary-label">Sân</span>
+              <span class="summary-value" id="summary-venue">-</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Ngày</span>
+              <span class="summary-value" id="summary-date">-</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Khung giờ</span>
+              <span class="summary-value" id="summary-time">-</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Số giờ</span>
+              <span class="summary-value" id="summary-duration">-</span>
+            </div>
+            <div class="summary-total">
+              <span class="summary-total-label">Tổng thanh toán</span>
+              <span class="summary-total-value" id="summary-total">0₫</span>
+            </div>
+            <button class="btn btn-large btn-block" onclick="confirmPayment()" style="margin-top: 24px;">
+              Xác nhận thanh toán
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/alert.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script>
+    // Load booking data
+    document.addEventListener('DOMContentLoaded', async function() {
+      const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
+      
+      if (Object.keys(bookingData).length === 0) {
+        alert('Không có thông tin đặt sân. Vui lòng chọn sân và giờ trước.');
+        window.location.href = 'danh-sach-san.html';
+        return;
+      }
+
+      // Display booking details
+      const date = new Date(bookingData.date);
+      const dateStr = date.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      
+      document.getElementById('booking-details').innerHTML = `
+        <div style="margin-bottom: 12px;">
+          <strong>${bookingData.venueName}</strong>
+        </div>
+        <div style="font-size: 13px; margin-bottom: 8px;">
+          📅 ${dateStr}
+        </div>
+        <div style="font-size: 13px; margin-bottom: 8px;">
+          ⏰ ${bookingData.slots.join(', ')}
+        </div>
+        <div style="font-size: 13px;">
+          ⏱️ ${bookingData.duration} giờ
+        </div>
+      `;
+
+      // Update summary
+      document.getElementById('summary-venue').textContent = bookingData.venueName;
+      document.getElementById('summary-date').textContent = date.toLocaleDateString('vi-VN');
+      document.getElementById('summary-time').textContent = bookingData.slots.join(', ');
+      document.getElementById('summary-duration').textContent = bookingData.duration + ' giờ';
+      document.getElementById('summary-total').textContent = new Intl.NumberFormat('vi-VN').format(bookingData.totalPrice) + '₫';
+    });
+
+    function selectPayment(method) {
+      document.querySelectorAll('.payment-method').forEach(el => el.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+    }
+
+    async function confirmPayment() {
+      // Validate form
+      const name = document.querySelector('input[type="text"]').value;
+      const phone = document.querySelector('input[type="tel"]').value;
+      const terms = document.querySelector('input[type="checkbox"]').checked;
+
+      if (!name || !phone) {
+        alert('Vui lòng điền đầy đủ thông tin liên hệ');
+        return;
+      }
+
+      if (!terms) {
+        alert('Vui lòng đồng ý với điều khoản sử dụng');
+        return;
+      }
+
+      // Check if user is logged in
+      const user = await getCurrentUser();
+      if (!user) {
+        alert('Vui lòng đăng nhập để tiếp tục');
+        window.location.href = 'dang-nhap.html';
+        return;
+      }
+
+      const bookingData = JSON.parse(sessionStorage.getItem('bookingData') || '{}');
+      
+      // Show loading
+      const btn = document.querySelector('.btn-large');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Đang xử lý thanh toán...';
+
+      try {
+        // Create booking using API
+        const booking = await createBooking({
+          venueId: bookingData.venueId,
+          field: bookingData.field || 'Sân 1',
+          date: bookingData.date,
+          timeSlots: bookingData.slots,
+          totalPrice: bookingData.totalPrice
+        });
+
+        // Save booking ID for confirmation page
+        sessionStorage.setItem('lastBookingId', booking.id);
+        sessionStorage.removeItem('bookingData'); // Clear booking data
+        
+        // Redirect to confirmation
+        window.location.href = 'xac-nhan-thanh-toan.html';
+      } catch (error) {
+        alert('Lỗi: ' + error.message);
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    }
+  </script>
+</body>
+</html>
+

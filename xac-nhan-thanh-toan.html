@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thanh toán thành công - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .success-container {
+      max-width: 600px;
+      margin: 48px auto;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #dcfce7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 48px;
+    }
+
+    .success-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+    }
+
+    .booking-id {
+      background: #f3f4f6;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: monospace;
+      font-weight: 600;
+      margin: 16px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+      <div class="header-cta">
+        <a href="tai-khoan.html" class="btn-outline">Tài khoản</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="success-container">
+      <div class="success-icon">✓</div>
+      
+      <div class="success-card">
+        <h1 style="font-size: 28px; margin-bottom: 12px; color: var(--green-dark);">Đặt sân thành công!</h1>
+        <p style="color: var(--muted); margin-bottom: 24px;">Chúng tôi đã gửi xác nhận đến email và số điện thoại của bạn</p>
+        
+        <div class="booking-id">Mã đặt sân: SF-2025-001234</div>
+
+        <div class="booking-details" style="text-align: left; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+          <div style="margin-bottom: 12px;"><strong>Sân cỏ nhân tạo Riverside</strong></div>
+          <div style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">📅 Ngày 15/01/2025</div>
+          <div style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">⏰ 18:00 - 21:00</div>
+          <div style="font-size: 14px; color: var(--muted);">💰 1.050.000₫</div>
+        </div>
+
+        <div style="margin-top: 32px; display: flex; gap: 12px; flex-direction: column;">
+          <button class="btn btn-large btn-block" onclick="window.location.href='tai-khoan.html'">
+            Xem chi tiết đặt sân
+          </button>
+          <button class="btn-outline btn-block" onclick="window.location.href='danh-sach-san.html'">
+            Đặt sân tiếp
+          </button>
+        </div>
+      </div>
+
+      <div class="alert alert-info">
+        📱 Mã QR và thông tin chi tiết đã được gửi đến email của bạn. Vui lòng đến đúng giờ đã đặt!
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+</body>
+</html>
+

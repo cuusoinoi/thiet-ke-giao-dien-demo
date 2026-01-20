@@ -16,19 +16,16 @@ Tuân thủ 4 nguyên lý thiết kế giao diện người dùng:
 
 ```
 /
-├── index.html                 # Trang chủ (có inline CSS)
+├── index.html                 # Trang chủ
 ├── *.html                     # Các trang HTML khác
-├── README.md                  # File hướng dẫn này
-├── assets/
-│   ├── css/
-│   │   └── styles.css         # CSS chung cho toàn bộ trang
-│   ├── js/
-│   │   ├── api.js             # Mock API helper functions
-│   │   └── mockData.js        # Dữ liệu mẫu hardcode
-│   └── images/
-│       └── logo.png           # Logo SportField
-└── docs/
-    └── API-USAGE.md           # Hướng dẫn sử dụng API chi tiết
+├── README.md                  # File hướng dẫn
+└── assets/
+    ├── css/
+    │   └── styles.css         # CSS chung
+    ├── js/
+    │   ├── api.js             # API helper functions
+    │   └── mockData.js        # Dữ liệu mẫu
+    └── images/                # Hình ảnh
 ```
 
 ### Trang chủ và Tìm kiếm

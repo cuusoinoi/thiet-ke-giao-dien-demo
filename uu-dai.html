@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ưu đãi - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .promo-hero {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 48px 0;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .promo-hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .promo-hero p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .promo-category-tabs {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 16px;
+    }
+
+    .category-tab {
+      padding: 8px 20px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all 0.2s;
+    }
+
+    .category-tab.active {
+      color: var(--green-dark);
+      border-bottom-color: var(--green);
+    }
+
+    .promo-card-large {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .promo-card-large:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .promo-image {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .promo-content {
+      padding: 24px;
+    }
+
+    .promo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .badge-new {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-hot {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .badge-exclusive {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .promo-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .promo-description {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .promo-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .promo-detail-item {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .promo-detail-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .promo-detail-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--green-dark);
+    }
+
+    .promo-code {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f0fdf4;
+      border: 2px dashed var(--green);
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .promo-code-text {
+      flex: 1;
+      font-family: monospace;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--green-dark);
+    }
+
+    .copy-btn {
+      padding: 6px 16px;
+      background: var(--green);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+    }
+
+    .copy-btn:hover {
+      background: var(--green-dark);
+    }
+
+    .promo-cta {
+      width: 100%;
+    }
+
+    .how-to-use {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      margin-top: 32px;
+    }
+
+    .how-to-use h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 12px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .step-desc {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .promo-card-large.hidden {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .promo-hero h1 {
+        font-size: 28px;
+      }
+
+      .promo-details {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html" class="active">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
+        <a href="dang-ky.html" class="btn">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="promo-hero">
+      <div class="container">
+        <h1>Ưu đãi hấp dẫn</h1>
+        <p>Tiết kiệm mỗi lần đặt sân với các chương trình khuyến mãi độc quyền</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="promo-category-tabs">
+        <button class="category-tab active" onclick="filterPromos('all')">Tất cả</button>
+        <button class="category-tab" onclick="filterPromos('new')">Người dùng mới</button>
+        <button class="category-tab" onclick="filterPromos('regular')">Khách hàng thân thiết</button>
+        <button class="category-tab" onclick="filterPromos('time')">Giờ vàng</button>
+        <button class="category-tab" onclick="filterPromos('group')">Nhóm & Đội</button>
+      </div>
+
+      <!-- Promo 1 -->
+      <!-- 📸 ẢNH CẦN THÊM: assets/images/promos/promo-1.jpg (800x200px) -->
+      <article class="promo-card-large" data-category="new">
+        <img src="assets/images/promos/promo-1.jpg" alt="Giảm 30% đơn đặt sân đầu tiên" class="promo-image" 
+             onerror="this.style.background='linear-gradient(135deg, #22c55e, #16a34a)'" />
+        <div class="promo-content">
+          <div class="promo-badge badge-new">🆕 Người dùng mới</div>
+          <h2 class="promo-title">Giảm 30% đơn đặt sân đầu tiên</h2>
+          <p class="promo-description">
+            Ưu đãi đặc biệt dành cho người dùng mới! Giảm ngay 30% cho lần đặt sân đầu tiên trên SportField. 
+            Áp dụng cho tất cả các môn thể thao, tối đa 100.000đ.
+          </p>
+          <div class="promo-details">
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Giảm giá</div>
+              <div class="promo-detail-value">30%</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Tối đa</div>
+              <div class="promo-detail-value">100.000₫</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Hạn sử dụng</div>
+              <div class="promo-detail-value">30 ngày</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Áp dụng</div>
+              <div class="promo-detail-value">Tất cả sân</div>
+            </div>
+          </div>
+          <div class="promo-code">
+            <div class="promo-code-text">NEWUSER30</div>
+            <button class="copy-btn" onclick="copyCode('NEWUSER30')">Sao chép</button>
+          </div>
+          <button class="btn promo-cta" onclick="window.location.href='danh-sach-san.html'">Đặt sân ngay</button>
+        </div>
+      </article>
+
+      <!-- Promo 2 -->
+      <!-- 📸 ẢNH CẦN THÊM: assets/images/promos/promo-2.jpg (800x200px) -->
+      <article class="promo-card-large" data-category="time">
+        <img src="assets/images/promos/promo-2.jpg" alt="Đặt sân buổi sáng" class="promo-image" 
+             onerror="this.style.background='linear-gradient(135deg, #f59e0b, #d97706)'" />
+        <div class="promo-content">
+          <div class="promo-badge badge-hot">🔥 Đang hot</div>
+          <h2 class="promo-title">Đặt sân buổi sáng, giá siêu mềm</h2>
+          <p class="promo-description">
+            Giảm thêm 15% cho các khung giờ trước 10h sáng. Hoàn hảo cho những người yêu thích thể thao buổi sáng sớm. 
+            Áp dụng từ Thứ 2 đến Chủ nhật.
+          </p>
+          <div class="promo-details">
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Giảm giá</div>
+              <div class="promo-detail-value">15%</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Khung giờ</div>
+              <div class="promo-detail-value">Trước 10:00</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Hạn sử dụng</div>
+              <div class="promo-detail-value">Không giới hạn</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Tự động áp dụng</div>
+              <div class="promo-detail-value">Có</div>
+            </div>
+          </div>
+          <button class="btn promo-cta" onclick="window.location.href='danh-sach-san.html'">Đặt sân buổi sáng</button>
+        </div>
+      </article>
+
+      <!-- Promo 3 -->
+      <!-- 📸 ẢNH CẦN THÊM: assets/images/promos/promo-3.jpg (800x200px) -->
+      <article class="promo-card-large" data-category="group">
+        <img src="assets/images/promos/promo-3.jpg" alt="Tặng bóng thi đấu" class="promo-image" 
+             onerror="this.style.background='linear-gradient(135deg, #2563eb, #1d4ed8)'" />
+        <div class="promo-content">
+          <div class="promo-badge badge-exclusive">⭐ Độc quyền</div>
+          <h2 class="promo-title">Tặng 1 bóng thi đấu cho mỗi 10 lượt đặt</h2>
+          <p class="promo-description">
+            Chương trình dành riêng cho đội bóng và CLB đặt sân thường xuyên. Cứ 10 lượt đặt thành công, 
+            bạn sẽ nhận được 1 quả bóng thi đấu cao cấp. Tích lũy không giới hạn!
+          </p>
+          <div class="promo-details">
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Điều kiện</div>
+              <div class="promo-detail-value">10 lượt đặt</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Phần thưởng</div>
+              <div class="promo-detail-value">1 quả bóng</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Áp dụng</div>
+              <div class="promo-detail-value">Đội bóng/CLB</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Tích lũy</div>
+              <div class="promo-detail-value">Không giới hạn</div>
+            </div>
+          </div>
+          <button class="btn promo-cta" onclick="window.location.href='danh-sach-san.html'">Đặt sân ngay</button>
+        </div>
+      </article>
+
+      <!-- Promo 4 -->
+      <!-- 📸 ẢNH CẦN THÊM: assets/images/promos/promo-4.jpg (800x200px) -->
+      <article class="promo-card-large" data-category="regular">
+        <img src="assets/images/promos/promo-4.jpg" alt="Combo cuối tuần" class="promo-image" 
+             onerror="this.style.background='linear-gradient(135deg, #ec4899, #db2777)'" />
+        <div class="promo-content">
+          <div class="promo-badge badge-hot">🔥 Giới hạn</div>
+          <h2 class="promo-title">Combo cuối tuần - Giảm 20%</h2>
+          <p class="promo-description">
+            Đặt sân vào Thứ 7 hoặc Chủ nhật, giảm ngay 20% cho đơn từ 2 giờ trở lên. 
+            Áp dụng cho tất cả các sân trên toàn quốc.
+          </p>
+          <div class="promo-details">
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Giảm giá</div>
+              <div class="promo-detail-value">20%</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Ngày áp dụng</div>
+              <div class="promo-detail-value">T7, CN</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Tối thiểu</div>
+              <div class="promo-detail-value">2 giờ</div>
+            </div>
+            <div class="promo-detail-item">
+              <div class="promo-detail-label">Hạn sử dụng</div>
+              <div class="promo-detail-value">Hết tháng</div>
+            </div>
+          </div>
+          <div class="promo-code">
+            <div class="promo-code-text">WEEKEND20</div>
+            <button class="copy-btn" onclick="copyCode('WEEKEND20')">Sao chép</button>
+          </div>
+          <button class="btn promo-cta" onclick="window.location.href='danh-sach-san.html'">Đặt sân cuối tuần</button>
+        </div>
+      </article>
+
+      <!-- How to use -->
+      <div class="how-to-use">
+        <h2>Cách sử dụng mã ưu đãi</h2>
+        <div class="steps">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <div class="step-title">Chọn sân và giờ</div>
+              <div class="step-desc">Tìm sân thể thao bạn muốn đặt</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <div class="step-title">Nhập mã ưu đãi</div>
+              <div class="step-desc">Dán mã vào ô "Mã giảm giá" khi thanh toán</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <div class="step-title">Kiểm tra giảm giá</div>
+              <div class="step-desc">Xác nhận số tiền được giảm trước khi thanh toán</div>
+            </div>
+          </div>
+          <div class="step-item">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <div class="step-title">Hoàn tất đặt sân</div>
+              <div class="step-desc">Thanh toán và nhận xác nhận đặt sân</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/alert.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script>
+    function filterPromos(category) {
+      // Update active tab
+      document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Filter promo cards
+      const promoCards = document.querySelectorAll('.promo-card-large');
+      
+      if (category === 'all') {
+        // Show all
+        promoCards.forEach(card => card.classList.remove('hidden'));
+      } else {
+        // Filter by category
+        promoCards.forEach(card => {
+          if (card.getAttribute('data-category') === category) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      }
+    }
+
+    function copyCode(code) {
+      navigator.clipboard.writeText(code).then(() => {
+        alert('Đã sao chép mã: ' + code);
+      });
+    }
+  </script>
+</body>
+</html>
+

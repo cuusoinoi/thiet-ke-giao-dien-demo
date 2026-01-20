@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chọn giờ - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .page-header {
+      background: var(--white);
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .venue-summary {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .venue-summary-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+
+    .venue-summary-info h2 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .venue-summary-info p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .calendar-section {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .date-selector {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px 0;
+      margin-bottom: 24px;
+    }
+
+    .date-option {
+      min-width: 80px;
+      padding: 12px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--white);
+    }
+
+    .date-option:hover {
+      border-color: var(--green);
+    }
+
+    .date-option.selected {
+      border-color: var(--green);
+      background: #dcfce7;
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    .date-day {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .date-number {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .time-slots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .time-slot {
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--white);
+      position: relative;
+    }
+
+    .time-slot.available {
+      border-color: var(--green);
+      background: #dcfce7;
+    }
+
+    .time-slot.available:hover {
+      background: #bbf7d0;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(22, 163, 74, 0.2);
+    }
+
+    .time-slot.available.selected {
+      background: var(--green);
+      color: white;
+      border-color: var(--green-dark);
+    }
+
+    .time-slot.booked {
+      background: #fee2e2;
+      border-color: #fca5a5;
+      color: #991b1b;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+
+    .time-slot.past {
+      background: #f3f4f6;
+      border-color: var(--border);
+      color: var(--muted);
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .time-slot-price {
+      font-size: 11px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .booking-summary {
+      position: sticky;
+      top: 80px;
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .summary-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .summary-value {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .summary-total {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .summary-total-label {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .summary-total-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .selected-slots {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f0fdf4;
+      border-radius: 12px;
+      border: 1px solid #86efac;
+    }
+
+    .selected-slots-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--green-dark);
+    }
+
+    .selected-slots-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .selected-slot-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+    }
+
+    .remove-slot {
+      color: var(--error);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .duration-selector {
+      margin-bottom: 24px;
+    }
+
+    .duration-options {
+      display: flex;
+      gap: 8px;
+    }
+
+    .duration-btn {
+      flex: 1;
+      padding: 10px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: var(--white);
+      cursor: pointer;
+      text-align: center;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .duration-btn.selected {
+      border-color: var(--green);
+      background: #dcfce7;
+      color: var(--green-dark);
+    }
+
+    @media (max-width: 968px) {
+      .booking-summary {
+        position: static;
+        margin-top: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
+        <a href="dang-ky.html" class="btn">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+      <div class="page-header">
+      <div class="container">
+        <div class="venue-summary" id="venue-summary">
+          <img src="" alt="Sân" class="venue-summary-image" id="venue-summary-image" />
+          <div class="venue-summary-info">
+            <h2 id="venue-summary-name">Đang tải...</h2>
+            <p id="venue-summary-info">Đang tải thông tin...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+        <div>
+          <div class="calendar-section">
+            <h2 class="section-title">Chọn ngày</h2>
+            <div class="date-selector" id="date-selector">
+              <!-- Dates will be generated by JavaScript -->
+            </div>
+
+            <div class="duration-selector">
+              <div class="form-label">Thời lượng đặt (giờ)</div>
+              <div class="duration-options">
+                <button class="duration-btn" data-hours="1" onclick="handleSelectDuration(1)">1 giờ</button>
+                <button class="duration-btn" data-hours="2" onclick="handleSelectDuration(2)">2 giờ</button>
+                <button class="duration-btn selected" data-hours="3" onclick="handleSelectDuration(3)">3 giờ</button>
+              </div>
+            </div>
+
+            <h3 class="section-title" style="margin-top: 24px;">Chọn khung giờ</h3>
+            <div class="time-slots-grid" id="time-slots">
+              <!-- Time slots will be generated by JavaScript -->
+            </div>
+
+            <div class="alert alert-info" style="margin-top: 24px;">
+              💡 <strong>Lưu ý:</strong> Màu xanh = Còn trống • Màu đỏ = Đã được đặt • Màu xám = Đã qua
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="booking-summary">
+            <div class="summary-title">Tóm tắt đặt sân</div>
+            
+            <div class="summary-item">
+              <span class="summary-label">Sân</span>
+              <span class="summary-value">Sân 1</span>
+            </div>
+
+            <div id="selected-slots-container" class="selected-slots hidden">
+              <div class="selected-slots-title">Khung giờ đã chọn:</div>
+              <div class="selected-slots-list" id="selected-slots-list">
+                <!-- Selected slots will be shown here -->
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <span class="summary-label">Số giờ</span>
+              <span class="summary-value" id="total-hours">0 giờ</span>
+            </div>
+
+            <div class="summary-item">
+              <span class="summary-label">Giá cơ bản</span>
+              <span class="summary-value" id="base-price">0₫</span>
+            </div>
+
+            <div class="summary-item">
+              <span class="summary-label">Phụ phí (nếu có)</span>
+              <span class="summary-value" id="extra-fee">0₫</span>
+            </div>
+
+            <div style="margin: 16px 0; padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid var(--border);">
+              <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Mã giảm giá</div>
+              <div style="display: flex; gap: 8px;">
+                <input 
+                  type="text" 
+                  id="promo-code-input" 
+                  placeholder="Nhập mã giảm giá"
+                  style="flex: 1; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 14px;"
+                  onkeypress="if(event.key === 'Enter') applyPromoCode()"
+                />
+                <button 
+                  class="btn-outline" 
+                  onclick="applyPromoCode()"
+                  style="white-space: nowrap; padding: 10px 16px; font-size: 14px;"
+                >
+                  Áp dụng
+                </button>
+              </div>
+              <div id="promo-code-message" style="margin-top: 8px; font-size: 12px; min-height: 16px;">
+                <span id="applied-promo-display" style="display: none;">
+                  <span id="applied-promo-text"></span>
+                  <span onclick="removePromoCode()" style="margin-left: 8px; color: var(--error); cursor: pointer; font-weight: 600;">✕</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <span class="summary-label">Giảm giá</span>
+              <span class="summary-value" style="color: var(--success);" id="discount">-0₫</span>
+            </div>
+
+            <div class="summary-total">
+              <span class="summary-total-label">Tổng cộng</span>
+              <span class="summary-total-value" id="total-price">0₫</span>
+            </div>
+
+            <button class="btn btn-large btn-block" id="proceed-btn" onclick="handleProceedToCheckout()" disabled style="margin-top: 24px;">
+              Tiếp tục thanh toán
+            </button>
+
+            <div class="alert alert-warning" id="login-warning" style="margin-top: 16px; font-size: 12px; display: none;">
+              ⚠️ Vui lòng đăng nhập để hoàn tất đặt sân
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/alert.js"></script>
+  <script>
+    // Configuration
+    let venueId = 1; // Default, can be from URL
+    let venue = null;
+    let venueHours = { start: 6, end: 23 }; // Will be updated from venue
+    let selectedDate = new Date();
+    let selectedDuration = 3; // hours
+    let selectedSlots = [];
+    let appliedPromoCode = null; // Store applied promo code info
+
+    // Get venueId from URL or sessionStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('venue')) {
+      venueId = parseInt(urlParams.get('venue'));
+    }
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Load venue info
+      venue = await getVenueById(venueId);
+      if (venue) {
+        venueHours.start = venue.hours.start;
+        venueHours.end = venue.hours.end;
+        
+        // Update venue summary
+        const summaryName = document.getElementById('venue-summary-name');
+        const summaryInfo = document.getElementById('venue-summary-info');
+        const summaryImage = document.getElementById('venue-summary-image');
+        
+        if (summaryName) {
+          summaryName.textContent = venue.name;
+        }
+        if (summaryInfo) {
+          summaryInfo.textContent = `📍 ${venue.address} • Giá cơ bản: ${formatPrice(venue.basePrice)}/giờ`;
+        }
+        if (summaryImage && venue.images && venue.images.length > 0) {
+          summaryImage.src = venue.images[0];
+          summaryImage.alt = venue.name;
+        }
+      } else {
+        // Venue not found, show error
+        document.getElementById('venue-summary-name').textContent = 'Không tìm thấy sân';
+        alert('Không tìm thấy thông tin sân. Vui lòng quay lại trang trước.');
+      }
+      
+      generateDateSelector();
+      await generateTimeSlots();
+      updateSummary();
+      await updateLoginWarning();
+    });
+
+    // Generate date selector for next 14 days
+    function generateDateSelector() {
+      const container = document.getElementById('date-selector');
+      const days = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+      
+      for (let i = 0; i < 14; i++) {
+        const date = new Date();
+        date.setDate(date.getDate() + i);
+        const dayName = days[date.getDay()];
+        const dayNumber = date.getDate();
+        const isToday = i === 0;
+        
+        const dateOption = document.createElement('div');
+        dateOption.className = `date-option ${isToday ? 'selected' : ''}`;
+        dateOption.innerHTML = `
+          <div class="date-day">${dayName}</div>
+          <div class="date-number">${dayNumber}</div>
+        `;
+        dateOption.onclick = async () => await selectDate(date);
+        container.appendChild(dateOption);
+      }
+    }
+
+    // Select date
+    async function selectDate(date) {
+      selectedDate = date;
+      document.querySelectorAll('.date-option').forEach((el, index) => {
+        const checkDate = new Date();
+        checkDate.setDate(checkDate.getDate() + index);
+        if (checkDate.toDateString() === date.toDateString()) {
+          el.classList.add('selected');
+        } else {
+          el.classList.remove('selected');
+        }
+      });
+      selectedSlots = [];
+      await generateTimeSlots();
+      updateSummary();
+    }
+
+    // Generate time slots from API
+    async function generateTimeSlots() {
+      const container = document.getElementById('time-slots');
+      container.innerHTML = '<div style="text-align: center; padding: 20px;">Đang tải...</div>';
+      
+      if (!venue) {
+        venue = await getVenueById(venueId);
+      }
+      
+      const dateStr = selectedDate.toISOString().split('T')[0];
+      const slots = await getAvailableSlots(venueId, dateStr, 'Sân 1');
+      
+      container.innerHTML = '';
+      
+      slots.forEach(slot => {
+        const timeSlot = document.createElement('div');
+        const isSelected = selectedSlots.includes(slot.time);
+        
+        let className = 'time-slot';
+        if (!slot.available) className = 'time-slot booked';
+        else if (isSelected) className = 'time-slot available selected';
+        else className = 'time-slot available';
+
+        timeSlot.className = className;
+        timeSlot.innerHTML = `
+          <div style="font-weight: 600; font-size: 14px;">${slot.time}</div>
+          <div class="time-slot-price">${formatPrice(slot.price)}</div>
+        `;
+
+        if (slot.available) {
+          timeSlot.onclick = async () => await toggleTimeSlot(slot.time, slot.price);
+        }
+
+        container.appendChild(timeSlot);
+      });
+    }
+
+    // Toggle time slot selection
+    async function toggleTimeSlot(timeString, price) {
+      const index = selectedSlots.indexOf(timeString);
+      if (index > -1) {
+        selectedSlots.splice(index, 1);
+      } else {
+        // Check if adding this slot would exceed duration
+        if (selectedSlots.length >= selectedDuration) {
+          alert(`Bạn chỉ có thể chọn tối đa ${selectedDuration} khung giờ liên tiếp.`);
+          return;
+        }
+        selectedSlots.push(timeString);
+        selectedSlots.sort();
+      }
+      await generateTimeSlots();
+      updateSummary();
+    }
+
+    // Select duration (wrapper for onclick)
+    async function handleSelectDuration(hours) {
+      await selectDuration(hours);
+    }
+
+    // Select duration
+    async function selectDuration(hours) {
+      selectedDuration = hours;
+      document.querySelectorAll('.duration-btn').forEach(btn => {
+        if (parseInt(btn.dataset.hours) === hours) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      });
+      
+      // Reset selection if current selection exceeds new duration
+      if (selectedSlots.length > hours) {
+        selectedSlots = selectedSlots.slice(0, hours);
+        await generateTimeSlots();
+      }
+      updateSummary();
+    }
+
+    // Update booking summary (REAL-TIME PRICE UPDATE)
+    function updateSummary() {
+      const totalHours = selectedSlots.length;
+      const basePriceTotal = calculateBasePriceSync();
+      const extraFee = calculateExtraFee();
+      const discount = calculateDiscount();
+      const totalPrice = basePriceTotal + extraFee - discount;
+
+      document.getElementById('total-hours').textContent = `${totalHours} giờ`;
+      document.getElementById('base-price').textContent = formatPrice(basePriceTotal);
+      document.getElementById('extra-fee').textContent = formatPrice(extraFee);
+      document.getElementById('discount').textContent = `-${formatPrice(discount)}`;
+      document.getElementById('total-price').textContent = formatPrice(totalPrice);
+
+      // Show/hide selected slots
+      const container = document.getElementById('selected-slots-container');
+      const list = document.getElementById('selected-slots-list');
+      
+      if (selectedSlots.length > 0) {
+        container.classList.remove('hidden');
+        list.innerHTML = selectedSlots.map(slot => `
+          <div class="selected-slot-item">
+            <span>${slot}</span>
+            <span class="remove-slot" onclick="handleRemoveSlot('${slot}')">✕</span>
+          </div>
+        `).join('');
+      } else {
+        container.classList.add('hidden');
+      }
+
+      // Enable/disable proceed button
+      document.getElementById('proceed-btn').disabled = totalHours === 0;
+    }
+
+    // Calculate base price based on selected slots
+    async function calculateBasePrice() {
+      if (!venue) return 0;
+      
+      let total = 0;
+      const dateStr = selectedDate.toISOString().split('T')[0];
+      const slots = await getAvailableSlots(venueId, dateStr, 'Sân 1');
+      
+      selectedSlots.forEach(slotTime => {
+        const slot = slots.find(s => s.time === slotTime);
+        if (slot) {
+          total += slot.price;
+        }
+      });
+      return total;
+    }
+    
+    // Sync version for immediate update
+    function calculateBasePriceSync() {
+      if (!venue) return 0;
+      
+      let total = 0;
+      selectedSlots.forEach(slotTime => {
+        const hour = parseInt(slotTime.split(':')[0]);
+        let price = venue.basePrice;
+        if (hour >= 17 && hour <= 21) price = venue.basePrice * 1.2;
+        else if (hour >= 6 && hour <= 10) price = venue.basePrice * 0.85;
+        total += price;
+      });
+      return total;
+    }
+
+    // Calculate extra fees
+    function calculateExtraFee() {
+      // Example: 50K extra for weekend
+      const day = selectedDate.getDay();
+      if (day === 0 || day === 6) {
+        return 50000 * selectedSlots.length;
+      }
+      return 0;
+    }
+
+    // Calculate discount
+    function calculateDiscount() {
+      const baseTotal = calculateBasePriceSync();
+      let discount = 0;
+      
+      // Discount from promo code
+      if (appliedPromoCode) {
+        if (appliedPromoCode.type === 'percentage') {
+          discount = baseTotal * (appliedPromoCode.value / 100);
+          if (appliedPromoCode.maxDiscount) {
+            discount = Math.min(discount, appliedPromoCode.maxDiscount);
+          }
+        } else if (appliedPromoCode.type === 'fixed') {
+          discount = appliedPromoCode.value;
+        }
+      }
+      
+      // Example: 10% discount for 3+ hours (if no promo code applied)
+      if (!appliedPromoCode && selectedSlots.length >= 3) {
+        discount = baseTotal * 0.1;
+      }
+      
+      return discount;
+    }
+
+    // Apply promo code
+    async function applyPromoCode() {
+      const input = document.getElementById('promo-code-input');
+      const messageDiv = document.getElementById('promo-code-message');
+      const code = input.value.trim().toUpperCase();
+      
+      if (!code) {
+        messageDiv.innerHTML = '<span style="color: var(--error);">Vui lòng nhập mã giảm giá</span>';
+        return;
+      }
+      
+      // Mock promo codes (in real app, this would come from API)
+      const promoCodes = {
+        'NEWUSER30': { type: 'percentage', value: 30, maxDiscount: 100000, description: 'Giảm 30% tối đa 100.000₫' },
+        'WEEKEND20': { type: 'percentage', value: 20, description: 'Giảm 20% cho cuối tuần' },
+        'MORNING15': { type: 'percentage', value: 15, description: 'Giảm 15% cho buổi sáng' },
+        '50K': { type: 'fixed', value: 50000, description: 'Giảm 50.000₫' },
+        '100K': { type: 'fixed', value: 100000, description: 'Giảm 100.000₫' }
+      };
+      
+      const promo = promoCodes[code];
+      
+      if (promo) {
+        // Check if promo applies to current booking
+        let isValid = true;
+        let reason = '';
+        
+        // Check date (for WEEKEND20)
+        if (code === 'WEEKEND20') {
+          const day = selectedDate.getDay();
+          if (day !== 0 && day !== 6) {
+            isValid = false;
+            reason = 'Mã này chỉ áp dụng cho Thứ 7 và Chủ nhật';
+          }
+        }
+        
+        // Check time (for MORNING15)
+        if (code === 'MORNING15') {
+          const firstSlot = selectedSlots[0];
+          if (firstSlot) {
+            const hour = parseInt(firstSlot.split(':')[0]);
+            if (hour >= 10) {
+              isValid = false;
+              reason = 'Mã này chỉ áp dụng cho khung giờ trước 10:00';
+            }
+          }
+        }
+        
+        if (isValid) {
+          appliedPromoCode = { ...promo, code: code };
+          const appliedDisplay = document.getElementById('applied-promo-display');
+          const appliedText = document.getElementById('applied-promo-text');
+          appliedText.innerHTML = `<span style="color: var(--success);">✓ ${promo.description}</span>`;
+          appliedDisplay.style.display = 'inline';
+          input.value = code;
+          input.disabled = true;
+          input.style.borderColor = 'var(--success)';
+          updateSummary();
+        } else {
+          messageDiv.innerHTML = `<span style="color: var(--error);">${reason}</span>`;
+          input.style.borderColor = 'var(--error)';
+        }
+      } else {
+        appliedPromoCode = null;
+        messageDiv.innerHTML = '<span style="color: var(--error);">Mã giảm giá không hợp lệ</span>';
+        input.style.borderColor = 'var(--error)';
+        updateSummary();
+      }
+    }
+    
+    // Remove promo code
+    function removePromoCode() {
+      appliedPromoCode = null;
+      const input = document.getElementById('promo-code-input');
+      input.value = '';
+      input.disabled = false;
+      input.style.borderColor = 'var(--border)';
+      document.getElementById('applied-promo-display').style.display = 'none';
+      document.getElementById('promo-code-message').innerHTML = '';
+      updateSummary();
+    }
+
+    // Remove slot (wrapper for onclick)
+    async function handleRemoveSlot(slot) {
+      await removeSlot(slot);
+    }
+
+    // Remove slot
+    async function removeSlot(slot) {
+      const index = selectedSlots.indexOf(slot);
+      if (index > -1) {
+        selectedSlots.splice(index, 1);
+        await generateTimeSlots();
+        updateSummary();
+      }
+    }
+
+    // Format price
+    function formatPrice(price) {
+      return new Intl.NumberFormat('vi-VN').format(Math.round(price)) + '₫';
+    }
+
+    // Check login status and update warning
+    async function updateLoginWarning() {
+      const user = await getCurrentUser();
+      const warning = document.getElementById('login-warning');
+      if (warning) {
+        warning.style.display = user ? 'none' : 'block';
+      }
+    }
+
+    // Proceed to checkout (wrapper for onclick)
+    async function handleProceedToCheckout() {
+      await proceedToCheckout();
+    }
+
+    // Proceed to checkout
+    async function proceedToCheckout() {
+      if (selectedSlots.length === 0) {
+        alert('Vui lòng chọn ít nhất một khung giờ');
+        return;
+      }
+      
+      // Check if user is logged in
+      const user = await getCurrentUser();
+      if (!user) {
+        // Save booking data to sessionStorage to resume after login
+        sessionStorage.setItem('bookingData', JSON.stringify({
+          venueId: venueId,
+          venueName: venue ? venue.name : 'Sân thể thao',
+          date: selectedDate.toISOString(),
+          slots: selectedSlots,
+          duration: selectedSlots.length,
+          totalPrice: calculateBasePriceSync() + calculateExtraFee() - calculateDiscount(),
+          field: 'Sân 1',
+          promoCode: appliedPromoCode ? appliedPromoCode.code : null
+        }));
+        alert('Vui lòng đăng nhập để tiếp tục');
+        window.location.href = 'dang-nhap.html';
+        return;
+      }
+      
+      // User is logged in, save booking data and proceed
+      const bookingData = {
+        venueId: venueId,
+        venueName: venue ? venue.name : 'Sân thể thao',
+        date: selectedDate.toISOString(),
+        slots: selectedSlots,
+        duration: selectedSlots.length,
+        totalPrice: calculateBasePriceSync() + calculateExtraFee() - calculateDiscount(),
+        field: 'Sân 1',
+        promoCode: appliedPromoCode ? appliedPromoCode.code : null
+      };
+      
+      sessionStorage.setItem('bookingData', JSON.stringify(bookingData));
+      window.location.href = 'thanh-toan.html';
+    }
+  </script>
+</body>
+</html>
+

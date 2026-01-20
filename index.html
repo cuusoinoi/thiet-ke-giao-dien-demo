@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>SportField - Đặt sân thể thao trực tuyến</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --green: #16a34a;
+      --green-dark: #15803d;
+      --blue: #2563eb;
+      --bg: #f5f5f7;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: box-shadow 0.3s ease;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 24px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    .logo-wrap:hover {
+      transform: translateY(-1px);
+    }
+
+    .logo-wrap a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      transition: transform 0.3s ease;
+    }
+
+    .logo-wrap:hover .logo-icon {
+      transform: scale(1.05) rotate(-5deg);
+    }
+
+    .brand-name {
+      font-weight: 700;
+      font-size: 22px;
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.3s ease;
+    }
+
+    .logo-wrap:hover .brand-name {
+      filter: brightness(1.1);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+    }
+
+    nav a {
+      color: var(--muted);
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: visible;
+    }
+
+    /* Dropdown Menu */
+    .nav-dropdown {
+      position: relative;
+    }
+
+    .nav-dropdown > a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-dropdown > a::after {
+      content: '▼';
+      font-size: 10px;
+      transition: transform 0.3s ease;
+      opacity: 0.6;
+    }
+
+    .nav-dropdown:hover > a::after {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      min-width: 200px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all 0.3s ease;
+      z-index: 100;
+      padding: 8px;
+    }
+
+    .nav-dropdown:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu a {
+      display: block;
+      padding: 10px 14px;
+      color: var(--text);
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: visible;
+    }
+
+    .dropdown-menu a::before {
+      display: none;
+    }
+
+    .dropdown-menu a:hover {
+      background: rgba(22, 163, 74, 0.08);
+      color: var(--green-dark);
+      transform: translateX(4px);
+    }
+
+    .dropdown-menu a.active {
+      background: rgba(22, 163, 74, 0.12);
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    .dropdown-menu a.active::after {
+      display: none;
+    }
+
+    nav a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--green-dark));
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    nav a:hover {
+      color: var(--green-dark);
+      background: rgba(22, 163, 74, 0.08);
+      transform: translateY(-1px);
+    }
+
+    nav a:hover::before {
+      width: calc(100% - 32px);
+    }
+
+    nav a.active {
+      color: var(--green-dark);
+      background: rgba(22, 163, 74, 0.12);
+      font-weight: 600;
+    }
+
+    nav a.active::before {
+      width: calc(100% - 32px);
+    }
+
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 8px;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+      }
+      50% {
+        opacity: 0.5;
+        transform: translateY(-50%) scale(1.2);
+      }
+    }
+
+    .header-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      cursor: pointer;
+      background: var(--green);
+      color: var(--white);
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: var(--green-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--green-dark);
+      border-color: rgba(22, 163, 74, 0.3);
+      border-radius: 999px;
+      border-width: 1.5px;
+    }
+
+    .btn-outline:hover {
+      background: rgba(22, 163, 74, 0.08);
+      border-color: var(--green);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      border: none;
+      background: transparent;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 40px 0 32px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero-kicker {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--green-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .hero-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .hero-title span {
+      color: var(--green-dark);
+    }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #0f172a;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .store-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #0f172a;
+      color: #f9fafb;
+      font-size: 12px;
+    }
+
+    .store-btn span {
+      display: block;
+      line-height: 1.2;
+    }
+
+    .store-btn strong {
+      font-size: 13px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .hero-stats strong {
+      display: block;
+      font-size: 18px;
+      color: var(--text);
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top, #22c55e 0, #16a34a 40%, #166534 100%);
+      border-radius: 24px;
+      padding: 20px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 30px solid rgba(15, 23, 42, 0.18);
+      right: -60px;
+      bottom: -80px;
+    }
+
+    .hero-card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .hero-card-sub {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-bottom: 16px;
+    }
+
+    .hero-metrics {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+    }
+
+    .hero-metrics div strong {
+      font-size: 20px;
+      display: block;
+    }
+
+    .hero-phone {
+      position: absolute;
+      right: 18px;
+      top: 55%;
+      transform: translateY(-50%);
+      width: 110px;
+      height: 210px;
+      border-radius: 28px;
+      background: #0b1120;
+      padding: 8px;
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.65);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-phone-screen {
+      flex: 1;
+      border-radius: 20px;
+      background: linear-gradient(145deg, #0f172a, #1d283a);
+      padding: 8px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 32px;
+      gap: 6px;
+    }
+
+    .sport-pill {
+      border-radius: 10px;
+      font-size: 9px;
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(148, 163, 184, 0.3);
+    }
+
+    .sport-pill.active {
+      background: rgba(34, 197, 94, 0.7);
+    }
+
+    .hero-phone-footer {
+      height: 18px;
+      border-radius: 999px;
+      background: #020617;
+      margin-top: 6px;
+    }
+
+    /* SEARCH SECTION */
+    .search-section {
+      margin-top: 10px;
+      margin-bottom: 28px;
+    }
+
+    .search-card {
+      background: var(--white);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .field-select,
+    .field-input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      font-size: 13px;
+      background: #f9fafb;
+    }
+
+    .field-select:focus,
+    .field-input:focus {
+      outline: none;
+      border-color: rgba(37, 99, 235, 0.5);
+      background: #ffffff;
+    }
+
+    .search-card .btn {
+      width: 100%;
+      padding: 10px 0;
+    }
+
+    /* SECTIONS */
+    section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .section-sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .section-link {
+      font-size: 13px;
+      color: var(--blue);
+      cursor: pointer;
+    }
+
+    .pill-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .pill-tab {
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #f9fafb;
+      cursor: pointer;
+    }
+
+    .pill-tab.active {
+      background: #e0f2fe;
+      border-color: #bfdbfe;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .venue-card {
+      background: var(--white);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .venue-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .venue-card-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      display: block;
+    }
+
+    .venue-card-content {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .venue-tag {
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #ecfeff;
+      color: #0f766e;
+      align-self: flex-start;
+    }
+
+    .venue-name {
+      font-weight: 600;
+    }
+
+    .venue-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .venue-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .venue-rating {
+      color: #ca8a04;
+      font-weight: 600;
+    }
+
+    .venue-price {
+      font-weight: 600;
+      color: var(--green-dark);
+      font-size: 13px;
+    }
+
+    /* PROMO */
+    .promo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .promo-card {
+      border-radius: 16px;
+      padding: 14px;
+      background: linear-gradient(135deg, #eff6ff, #ecfdf5);
+      border: 1px solid #e0f2fe;
+      font-size: 13px;
+    }
+
+    .promo-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .promo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #fef3c7;
+      color: #92400e;
+      margin-bottom: 6px;
+    }
+
+    /* BLOG */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .blog-card {
+      background: var(--white);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .blog-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .blog-card-image {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      display: block;
+    }
+
+    .blog-card-content {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .blog-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* NEWSLETTER */
+    .newsletter {
+      margin-bottom: 38px;
+    }
+
+    .newsletter-card {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      padding: 18px 18px;
+      border-radius: 18px;
+      color: white;
+    }
+
+    .newsletter-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .newsletter-sub {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .newsletter-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .newsletter-input {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 12px;
+      font-size: 13px;
+      min-width: 220px;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      background: #f9fafb;
+      padding: 18px 0 24px;
+      font-size: 13px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 24px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .footer-title {
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      color: var(--muted);
+    }
+
+    .footer-links a:hover {
+      color: var(--green-dark);
+    }
+
+    .footer-bottom {
+      margin-top: 16px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-card {
+        min-height: 230px;
+      }
+
+      .hero-phone {
+        display: none;
+      }
+
+      .search-card {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .card-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .promo-grid,
+      .blog-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .footer-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+
+      nav {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .search-card {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .card-grid,
+      .promo-grid,
+      .blog-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .footer-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-title {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <!-- Logo SportField - Concept 2 (pin + field + check) -->
+        <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+          <defs>
+            <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#16a34a" />
+              <stop offset="100%" stop-color="#15803d" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z"
+            fill="none"
+            stroke="url(#sf-pin)"
+            stroke-width="4"
+          />
+          <!-- horizontal field line -->
+          <path
+            d="M18 26h28"
+            stroke="#16a34a"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <!-- vertical center line -->
+          <path
+            d="M32 26v16"
+            stroke="#16a34a"
+            stroke-width="3"
+            stroke-linecap="round"
+          />
+          <!-- check mark -->
+          <path
+            d="M24 18l5 5 9-9"
+            fill="none"
+            stroke="#2563eb"
+            stroke-width="3"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <div class="brand-name">SportField</div>
+      </div>
+
+      <nav>
+        <a href="index.html" class="active">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta" id="header-cta">
+        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
+        <a href="dang-ky.html" class="btn">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="hero-kicker">Ứng dụng đặt sân thể thao</div>
+          <h1 class="hero-title">
+            Đặt sân <span>nhanh chóng</span>, chơi thể thao <span>mọi lúc</span>.
+          </h1>
+          <p class="hero-sub">
+            SportField giúp bạn tìm và đặt sân bóng đá, cầu lông, tennis, pickleball
+            chỉ trong vài chạm. Chủ động lịch tập, không lo hết sân.
+          </p>
+
+          <div class="hero-badges">
+            <div class="badge">
+              <span class="badge-dot"></span>
+              Hơn 500+ sân đối tác trên toàn quốc
+            </div>
+            <div class="badge">
+              <span class="badge-dot"></span>
+              Đặt sân, thanh toán, nhận xác nhận tức thì
+            </div>
+          </div>
+
+          <div class="hero-cta">
+            <button class="btn" onclick="window.location.href='danh-sach-san.html'">Đặt sân ngay</button>
+            <button class="btn-outline" onclick="window.location.href='ho-tro.html'">Xem video hướng dẫn</button>
+          </div>
+
+          <div class="hero-stats">
+            <div>
+              <strong>100K+</strong>
+              lượt đặt sân thành công
+            </div>
+            <div>
+              <strong>4.8/5</strong>
+              điểm đánh giá từ người chơi
+            </div>
+            <div>
+              <strong>24/7</strong>
+              đặt sân mọi khung giờ
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-title">Đặt sân ngay trên điện thoại</div>
+          <div class="hero-card-sub">
+            Chọn môn – chọn khu vực – chọn khung giờ. SportField gợi ý sân phù hợp
+            và giữ chỗ cho bạn trong vài giây.
+          </div>
+          <div class="hero-metrics">
+            <div>
+              <strong>+320</strong>
+              sân bóng đá
+            </div>
+            <div>
+              <strong>+210</strong>
+              sân cầu lông &amp; tennis
+            </div>
+          </div>
+
+          <div class="hero-phone">
+            <div class="hero-phone-screen">
+              <div class="sport-pill active">Bóng đá</div>
+              <div class="sport-pill">Cầu lông</div>
+              <div class="sport-pill">Tennis</div>
+              <div class="sport-pill">Pickleball</div>
+              <div class="sport-pill">Hồ Chí Minh</div>
+              <div class="sport-pill">Hà Nội</div>
+            </div>
+            <div class="hero-phone-footer"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <section class="search-section">
+      <div class="container">
+        <div class="search-card">
+          <div>
+            <div class="field-label">Môn thể thao</div>
+            <select class="field-select" id="search-sport">
+              <option value="" selected>Chọn môn</option>
+              <option value="football">Bóng đá</option>
+              <option value="badminton">Cầu lông</option>
+              <option value="tennis">Tennis</option>
+              <option value="pickleball">Pickleball</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label">Tỉnh / Thành phố</div>
+            <select class="field-select" id="search-city">
+              <option value="" selected>Chọn tỉnh / thành phố</option>
+              <option value="hcm">TP. Hồ Chí Minh</option>
+              <option value="hanoi">Hà Nội</option>
+              <option value="danang">Đà Nẵng</option>
+              <option value="cantho">Cần Thơ</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label">Quận / Huyện</div>
+            <select class="field-select">
+              <option selected>Chọn quận / huyện</option>
+            </select>
+          </div>
+          <div>
+            <div class="field-label">Ngày chơi</div>
+            <input type="date" class="field-input" />
+          </div>
+          <div>
+            <button class="btn" onclick="handleSearch()">Tìm sân ngay</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Ưu đãi nổi bật</div>
+            <div class="section-sub">
+              Khuyến mãi dành riêng cho người dùng SportField.
+            </div>
+          </div>
+          <div class="section-link"><a href="uu-dai.html">Xem tất cả ưu đãi →</a></div>
+        </div>
+
+        <div class="promo-grid">
+          <div class="promo-card">
+            <div class="promo-badge">Người dùng mới</div>
+            <div class="promo-title">Giảm 30% đơn đặt sân đầu tiên</div>
+            <p>Áp dụng cho mọi môn thể thao, tối đa 100.000đ.</p>
+          </div>
+          <div class="promo-card">
+            <div class="promo-badge">Giờ thấp điểm</div>
+            <div class="promo-title">Đặt sân buổi sáng, giá siêu mềm</div>
+            <p>Khung giờ trước 10h sáng, giảm thêm 15%.</p>
+          </div>
+          <div class="promo-card">
+            <div class="promo-badge">Đi cùng đội</div>
+            <div class="promo-title">Tặng 1 bóng thi đấu cho mỗi 10 lượt đặt</div>
+            <p>Áp dụng cho đội bóng/CLB đặt sân thường xuyên.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEARBY / RECOMMENDED -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Sân gần bạn</div>
+            <div class="section-sub">Gợi ý dựa trên khu vực bạn chọn.</div>
+          </div>
+          <div class="section-link"><a href="danh-sach-san.html">Xem bản đồ sân →</a></div>
+        </div>
+
+        <div class="pill-tabs" id="sport-tabs">
+          <button class="pill-tab active" data-sport="" onclick="filterBySport('')">Tất cả</button>
+          <button class="pill-tab" data-sport="football" onclick="filterBySport('football')">Bóng đá</button>
+          <button class="pill-tab" data-sport="badminton" onclick="filterBySport('badminton')">Cầu lông</button>
+          <button class="pill-tab" data-sport="tennis" onclick="filterBySport('tennis')">Tennis</button>
+          <button class="pill-tab" data-sport="pickleball" onclick="filterBySport('pickleball')">Pickleball</button>
+        </div>
+
+        <div class="card-grid" id="nearby-venues">
+          <!-- Venues will be loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TOP VENUES -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Sân nổi bật</div>
+            <div class="section-sub">
+              Được nhiều người chơi đánh giá cao trên SportField.
+            </div>
+          </div>
+          <div class="section-link"><a href="danh-sach-san.html">Xem tất cả sân →</a></div>
+        </div>
+
+        <div class="card-grid" id="top-venues">
+          <!-- Top venues will be loaded here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section>
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <div class="section-title">Bài viết mới</div>
+            <div class="section-sub">
+              Kinh nghiệm đặt sân, tổ chức giải đấu và luyện tập hiệu quả.
+            </div>
+          </div>
+          <div class="section-link"><a href="tin-tuc.html">Xem tất cả bài viết →</a></div>
+        </div>
+
+        <div class="blog-grid">
+          <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-featured.jpg (300x140px) -->
+          <article class="blog-card" onclick="window.location.href='tin-tuc.html'">
+            <img src="assets/images/news/news-featured.jpg" alt="5 mẹo đặt sân" class="blog-card-image" 
+                 onerror="this.src='https://via.placeholder.com/300x140/16a34a/ffffff?text=Tips+Tricks'" />
+            <div class="blog-card-content">
+              <div class="blog-meta">Tips &amp; Tricks · 3 phút đọc</div>
+              <div class="footer-title">
+                5 mẹo đặt sân giờ cao điểm mà vẫn có giá tốt
+              </div>
+              <p>
+                Chọn khung giờ thông minh, tận dụng ưu đãi và chia sẻ lịch với đội
+                để luôn có sân đẹp...
+              </p>
+            </div>
+          </article>
+          
+          <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-1.jpg (300x140px) -->
+          <article class="blog-card" onclick="window.location.href='tin-tuc.html'">
+            <img src="assets/images/news/news-1.jpg" alt="Hướng dẫn mini league" class="blog-card-image" 
+                 onerror="this.src='https://via.placeholder.com/300x140/2563eb/ffffff?text=Football'" />
+            <div class="blog-card-content">
+              <div class="blog-meta">Football · 4 phút đọc</div>
+              <div class="footer-title">
+                Hướng dẫn tổ chức mini league cho nhóm bạn
+              </div>
+              <p>
+                Từ việc chọn sân, chia bảng, đến gợi ý thể thức thi đấu đơn giản nhưng hấp dẫn.
+              </p>
+            </div>
+          </article>
+          
+          <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-2.jpg (300x140px) -->
+          <article class="blog-card" onclick="window.location.href='tin-tuc.html'">
+            <img src="assets/images/news/news-2.jpg" alt="Pickleball môn thể thao mới" class="blog-card-image" 
+                 onerror="this.src='https://via.placeholder.com/300x140/f59e0b/ffffff?text=Racket+Sports'" />
+            <div class="blog-card-content">
+              <div class="blog-meta">Racket Sports · 2 phút đọc</div>
+              <div class="footer-title">
+                Pickleball – môn thể thao mới đang rất hot
+              </div>
+              <p>
+                Tại sao pickleball bùng nổ và cách bạn có thể đặt sân trải nghiệm ngay trên SportField.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter">
+      <div class="container">
+        <div class="newsletter-card">
+          <div>
+            <div class="newsletter-title">Nhận ưu đãi mới mỗi tuần</div>
+            <div class="newsletter-sub">
+              Đăng ký email để không bỏ lỡ khuyến mãi, giải đấu và sân mới trên SportField.
+            </div>
+          </div>
+          <form class="newsletter-form">
+            <input
+              type="email"
+              class="newsletter-input"
+              placeholder="Nhập email của bạn"
+            />
+            <button class="btn" type="submit">Đăng ký</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path
+                d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z"
+                fill="none"
+                stroke="url(#sf-pin-footer)"
+                stroke-width="4"
+              />
+              <path
+                d="M18 26h28"
+                stroke="#16a34a"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <path
+                d="M32 26v16"
+                stroke="#16a34a"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <path
+                d="M24 18l5 5 9-9"
+                fill="none"
+                stroke="#2563eb"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm
+            sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định &amp; hỗ trợ</div>
+          <div class="footer-links">
+            <a href="#">Điều khoản sử dụng</a>
+            <a href="#">Chính sách bảo mật</a>
+            <a href="#">Hướng dẫn đặt sân</a>
+            <a href="#">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script>
+    let allVenues = [];
+    let currentSportFilter = '';
+
+    // Load venues on page load
+    document.addEventListener('DOMContentLoaded', async function() {
+      await loadVenues();
+      renderNearbyVenues();
+      renderTopVenues();
+    });
+
+    // Load all venues from API
+    async function loadVenues() {
+      allVenues = await getVenues();
+    }
+
+    // Handle search form
+    function handleSearch() {
+      const sportSelect = document.getElementById('search-sport');
+      const citySelect = document.getElementById('search-city');
+      const dateInput = document.querySelector('.search-card input[type="date"]');
+      
+      const sport = sportSelect ? sportSelect.value : '';
+      const city = citySelect ? citySelect.value : '';
+      const date = dateInput ? dateInput.value : '';
+      
+      // Build URL with filters
+      let url = 'danh-sach-san.html?';
+      const params = [];
+      
+      if (sport) {
+        params.push(`sportType=${sport}`);
+      }
+      
+      if (city) {
+        params.push(`city=${city}`);
+      }
+      
+      if (date) {
+        params.push(`date=${date}`);
+      }
+      
+      window.location.href = url + (params.length > 0 ? params.join('&') : '');
+    }
+
+    // Filter by sport type
+    function filterBySport(sportType) {
+      currentSportFilter = sportType;
+      
+      // Update active tab
+      document.querySelectorAll('#sport-tabs .pill-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`#sport-tabs [data-sport="${sportType}"]`).classList.add('active');
+      
+      renderNearbyVenues();
+    }
+
+    // Render nearby venues
+    function renderNearbyVenues() {
+      const container = document.getElementById('nearby-venues');
+      let venuesToShow = allVenues;
+      
+      // Filter by sport if selected
+      if (currentSportFilter) {
+        venuesToShow = allVenues.filter(v => v.sportType === currentSportFilter);
+      }
+      
+      // Limit to 4 venues for homepage
+      venuesToShow = venuesToShow.slice(0, 4);
+      
+      if (venuesToShow.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">
+            Không tìm thấy sân nào
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = venuesToShow.map(venue => {
+        const price = new Intl.NumberFormat('vi-VN').format(venue.basePrice);
+        const imageSrc = venue.images && venue.images.length > 0 
+          ? venue.images[0] 
+          : 'https://via.placeholder.com/300x160/16a34a/ffffff?text=' + encodeURIComponent(venue.name);
+        
+        return `
+          <article class="venue-card" onclick="window.location.href='chi-tiet-san.html?id=${venue.id}'">
+            <img src="${imageSrc}" alt="${venue.name}" class="venue-card-image" 
+                 onerror="this.src='https://via.placeholder.com/300x160/16a34a/ffffff?text=${encodeURIComponent(venue.name)}'" />
+            <div class="venue-card-content">
+              <div class="venue-tag">${venue.sportTypeName}</div>
+              <div class="venue-name">${venue.name}</div>
+              <div class="venue-meta">
+                <span>${venue.district}, ${venue.city}</span>
+                <span class="venue-rating">★ ${venue.rating}</span>
+              </div>
+              <div class="venue-meta">
+                <span>${venue.fields.length} sân</span>
+                <span class="venue-price">Từ ${price}₫/giờ</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Render top venues (sorted by rating)
+    function renderTopVenues() {
+      const container = document.getElementById('top-venues');
+      
+      // Sort by rating and take top 4
+      const topVenues = [...allVenues]
+        .sort((a, b) => b.rating - a.rating)
+        .slice(0, 4);
+      
+      if (topVenues.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--muted);">
+            Đang tải...
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = topVenues.map((venue, index) => {
+        const price = new Intl.NumberFormat('vi-VN').format(venue.basePrice);
+        const tags = ['Top rating', 'Phổ biến', 'Đối tác', 'Giờ vàng'];
+        const tag = tags[index] || 'Nổi bật';
+        const imageSrc = venue.images && venue.images.length > 0 
+          ? venue.images[0] 
+          : 'https://via.placeholder.com/300x160/16a34a/ffffff?text=' + encodeURIComponent(venue.name);
+        
+        return `
+          <article class="venue-card" onclick="window.location.href='chi-tiet-san.html?id=${venue.id}'">
+            <img src="${imageSrc}" alt="${venue.name}" class="venue-card-image" 
+                 onerror="this.src='https://via.placeholder.com/300x160/16a34a/ffffff?text=${encodeURIComponent(venue.name)}'" />
+            <div class="venue-card-content">
+              <div class="venue-tag">${tag}</div>
+              <div class="venue-name">${venue.name}</div>
+              <div class="venue-meta">
+                <span>${venue.district || venue.city}, ${venue.city}</span>
+                <span class="venue-rating">★ ${venue.rating}</span>
+              </div>
+              <div class="venue-meta">
+                <span>${venue.fields.length} sân</span>
+                <span class="venue-price">Từ ${price}₫/giờ</span>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    // Format price helper
+    function formatPrice(price) {
+      return new Intl.NumberFormat('vi-VN').format(price);
+    }
+  </script>
+</body>
+</html>

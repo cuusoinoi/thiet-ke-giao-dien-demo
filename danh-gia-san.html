@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Đánh giá sân - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .review-form {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .rating-input {
+      display: flex;
+      gap: 8px;
+      margin: 16px 0;
+    }
+
+    .rating-star {
+      font-size: 32px;
+      color: #e5e7eb;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .rating-star.active {
+      color: #fbbf24;
+    }
+
+    .upload-area {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 16px;
+    }
+
+    .upload-area:hover {
+      border-color: var(--green);
+      background: #f0fdf4;
+    }
+
+    .uploaded-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .uploaded-image {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .uploaded-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .remove-image {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container" style="padding-top: 24px;">
+      <h1 class="section-title" style="margin-bottom: 24px;">Đánh giá sân</h1>
+
+      <div class="review-form">
+        <div style="margin-bottom: 16px;">
+          <strong style="font-size: 18px;">Sân cỏ nhân tạo Riverside</strong>
+          <div style="font-size: 13px; color: var(--muted); margin-top: 4px;">
+            Đặt sân ngày 15/01/2025, 18:00 - 21:00
+          </div>
+        </div>
+
+        <form onsubmit="submitReview(event)">
+          <div class="form-group">
+            <label class="form-label required">Đánh giá tổng thể</label>
+            <div class="rating-input">
+              <span class="rating-star" onclick="setRating(1)">★</span>
+              <span class="rating-star" onclick="setRating(2)">★</span>
+              <span class="rating-star" onclick="setRating(3)">★</span>
+              <span class="rating-star" onclick="setRating(4)">★</span>
+              <span class="rating-star" onclick="setRating(5)">★</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Nhận xét của bạn</label>
+            <textarea class="form-textarea" rows="5" placeholder="Chia sẻ trải nghiệm của bạn về sân này..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Hình ảnh (tùy chọn)</label>
+            <div class="upload-area" onclick="document.getElementById('image-upload').click()">
+              <div style="font-size: 32px; margin-bottom: 8px;">📷</div>
+              <div style="font-size: 14px; color: var(--muted);">Click để tải ảnh lên</div>
+              <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Tối đa 5 ảnh</div>
+            </div>
+            <input type="file" id="image-upload" accept="image/*" multiple style="display: none;" onchange="handleImageUpload(event)" />
+            <div class="uploaded-images" id="uploaded-images"></div>
+          </div>
+
+          <button type="submit" class="btn btn-large btn-block">Gửi đánh giá</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/alert.js"></script>
+  <script>
+    let currentRating = 0;
+    let uploadedImages = [];
+
+    function setRating(rating) {
+      currentRating = rating;
+      document.querySelectorAll('.rating-star').forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add('active');
+        } else {
+          star.classList.remove('active');
+        }
+      });
+    }
+
+    function handleImageUpload(e) {
+      const files = Array.from(e.target.files);
+      files.forEach(file => {
+        if (uploadedImages.length < 5) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            uploadedImages.push(event.target.result);
+            displayUploadedImages();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    function displayUploadedImages() {
+      const container = document.getElementById('uploaded-images');
+      container.innerHTML = uploadedImages.map((img, index) => `
+        <div class="uploaded-image">
+          <img src="${img}" alt="Uploaded ${index + 1}" />
+          <button type="button" class="remove-image" onclick="removeImage(${index})">×</button>
+        </div>
+      `).join('');
+    }
+
+    function removeImage(index) {
+      uploadedImages.splice(index, 1);
+      displayUploadedImages();
+    }
+
+    function submitReview(e) {
+      e.preventDefault();
+      if (currentRating === 0) {
+        alert('Vui lòng chọn số sao đánh giá');
+        return;
+      }
+      alert('Cảm ơn bạn đã đánh giá!');
+      window.location.href = 'lich-su-dat.html';
+    }
+  </script>
+</body>
+</html>
+

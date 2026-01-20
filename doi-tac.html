@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dành cho đối tác - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .partner-hero {
+      background: linear-gradient(135deg, #1e40af, #2563eb);
+      color: white;
+      padding: 64px 0;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .partner-hero h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .partner-hero p {
+      font-size: 18px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .benefit-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .benefit-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .benefit-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .benefit-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .process-section {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      margin-bottom: 48px;
+    }
+
+    .process-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+    }
+
+    .process-step::after {
+      content: '→';
+      position: absolute;
+      right: -20px;
+      top: 40px;
+      font-size: 24px;
+      color: var(--green);
+    }
+
+    .process-step:last-child::after {
+      display: none;
+    }
+
+    .step-icon-wrapper {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #dbeafe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 32px;
+    }
+
+    .step-number {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .requirements-section {
+      background: #f9fafb;
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 48px;
+    }
+
+    .requirements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .requirement-item {
+      display: flex;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .requirement-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .register-form-section {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 40px;
+      border: 1px solid var(--border);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .register-form-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 768px) {
+      .partner-hero h1 {
+        font-size: 32px;
+      }
+
+      .process-step::after {
+        display: none;
+      }
+
+      .process-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html" class="active">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
+        <a href="dang-ky.html" class="btn">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="partner-hero">
+      <div class="container">
+        <h1>Trở thành đối tác SportField</h1>
+        <p>Kết nối sân thể thao của bạn với hàng trăm ngàn người chơi trên toàn quốc. Tăng doanh thu và quản lý sân hiệu quả hơn.</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Benefits -->
+      <section>
+        <div class="section-header">
+          <h2 class="section-title">Lợi ích khi trở thành đối tác</h2>
+        </div>
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <div class="benefit-icon">📈</div>
+            <h3 class="benefit-title">Tăng doanh thu</h3>
+            <p class="benefit-desc">Tiếp cận hàng trăm nghìn khách hàng tiềm năng, tăng tỷ lệ lấp đầy sân</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">⚡</div>
+            <h3 class="benefit-title">Quản lý dễ dàng</h3>
+            <p class="benefit-desc">Hệ thống quản lý lịch trống tự động, giảm công việc thủ công</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">💰</div>
+            <h3 class="benefit-title">Thanh toán nhanh</h3>
+            <p class="benefit-desc">Nhận thanh toán tự động, minh bạch và đúng hạn mỗi tuần</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">📱</div>
+            <h3 class="benefit-title">Ứng dụng quản lý</h3>
+            <p class="benefit-desc">Quản lý sân mọi lúc mọi nơi qua ứng dụng di động chuyên dụng</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">📊</div>
+            <h3 class="benefit-title">Báo cáo chi tiết</h3>
+            <p class="benefit-desc">Theo dõi doanh thu, đánh giá khách hàng và phân tích xu hướng</p>
+          </div>
+          <div class="benefit-card">
+            <div class="benefit-icon">🎯</div>
+            <h3 class="benefit-title">Hỗ trợ chuyên nghiệp</h3>
+            <p class="benefit-desc">Đội ngũ hỗ trợ đối tác 24/7, giúp bạn tối ưu hóa doanh thu</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Process -->
+      <section class="process-section">
+        <h2>Quy trình trở thành đối tác</h2>
+        <div class="process-steps">
+          <div class="process-step">
+            <div class="step-icon-wrapper" style="position: relative;">
+              <div class="step-number">1</div>
+              📝
+            </div>
+            <h3 style="font-weight: 600; margin-bottom: 8px;">Đăng ký</h3>
+            <p style="font-size: 14px; color: var(--muted);">Điền form đăng ký với thông tin sân của bạn</p>
+          </div>
+          <div class="process-step">
+            <div class="step-icon-wrapper" style="position: relative;">
+              <div class="step-number">2</div>
+              ✅
+            </div>
+            <h3 style="font-weight: 600; margin-bottom: 8px;">Xác thực</h3>
+            <p style="font-size: 14px; color: var(--muted);">Chúng tôi xác minh thông tin và liên hệ</p>
+          </div>
+          <div class="process-step">
+            <div class="step-icon-wrapper" style="position: relative;">
+              <div class="step-number">3</div>
+              📸
+            </div>
+            <h3 style="font-weight: 600; margin-bottom: 8px;">Chụp ảnh</h3>
+            <p style="font-size: 14px; color: var(--muted);">Chụp ảnh và cung cấp thông tin chi tiết sân</p>
+          </div>
+          <div class="process-step">
+            <div class="step-icon-wrapper" style="position: relative;">
+              <div class="step-number">4</div>
+              🚀
+            </div>
+            <h3 style="font-weight: 600; margin-bottom: 8px;">Khởi động</h3>
+            <p style="font-size: 14px; color: var(--muted);">Sân của bạn xuất hiện trên SportField</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Requirements -->
+      <section class="requirements-section">
+        <h2 class="section-title" style="margin-bottom: 8px;">Yêu cầu đăng ký</h2>
+        <p style="color: var(--muted); margin-bottom: 24px;">Để trở thành đối tác, sân của bạn cần đáp ứng các yêu cầu sau:</p>
+        <div class="requirements-grid">
+          <div class="requirement-item">
+            <div class="requirement-icon">✓</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 4px;">Sân hoạt động hợp pháp</div>
+              <div style="font-size: 13px; color: var(--muted);">Có giấy phép kinh doanh</div>
+            </div>
+          </div>
+          <div class="requirement-item">
+            <div class="requirement-icon">✓</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 4px;">Chất lượng sân tốt</div>
+              <div style="font-size: 13px; color: var(--muted);">Mặt sân bằng phẳng, an toàn</div>
+            </div>
+          </div>
+          <div class="requirement-item">
+            <div class="requirement-icon">✓</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 4px;">Có địa chỉ rõ ràng</div>
+              <div style="font-size: 13px; color: var(--muted);">Có thể tìm thấy trên bản đồ</div>
+            </div>
+          </div>
+          <div class="requirement-item">
+            <div class="requirement-icon">✓</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 4px;">Dịch vụ hỗ trợ cơ bản</div>
+              <div style="font-size: 13px; color: var(--muted);">WC, nước uống, chỗ đậu xe</div>
+            </div>
+          </div>
+          <div class="requirement-item">
+            <div class="requirement-icon">✓</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 4px;">Kết nối Internet</div>
+              <div style="font-size: 13px; color: var(--muted);">Để quản lý và cập nhật lịch</div>
+            </div>
+          </div>
+          <div class="requirement-item">
+            <div class="requirement-icon">✓</div>
+            <div>
+              <div style="font-weight: 600; margin-bottom: 4px;">Cam kết dịch vụ</div>
+              <div style="font-size: 13px; color: var(--muted);">Đảm bảo chất lượng phục vụ</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Register Form -->
+      <section class="register-form-section">
+        <h2>Đăng ký trở thành đối tác</h2>
+        <form onsubmit="submitPartnerForm(event)">
+          <div class="form-group">
+            <label class="form-label required">Tên sân thể thao</label>
+            <input type="text" class="form-input" placeholder="Nhập tên sân" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Họ và tên chủ sân</label>
+            <input type="text" class="form-input" placeholder="Nhập họ và tên" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Số điện thoại</label>
+            <input type="tel" class="form-input" placeholder="0912345678" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Email</label>
+            <input type="email" class="form-input" placeholder="email@example.com" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Địa chỉ sân</label>
+            <textarea class="form-textarea" rows="2" placeholder="Nhập địa chỉ chi tiết" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Tỉnh / Thành phố</label>
+            <select class="form-select" required>
+              <option value="">Chọn tỉnh / thành phố</option>
+              <option value="hcm">TP. Hồ Chí Minh</option>
+              <option value="hanoi">Hà Nội</option>
+              <option value="danang">Đà Nẵng</option>
+              <option value="cantho">Cần Thơ</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Loại sân</label>
+            <select class="form-select" required>
+              <option value="">Chọn loại sân</option>
+              <option value="football">Bóng đá</option>
+              <option value="badminton">Cầu lông</option>
+              <option value="tennis">Tennis</option>
+              <option value="pickleball">Pickleball</option>
+              <option value="multi">Đa môn</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Số lượng sân</label>
+            <input type="number" class="form-input" placeholder="Ví dụ: 5" min="1" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Ghi chú thêm (tùy chọn)</label>
+            <textarea class="form-textarea" rows="4" placeholder="Mô tả về sân, tiện ích, giờ hoạt động..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: start; gap: 8px; font-size: 13px; cursor: pointer;">
+              <input type="checkbox" required style="margin-top: 4px;" />
+              <span>Tôi xác nhận đã đọc và đồng ý với <a href="dieu-khoan.html" target="_blank" style="color: var(--blue);">Điều khoản đối tác</a></span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-large btn-block">Gửi đăng ký</button>
+        </form>
+
+        <div class="alert alert-info" style="margin-top: 24px;">
+          💡 <strong>Lưu ý:</strong> Sau khi gửi đăng ký, chúng tôi sẽ liên hệ với bạn trong vòng 24-48 giờ để xác nhận thông tin và hướng dẫn các bước tiếp theo.
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/alert.js"></script>
+  <script>
+    function submitPartnerForm(e) {
+      e.preventDefault();
+      alert('Cảm ơn bạn đã quan tâm! Chúng tôi sẽ liên hệ với bạn trong vòng 24-48 giờ.');
+      e.target.reset();
+    }
+  </script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+</body>
+</html>
+

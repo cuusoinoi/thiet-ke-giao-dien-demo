@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tin tức - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .news-hero {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white;
+      padding: 48px 0;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .news-hero h1 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .news-hero p {
+      font-size: 16px;
+      opacity: 0.9;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .category-tab {
+      padding: 8px 20px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      background: var(--white);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+
+    .category-tab:hover {
+      border-color: var(--green);
+      color: var(--green-dark);
+    }
+
+    .category-tab.active {
+      background: var(--green);
+      color: white;
+      border-color: var(--green);
+    }
+
+    .featured-article {
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .featured-article:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .featured-image {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .featured-content {
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .article-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: #e0f2fe;
+      color: #1e40af;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .featured-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .featured-excerpt {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .article-card {
+      background: var(--white);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .article-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    .article-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .article-content {
+      padding: 20px;
+    }
+
+    .article-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .article-excerpt {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .read-more {
+      font-size: 13px;
+      color: var(--green-dark);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .read-more::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+
+    .article-card:hover .read-more::after {
+      transform: translateX(4px);
+    }
+
+    .featured-article.hidden,
+    .article-card.hidden {
+      display: none;
+    }
+
+    .newsletter-cta {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border-radius: 16px;
+      padding: 32px;
+      text-align: center;
+      color: white;
+      margin-bottom: 32px;
+    }
+
+    .newsletter-cta h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .newsletter-cta p {
+      opacity: 0.9;
+      margin-bottom: 20px;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+    }
+
+    @media (max-width: 968px) {
+      .featured-article {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-image {
+        min-height: 200px;
+      }
+
+      .articles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .articles-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html" class="active">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
+        <a href="dang-ky.html" class="btn">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="news-hero">
+      <div class="container">
+        <h1>Tin tức & Kinh nghiệm</h1>
+        <p>Cập nhật tin tức thể thao, mẹo đặt sân và chia sẻ từ cộng đồng</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button class="category-tab active" onclick="filterNews('all')">Tất cả</button>
+        <button class="category-tab" onclick="filterNews('tips')">Tips & Tricks</button>
+        <button class="category-tab" onclick="filterNews('football')">Bóng đá</button>
+        <button class="category-tab" onclick="filterNews('racket')">Cầu lông & Tennis</button>
+        <button class="category-tab" onclick="filterNews('events')">Sự kiện</button>
+        <button class="category-tab" onclick="filterNews('community')">Cộng đồng</button>
+      </div>
+
+      <!-- Featured Article -->
+      <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-featured.jpg (600x300px) -->
+      <article class="featured-article" data-category="tips" onclick="window.location.href='#'">
+        <img 
+          src="assets/images/news/news-featured.jpg" 
+          alt="5 mẹo đặt sân giờ cao điểm" 
+          class="featured-image"
+          onerror="this.src='https://via.placeholder.com/600x300/16a34a/ffffff?text=Bài+viết+nổi+bật'" />
+        <div class="featured-content">
+          <span class="article-tag">Tips & Tricks</span>
+          <h2 class="featured-title">5 mẹo đặt sân giờ cao điểm mà vẫn có giá tốt</h2>
+          <p class="featured-excerpt">
+            Chọn khung giờ thông minh, tận dụng ưu đãi và chia sẻ lịch với đội để luôn có sân đẹp. 
+            Bài viết này sẽ hướng dẫn bạn cách tối ưu hóa việc đặt sân để vừa tiết kiệm chi phí vừa có được khung giờ mong muốn.
+          </p>
+          <div class="article-meta">
+            <span>📅 12/01/2025</span>
+            <span>⏱️ 3 phút đọc</span>
+            <span>👁️ 1.2K lượt xem</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Articles Grid -->
+      <div class="articles-grid">
+        <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-1.jpg (400x200px) -->
+        <article class="article-card" data-category="football" onclick="window.location.href='#'">
+          <img 
+            src="assets/images/news/news-1.jpg" 
+            alt="Hướng dẫn tổ chức mini league" 
+            class="article-image"
+            onerror="this.src='https://via.placeholder.com/400x200/2563eb/ffffff?text=Bài+viết+1'" />
+          <div class="article-content">
+            <span class="article-tag">Football</span>
+            <h3 class="article-title">Hướng dẫn tổ chức mini league cho nhóm bạn</h3>
+            <p class="article-excerpt">
+              Từ việc chọn sân, chia bảng, đến gợi ý thể thức thi đấu đơn giản nhưng hấp dẫn.
+            </p>
+            <div class="article-meta" style="margin-top: 12px;">
+              <span>📅 10/01/2025</span>
+              <span>⏱️ 4 phút</span>
+            </div>
+            <div class="read-more">Đọc tiếp</div>
+          </div>
+        </article>
+
+        <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-2.jpg (400x200px) -->
+        <article class="article-card" data-category="racket" onclick="window.location.href='#'">
+          <img 
+            src="assets/images/news/news-2.jpg" 
+            alt="Pickleball môn thể thao mới" 
+            class="article-image"
+            onerror="this.src='https://via.placeholder.com/400x200/f59e0b/ffffff?text=Bài+viết+2'" />
+          <div class="article-content">
+            <span class="article-tag" style="background: #fef3c7; color: #92400e;">Racket Sports</span>
+            <h3 class="article-title">Pickleball – môn thể thao mới đang rất hot</h3>
+            <p class="article-excerpt">
+              Tại sao pickleball bùng nổ và cách bạn có thể đặt sân trải nghiệm ngay trên SportField.
+            </p>
+            <div class="article-meta" style="margin-top: 12px;">
+              <span>📅 08/01/2025</span>
+              <span>⏱️ 2 phút</span>
+            </div>
+            <div class="read-more">Đọc tiếp</div>
+          </div>
+        </article>
+
+        <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-3.jpg (400x200px) -->
+        <article class="article-card" data-category="events" onclick="window.location.href='#'">
+          <img 
+            src="assets/images/news/news-3.jpg" 
+            alt="Giải đấu bóng đá mini" 
+            class="article-image"
+            onerror="this.src='https://via.placeholder.com/400x200/ec4899/ffffff?text=Bài+viết+3'" />
+          <div class="article-content">
+            <span class="article-tag" style="background: #fce7f3; color: #9f1239;">Events</span>
+            <h3 class="article-title">Giải đấu bóng đá mini tháng 1/2025</h3>
+            <p class="article-excerpt">
+              Thông tin chi tiết về giải đấu và cách đăng ký tham gia cùng đội của bạn.
+            </p>
+            <div class="article-meta" style="margin-top: 12px;">
+              <span>📅 05/01/2025</span>
+              <span>⏱️ 3 phút</span>
+            </div>
+            <div class="read-more">Đọc tiếp</div>
+          </div>
+        </article>
+
+        <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-4.jpg (400x200px) -->
+        <article class="article-card" data-category="community" onclick="window.location.href='#'">
+          <img 
+            src="assets/images/news/news-4.jpg" 
+            alt="Câu chuyện đội bóng 10 năm" 
+            class="article-image"
+            onerror="this.src='https://via.placeholder.com/400x200/10b981/ffffff?text=Bài+viết+4'" />
+          <div class="article-content">
+            <span class="article-tag" style="background: #d1fae5; color: #065f46;">Community</span>
+            <h3 class="article-title">Câu chuyện từ cộng đồng: Đội bóng 10 năm</h3>
+            <p class="article-excerpt">
+              Chia sẻ câu chuyện cảm động về một đội bóng đã gắn bó với nhau hơn 10 năm.
+            </p>
+            <div class="article-meta" style="margin-top: 12px;">
+              <span>📅 03/01/2025</span>
+              <span>⏱️ 5 phút</span>
+            </div>
+            <div class="read-more">Đọc tiếp</div>
+          </div>
+        </article>
+
+        <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-5.jpg (400x200px) -->
+        <article class="article-card" data-category="tips" onclick="window.location.href='#'">
+          <img 
+            src="assets/images/news/news-5.jpg" 
+            alt="Cách chọn sân phù hợp" 
+            class="article-image"
+            onerror="this.src='https://via.placeholder.com/400x200/6366f1/ffffff?text=Bài+viết+5'" />
+          <div class="article-content">
+            <span class="article-tag">Tips & Tricks</span>
+            <h3 class="article-title">Làm thế nào để chọn sân phù hợp với đội của bạn</h3>
+            <p class="article-excerpt">
+              Các tiêu chí quan trọng khi lựa chọn sân: vị trí, giá cả, chất lượng và tiện ích.
+            </p>
+            <div class="article-meta" style="margin-top: 12px;">
+              <span>📅 01/01/2025</span>
+              <span>⏱️ 4 phút</span>
+            </div>
+            <div class="read-more">Đọc tiếp</div>
+          </div>
+        </article>
+
+        <!-- 📸 ẢNH CẦN THÊM: assets/images/news/news-6.jpg (400x200px) -->
+        <article class="article-card" data-category="football" onclick="window.location.href='#'">
+          <img 
+            src="assets/images/news/news-6.jpg" 
+            alt="Chiến thuật sân 7 người" 
+            class="article-image"
+            onerror="this.src='https://via.placeholder.com/400x200/f97316/ffffff?text=Bài+viết+6'" />
+          <div class="article-content">
+            <span class="article-tag" style="background: #fed7aa; color: #9a3412;">Football</span>
+            <h3 class="article-title">Chiến thuật cho sân 7 người hiệu quả</h3>
+            <p class="article-excerpt">
+              Các đội hình và chiến thuật phù hợp nhất cho sân bóng đá 7 người.
+            </p>
+            <div class="article-meta" style="margin-top: 12px;">
+              <span>📅 28/12/2024</span>
+              <span>⏱️ 6 phút</span>
+            </div>
+            <div class="read-more">Đọc tiếp</div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Newsletter CTA -->
+      <div class="newsletter-cta">
+        <h2>Đăng ký nhận tin tức</h2>
+        <p>Nhận các bài viết mới nhất và ưu đãi độc quyền qua email</p>
+        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+          <input type="email" class="newsletter-input" placeholder="Nhập email của bạn" required />
+          <button type="submit" class="btn" style="white-space: nowrap;">Đăng ký</button>
+        </form>
+      </div>
+
+      <!-- Pagination -->
+      <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 32px;">
+        <button class="btn-outline">← Trước</button>
+        <button class="btn">1</button>
+        <button class="btn-outline">2</button>
+        <button class="btn-outline">3</button>
+        <button class="btn-outline">Sau →</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/alert.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script>
+    function filterNews(category) {
+      // Update active tab
+      document.querySelectorAll('.category-tab').forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Filter articles
+      const featuredArticle = document.querySelector('.featured-article');
+      const articleCards = document.querySelectorAll('.article-card');
+      
+      if (category === 'all') {
+        // Show all
+        if (featuredArticle) featuredArticle.classList.remove('hidden');
+        articleCards.forEach(card => card.classList.remove('hidden'));
+      } else {
+        // Filter by category
+        const categoryMap = {
+          'tips': 'tips',
+          'football': 'football',
+          'racket': 'racket',
+          'events': 'events',
+          'community': 'community'
+        };
+        
+        const targetCategory = categoryMap[category];
+        
+        // Filter featured article
+        if (featuredArticle) {
+          if (featuredArticle.getAttribute('data-category') === targetCategory) {
+            featuredArticle.classList.remove('hidden');
+          } else {
+            featuredArticle.classList.add('hidden');
+          }
+        }
+        
+        // Filter article cards
+        articleCards.forEach(card => {
+          if (card.getAttribute('data-category') === targetCategory) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      }
+    }
+
+    function subscribeNewsletter(e) {
+      e.preventDefault();
+      alert('Cảm ơn bạn đã đăng ký! Bạn sẽ nhận được tin tức mới nhất qua email.');
+      e.target.reset();
+    }
+  </script>
+</body>
+</html>
+

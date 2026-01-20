@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Xác thực OTP - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .auth-container {
+      max-width: 480px;
+      margin: 48px auto;
+      padding: 0 16px;
+    }
+
+    .auth-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .otp-inputs {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin: 32px 0;
+    }
+
+    .otp-input {
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .otp-input:focus {
+      border-color: var(--green);
+      outline: none;
+    }
+
+    .resend-code {
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .resend-code a {
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    .countdown {
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1 class="auth-title">Xác thực OTP</h1>
+        <p class="auth-subtitle">Chúng tôi đã gửi mã xác thực đến số điện thoại của bạn</p>
+        <p style="font-size: 14px; color: var(--muted); margin-top: 8px;">0912345678</p>
+
+        <div class="otp-inputs">
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" />
+          <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" />
+        </div>
+
+        <button class="btn btn-large btn-block" onclick="verifyOTP()">Xác thực</button>
+
+        <div class="resend-code">
+          Không nhận được mã? 
+          <a href="#" onclick="resendOTP()">Gửi lại</a> (<span class="countdown" id="countdown">60</span>s)
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/alert.js"></script>
+  <script>
+    // Auto-focus next input
+    document.querySelectorAll('.otp-input').forEach((input, index) => {
+      input.addEventListener('input', (e) => {
+        if (e.target.value && index < 5) {
+          document.querySelectorAll('.otp-input')[index + 1].focus();
+        }
+      });
+    });
+
+    // Countdown timer
+    let timeLeft = 60;
+    const countdownEl = document.getElementById('countdown');
+    const timer = setInterval(() => {
+      timeLeft--;
+      countdownEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        countdownEl.textContent = '0';
+      }
+    }, 1000);
+
+    function verifyOTP() {
+      alert('Đang xác thực...');
+      setTimeout(() => {
+        const bookingData = sessionStorage.getItem('bookingData');
+        if (bookingData) {
+          window.location.href = 'thanh-toan.html';
+        } else {
+          window.location.href = 'tai-khoan.html';
+        }
+      }, 1000);
+    }
+
+    function resendOTP() {
+      alert('Đã gửi lại mã OTP');
+      timeLeft = 60;
+    }
+  </script>
+</body>
+</html>
+

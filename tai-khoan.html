@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tài khoản - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .profile-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .menu-item {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .menu-item:hover {
+      border-color: var(--green);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .menu-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .menu-label {
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .logout-btn {
+      width: 100%;
+      margin-top: 24px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="profile-header">
+      <div class="container">
+        <div class="profile-info">
+          <div class="profile-avatar" id="user-avatar">NV</div>
+          <div>
+            <h1 style="font-size: 24px; margin-bottom: 4px;" id="user-name">Đang tải...</h1>
+            <p style="opacity: 0.9; font-size: 14px;" id="user-info">Đang tải...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="menu-grid">
+        <a href="lich-su-dat.html" class="menu-item">
+          <div class="menu-icon">📋</div>
+          <div class="menu-label">Lịch sử đặt sân</div>
+        </a>
+        <a href="thong-bao.html" class="menu-item">
+          <div class="menu-icon">🔔</div>
+          <div class="menu-label">Thông báo</div>
+          <span class="badge" style="margin-top: 8px;">3</span>
+        </a>
+        <a href="#" class="menu-item">
+          <div class="menu-icon">💳</div>
+          <div class="menu-label">Thanh toán</div>
+        </a>
+        <a href="#" class="menu-item">
+          <div class="menu-icon">⭐</div>
+          <div class="menu-label">Đánh giá của tôi</div>
+        </a>
+        <a href="#" class="menu-item">
+          <div class="menu-icon">👤</div>
+          <div class="menu-label">Thông tin cá nhân</div>
+        </a>
+        <a href="ho-tro.html" class="menu-item">
+          <div class="menu-icon">💬</div>
+          <div class="menu-label">Hỗ trợ</div>
+        </a>
+      </div>
+
+      <button class="btn-outline logout-btn" onclick="handleLogout()">Đăng xuất</button>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/alert.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script>
+    async function loadUserInfo() {
+      const user = await getCurrentUser();
+      
+      if (!user) {
+        // Redirect to login if not logged in
+        window.location.href = 'dang-nhap.html';
+        return;
+      }
+
+      // Display user info
+      const name = user.name || 'Người dùng';
+      const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+      
+      document.getElementById('user-avatar').textContent = initials;
+      document.getElementById('user-name').textContent = name;
+      document.getElementById('user-info').textContent = `${user.phone || ''} • ${user.email || ''}`;
+    }
+
+    async function handleLogout() {
+      const confirmed = await showConfirm('Bạn có chắc muốn đăng xuất?', 'Đăng xuất', 'Hủy');
+      if (confirmed) {
+        await logout();
+        window.location.href = 'index.html';
+      }
+    }
+
+    // Load user info on page load
+    document.addEventListener('DOMContentLoaded', loadUserInfo);
+  </script>
+</body>
+</html>
+

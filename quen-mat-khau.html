@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quên mật khẩu - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .auth-container {
+      max-width: 480px;
+      margin: 48px auto;
+      padding: 0 16px;
+    }
+
+    .auth-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .auth-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .auth-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="auth-container">
+      <div class="auth-card">
+        <div class="auth-header">
+          <h1 class="auth-title">Quên mật khẩu</h1>
+          <p class="auth-subtitle">Nhập số điện thoại để nhận mã OTP đặt lại mật khẩu</p>
+        </div>
+
+        <form onsubmit="handleForgotPassword(event)">
+          <div class="form-group">
+            <label class="form-label required">Số điện thoại</label>
+            <input type="tel" class="form-input" placeholder="0912345678" required />
+          </div>
+
+          <button type="submit" class="btn btn-large btn-block">Gửi mã OTP</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 24px;">
+          <a href="dang-nhap.html" style="color: var(--blue); font-size: 14px;">← Quay lại đăng nhập</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/alert.js"></script>
+  <script>
+    function handleForgotPassword(e) {
+      e.preventDefault();
+      alert('Đã gửi mã OTP đến số điện thoại của bạn');
+      window.location.href = 'xac-thuc.html?type=reset';
+    }
+  </script>
+</body>
+</html>
+
