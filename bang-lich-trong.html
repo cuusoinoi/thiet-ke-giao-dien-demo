@@ -46,8 +46,8 @@
 
     .date-selector {
       display: flex;
+      flex-wrap: wrap; /* Desktop: tự xuống dòng, không scroll ngang toàn trang */
       gap: 8px;
-      overflow-x: auto;
       padding: 8px 0;
       margin-bottom: 24px;
     }
@@ -259,10 +259,274 @@
       color: var(--green-dark);
     }
 
-    @media (max-width: 968px) {
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    /* Promo code section */
+    .promo-code-section {
+      margin: 16px 0;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .promo-code-input-group {
+      display: flex;
+      gap: 8px;
+      max-width: 100%;
+    }
+
+    .promo-code-input {
+      flex: 1;
+      min-width: 0;
+      padding: 10px 12px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .promo-code-input:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+    }
+
+    .promo-code-btn {
+      white-space: nowrap;
+      padding: 10px 16px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 960px) {
+      .booking-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
       .booking-summary {
         position: static;
-        margin-top: 24px;
+        margin-top: 0;
+      }
+
+      .venue-summary {
+        flex-wrap: wrap;
+      }
+
+      .venue-summary-image {
+        width: 60px;
+        height: 60px;
+      }
+
+      .venue-summary-info h2 {
+        font-size: 16px;
+      }
+
+      .venue-summary-info p {
+        font-size: 12px;
+      }
+
+      .time-slots-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 10px;
+      }
+
+      .time-slot {
+        padding: 10px 8px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        padding: 16px 0;
+      }
+
+      .calendar-section {
+        padding: 20px;
+      }
+
+      .booking-summary {
+        padding: 20px;
+      }
+
+      .summary-title {
+        font-size: 16px;
+      }
+
+      .summary-total-value {
+        font-size: 20px;
+      }
+
+      .date-option {
+        min-width: 70px;
+        padding: 10px 12px;
+      }
+
+      .date-number {
+        font-size: 16px;
+      }
+
+      .time-slots-grid {
+        grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+        gap: 8px;
+      }
+
+      .time-slot {
+        padding: 10px 6px;
+        font-size: 12px;
+      }
+
+      .time-slot-price {
+        font-size: 10px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 12px;
+      }
+
+      .page-header {
+        padding: 12px 0;
+        margin-bottom: 16px;
+      }
+
+      .venue-summary {
+        gap: 10px;
+      }
+
+      .venue-summary-image {
+        width: 50px;
+        height: 50px;
+      }
+
+      .venue-summary-info h2 {
+        font-size: 15px;
+      }
+
+      .venue-summary-info p {
+        font-size: 11px;
+      }
+
+      .calendar-section {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+
+      .booking-summary {
+        padding: 16px;
+      }
+
+      .summary-title {
+        font-size: 15px;
+        margin-bottom: 12px;
+      }
+
+      .summary-item {
+        padding: 6px 0;
+        font-size: 13px;
+      }
+
+      .summary-label,
+      .summary-value {
+        font-size: 13px;
+      }
+
+      .summary-total {
+        margin-top: 12px;
+        padding-top: 12px;
+      }
+
+      .summary-total-label {
+        font-size: 16px;
+      }
+
+      .summary-total-value {
+        font-size: 18px;
+      }
+
+      .date-option {
+        min-width: 60px;
+        padding: 8px 10px;
+      }
+
+      .date-day {
+        font-size: 11px;
+      }
+
+      .date-number {
+        font-size: 14px;
+      }
+
+      .duration-options {
+        gap: 6px;
+      }
+
+      .duration-btn {
+        padding: 8px;
+        font-size: 13px;
+      }
+
+      .time-slots-grid {
+        grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+        gap: 6px;
+      }
+
+      .time-slot {
+        padding: 8px 4px;
+        font-size: 11px;
+      }
+
+      .time-slot-price {
+        font-size: 9px;
+        margin-top: 2px;
+      }
+
+      /* Fix promo code section to prevent horizontal scroll */
+      .promo-code-section {
+        padding: 12px;
+      }
+
+      .promo-code-input-group {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .promo-code-input,
+      .promo-code-btn {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .promo-code-btn {
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .date-option {
+        min-width: 55px;
+        padding: 6px 8px;
+      }
+
+      .date-number {
+        font-size: 13px;
+      }
+
+      .time-slots-grid {
+        grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+      }
+
+      .time-slot {
+        padding: 8px 4px;
       }
     }
   </style>
@@ -331,7 +595,7 @@
     </div>
 
     <div class="container">
-      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+      <div class="booking-layout">
         <div>
           <div class="calendar-section">
             <h2 class="section-title">Chọn ngày</h2>
@@ -390,20 +654,19 @@
               <span class="summary-value" id="extra-fee">0₫</span>
             </div>
 
-            <div style="margin: 16px 0; padding: 16px; background: #f9fafb; border-radius: 12px; border: 1px solid var(--border);">
+            <div class="promo-code-section">
               <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">Mã giảm giá</div>
-              <div style="display: flex; gap: 8px;">
+              <div class="promo-code-input-group">
                 <input 
                   type="text" 
                   id="promo-code-input" 
                   placeholder="Nhập mã giảm giá"
-                  style="flex: 1; padding: 10px 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 14px;"
+                  class="promo-code-input"
                   onkeypress="if(event.key === 'Enter') applyPromoCode()"
                 />
                 <button 
-                  class="btn-outline" 
+                  class="btn-outline promo-code-btn" 
                   onclick="applyPromoCode()"
-                  style="white-space: nowrap; padding: 10px 16px; font-size: 14px;"
                 >
                   Áp dụng
                 </button>
@@ -438,6 +701,13 @@
       </div>
     </div>
   </main>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
 
   <footer>
     <div class="container">
@@ -494,6 +764,7 @@
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
   <script src="assets/js/alert.js"></script>
+  <script src="assets/js/backToTop.js"></script>
   <script>
     // Configuration
     let venueId = 1; // Default, can be from URL

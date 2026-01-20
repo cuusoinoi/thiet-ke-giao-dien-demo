@@ -182,9 +182,86 @@
       margin-bottom: 32px;
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 960px) {
+      .partner-hero {
+        padding: 48px 0;
+      }
+
       .partner-hero h1 {
         font-size: 32px;
+      }
+
+      .partner-hero p {
+        font-size: 16px;
+      }
+
+      .benefits-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .benefit-card {
+        padding: 24px;
+      }
+
+      .process-section {
+        padding: 32px 24px;
+      }
+
+      .process-section h2 {
+        font-size: 24px;
+      }
+
+      .process-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+      }
+
+      .requirements-section {
+        padding: 32px 24px;
+      }
+
+      .requirements-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .register-form-section {
+        padding: 32px 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .partner-hero {
+        padding: 40px 0;
+      }
+
+      .partner-hero h1 {
+        font-size: 28px;
+      }
+
+      .partner-hero p {
+        font-size: 15px;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .benefit-card {
+        padding: 20px;
+      }
+
+      .benefit-icon {
+        font-size: 40px;
+      }
+
+      .process-section {
+        padding: 24px 16px;
+      }
+
+      .process-section h2 {
+        font-size: 22px;
+        margin-bottom: 32px;
       }
 
       .process-step::after {
@@ -193,6 +270,47 @@
 
       .process-steps {
         grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .requirements-section {
+        padding: 24px 16px;
+      }
+
+      .requirements-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .register-form-section {
+        padding: 24px 16px;
+      }
+
+      .register-form-section h2 {
+        font-size: 22px;
+        margin-bottom: 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .partner-hero h1 {
+        font-size: 24px;
+      }
+
+      .partner-hero p {
+        font-size: 14px;
+      }
+
+      .benefit-title {
+        font-size: 16px;
+      }
+
+      .benefit-desc {
+        font-size: 13px;
+      }
+
+      .process-section h2,
+      .register-form-section h2 {
+        font-size: 20px;
       }
     }
   </style>
@@ -463,6 +581,13 @@
     </div>
   </main>
 
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -524,6 +649,7 @@
   </script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
 </body>
 </html>
 

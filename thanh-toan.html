@@ -78,9 +78,54 @@
       margin-top: 16px;
     }
 
-    @media (max-width: 968px) {
+    @media (max-width: 960px) {
       .checkout-grid {
         grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .checkout-section {
+        padding: 20px;
+      }
+
+      .payment-methods {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .checkout-section {
+        padding: 16px;
+        border-radius: 12px;
+      }
+
+      .section-step {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .payment-methods {
+        grid-template-columns: 1fr;
+      }
+
+      .payment-method {
+        padding: 14px;
+      }
+
+      .booking-details {
+        padding: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .checkout-section {
+        padding: 14px;
+      }
+
+      .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
       }
     }
   </style>
@@ -228,6 +273,13 @@
     </div>
   </main>
 
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -283,6 +335,7 @@
   <script src="assets/js/api.js"></script>
   <script src="assets/js/alert.js"></script>
   <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
   <script>
     // Load booking data
     document.addEventListener('DOMContentLoaded', async function() {

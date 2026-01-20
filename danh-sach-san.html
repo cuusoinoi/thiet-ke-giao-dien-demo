@@ -175,13 +175,116 @@
       margin-bottom: 16px;
     }
 
+    @media (max-width: 960px) {
+      .page-header {
+        padding: 24px 0;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .filters-bar {
+        padding: 12px;
+        gap: 10px;
+      }
+
+      .filter-group {
+        min-width: 120px;
+      }
+
+      .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .venue-card-large {
+        grid-template-columns: 200px 1fr;
+      }
+    }
+
     @media (max-width: 768px) {
+      .page-header {
+        padding: 20px 0;
+      }
+
+      .page-title {
+        font-size: 22px;
+      }
+
+      .page-subtitle {
+        font-size: 13px;
+      }
+
+      .filters-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-group {
+        min-width: 100%;
+      }
+
       .venue-card-large {
         grid-template-columns: 1fr;
       }
 
       .venue-image {
+        height: 200px;
+      }
+
+      .venue-content {
+        padding: 12px;
+      }
+
+      .venue-name-large {
+        font-size: 16px;
+      }
+
+      .venue-price-large {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-title {
+        font-size: 20px;
+      }
+
+      .filters-bar {
+        padding: 10px;
+      }
+
+      .filter-label {
+        font-size: 11px;
+      }
+
+      .filter-select,
+      .filter-input {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+
+      .venue-image {
         height: 180px;
+      }
+
+      .venue-content {
+        padding: 10px;
+        gap: 6px;
+      }
+
+      .venue-name-large {
+        font-size: 15px;
+      }
+
+      .venue-meta-row {
+        font-size: 12px;
+        gap: 8px;
+      }
+
+      .venue-price-large {
+        font-size: 16px;
       }
     }
   </style>
@@ -315,6 +418,13 @@
     </div>
   </main>
 
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -369,6 +479,7 @@
   <script src="assets/js/mockData.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
   <script>
     let allVenues = [];
     let filteredVenues = [];

@@ -54,6 +54,46 @@
     .contact-icon {
       font-size: 24px;
     }
+
+    @media (max-width: 768px) {
+      .faq-item {
+        padding: 16px;
+      }
+
+      .faq-question {
+        font-size: 15px;
+      }
+
+      .contact-card {
+        padding: 20px;
+      }
+
+      .contact-item {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .faq-item {
+        padding: 14px;
+      }
+
+      .faq-question {
+        font-size: 14px;
+      }
+
+      .faq-answer {
+        font-size: 13px;
+      }
+
+      .contact-card {
+        padding: 16px;
+      }
+
+      .contact-icon {
+        font-size: 20px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -191,6 +231,13 @@
     </div>
   </main>
 
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -253,6 +300,7 @@
   </script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
 </body>
 </html>
 
