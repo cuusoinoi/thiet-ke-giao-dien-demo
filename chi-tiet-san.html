@@ -370,6 +370,7 @@
             <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
           </div>
         </div>
+        <a href="ban-do-san.html">Bản đồ sân</a>
         <a href="uu-dai.html">Ưu đãi</a>
         <a href="doi-tac.html">Dành cho đối tác</a>
         <a href="tin-tuc.html">Tin tức</a>
@@ -436,7 +437,7 @@
             <div id="reviews-container">
               <!-- Reviews will be loaded here -->
             </div>
-            <a href="#" class="section-link" style="display: block; margin-top: 16px;" id="view-all-reviews">Xem tất cả đánh giá →</a>
+            <a href="tat-ca-danh-gia.html?id=1" class="section-link" style="display: block; margin-top: 16px;" id="view-all-reviews">Xem tất cả đánh giá →</a>
           </section>
         </div>
 
@@ -665,9 +666,12 @@
     async function loadReviews() {
       const reviews = await getVenueReviews(venueId);
       const container = document.getElementById('reviews-container');
-      
+      const viewAllLink = document.getElementById('view-all-reviews');
+
       document.getElementById('reviews-title').textContent = `Đánh giá (${reviews.length})`;
-      
+      viewAllLink.href = 'tat-ca-danh-gia.html?id=' + venueId;
+      viewAllLink.style.display = reviews.length === 0 ? 'none' : 'block';
+
       if (reviews.length === 0) {
         container.innerHTML = `
           <div style="text-align: center; padding: 40px; color: var(--muted);">

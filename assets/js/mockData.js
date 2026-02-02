@@ -25,7 +25,9 @@ const MOCK_DATA = {
       hours: { start: 6, end: 23 },
       description: "Sân cỏ nhân tạo Riverside là một trong những địa điểm chơi bóng đá được yêu thích nhất tại Quận 7. Với 5 sân 7 người được trang bị hệ thống đèn chiếu sáng hiện đại.",
       phone: "0900 123 456",
-      fields: ["Sân 1", "Sân 2", "Sân 3", "Sân 4", "Sân 5"]
+      fields: ["Sân 1", "Sân 2", "Sân 3", "Sân 4", "Sân 5"],
+      lat: 10.7320,
+      lng: 106.7220
     },
     {
       id: 2,
@@ -47,7 +49,9 @@ const MOCK_DATA = {
       hours: { start: 8, end: 22 },
       description: "Sân cầu lông hiện đại với 10 sân tiêu chuẩn quốc tế.",
       phone: "0900 234 567",
-      fields: ["Sân 1", "Sân 2", "Sân 3", "Sân 4", "Sân 5", "Sân 6", "Sân 7", "Sân 8", "Sân 9", "Sân 10"]
+      fields: ["Sân 1", "Sân 2", "Sân 3", "Sân 4", "Sân 5", "Sân 6", "Sân 7", "Sân 8", "Sân 9", "Sân 10"],
+      lat: 10.7769,
+      lng: 106.7009
     },
     {
       id: 3,
@@ -69,7 +73,9 @@ const MOCK_DATA = {
       hours: { start: 6, end: 22 },
       description: "Sân tennis cao cấp với mặt sân cỏ tự nhiên.",
       phone: "0900 345 678",
-      fields: ["Sân 1", "Sân 2", "Sân 3", "Sân 4"]
+      fields: ["Sân 1", "Sân 2", "Sân 3", "Sân 4"],
+      lat: 10.7872,
+      lng: 106.7490
     }
   ],
 
@@ -145,6 +151,15 @@ const MOCK_DATA = {
     }
   ],
 
+  // Phương thức thanh toán (type: card | ewallet | bank)
+  paymentMethods: [
+    { id: 1, userId: 1, type: 'card', brand: 'Visa', last4: '1234', holderName: 'NGUYEN VAN A', expiry: '12/27', isDefault: true },
+    { id: 2, userId: 1, type: 'card', brand: 'Mastercard', last4: '5678', holderName: 'NGUYEN VAN A', expiry: '08/26', isDefault: false },
+    { id: 3, userId: 1, type: 'ewallet', provider: 'Momo', last4: '9012', isDefault: false },
+    { id: 4, userId: 1, type: 'ewallet', provider: 'ZaloPay', last4: '3456', isDefault: false },
+    { id: 5, userId: 1, type: 'bank', bankName: 'Vietcombank', last4: '7890', accountHolder: 'NGUYEN VAN A', isDefault: false }
+  ],
+
   // Thông báo
   notifications: [
     {
@@ -187,6 +202,9 @@ function initMockData() {
   }
   if (!localStorage.getItem('sportfield_notifications')) {
     localStorage.setItem('sportfield_notifications', JSON.stringify(MOCK_DATA.notifications));
+  }
+  if (!localStorage.getItem('sportfield_paymentMethods')) {
+    localStorage.setItem('sportfield_paymentMethods', JSON.stringify(MOCK_DATA.paymentMethods));
   }
 }
 

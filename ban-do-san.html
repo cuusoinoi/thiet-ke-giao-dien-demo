@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Bản đồ sân - SportField</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
     .page-header {
@@ -43,11 +44,10 @@
       min-height: 480px;
     }
 
-    .map-wrap iframe {
+    #map {
       width: 100%;
       height: 480px;
-      border: none;
-      display: block;
+      border-radius: 16px;
     }
 
     .map-venue-list {
@@ -176,7 +176,7 @@
         min-height: 400px;
       }
 
-      .map-wrap iframe {
+      #map {
         height: 400px;
       }
     }
@@ -190,7 +190,7 @@
         font-size: 24px;
       }
 
-      .map-wrap iframe {
+      #map {
         height: 320px;
       }
 
@@ -246,6 +246,7 @@
             <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
           </div>
         </div>
+        <a href="ban-do-san.html" class="active">Bản đồ sân</a>
         <a href="uu-dai.html">Ưu đãi</a>
         <a href="doi-tac.html">Dành cho đối tác</a>
         <a href="tin-tuc.html">Tin tức</a>
@@ -299,17 +300,11 @@
           </div>
 
           <div class="map-wrap">
-            <iframe
-              id="map-iframe"
-              src="https://www.openstreetmap.org/export/embed.html?bbox=106.6519%2C10.7626%2C106.8100%2C10.8550&layer=mapnik&marker=10.8088%2C106.7309"
-              title="Bản đồ sân thể thao SportField"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+            <div id="map" aria-label="Bản đồ sân thể thao"></div>
           </div>
 
           <div class="map-note">
-            📍 Bản đồ hiển thị khu vực TP.HCM. Các sân thể thao được liệt kê bên cạnh — bấm <strong>Xem chi tiết</strong> để xem thông tin và đặt sân.
+            📍 Bấm vào marker trên bản đồ hoặc card bên cạnh để xem thông tin sân. Chọn <strong>Xem chi tiết</strong> để đặt sân.
           </div>
         </div>
 
@@ -377,6 +372,7 @@
     </div>
   </footer>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="assets/js/mockData.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
@@ -384,12 +380,65 @@
   <script>
     let allVenues = [];
     let filteredVenues = [];
+    let map = null;
+    let markersLayer = null;
+    let venueMarkers = {};
 
     document.addEventListener('DOMContentLoaded', async function() {
       allVenues = await getVenues({});
+      if (typeof MOCK_DATA !== 'undefined' && MOCK_DATA.venues) {
+        allVenues = allVenues.map(v => {
+          const fromMock = MOCK_DATA.venues.find(m => m.id === v.id);
+          if (fromMock && (fromMock.lat != null || fromMock.lng != null))
+            return { ...v, lat: v.lat ?? fromMock.lat, lng: v.lng ?? fromMock.lng };
+          return v;
+        });
+      }
       filteredVenues = [...allVenues];
+      initMap();
+      updateMapMarkers();
       renderMapVenues();
     });
+
+    function initMap() {
+      if (map) return;
+      map = L.map('map').setView([10.7820, 106.7100], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+      markersLayer = L.layerGroup().addTo(map);
+    }
+
+    function updateMapMarkers() {
+      if (!markersLayer) return;
+      markersLayer.clearLayers();
+      venueMarkers = {};
+      const venuesWithCoords = filteredVenues.filter(v => v.lat != null && v.lng != null);
+      if (venuesWithCoords.length === 0) return;
+      const bounds = L.latLngBounds(venuesWithCoords.map(v => [v.lat, v.lng]));
+      venuesWithCoords.forEach(venue => {
+        const price = new Intl.NumberFormat('vi-VN').format(venue.basePrice);
+        const popupHtml = `<div style="min-width: 200px;">
+          <strong>${venue.name}</strong><br>
+          <span style="font-size: 12px; color: #6b7280;">${venue.address}</span><br>
+          <span style="color: #f59e0b;">★ ${venue.rating}</span> · Từ ${price}₫/giờ<br>
+          <a href="chi-tiet-san.html?id=${venue.id}" style="margin-top: 8px; display: inline-block; color: #16a34a; font-weight: 600;">Xem chi tiết →</a>
+        </div>`;
+        const marker = L.marker([venue.lat, venue.lng])
+          .addTo(markersLayer)
+          .bindPopup(popupHtml);
+        venueMarkers[venue.id] = marker;
+      });
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+    }
+
+    function focusMapOnVenue(venueId) {
+      const marker = venueMarkers[venueId];
+      if (marker && map) {
+        map.setView(marker.getLatLng(), 15);
+        marker.openPopup();
+      }
+    }
 
     function filterMapVenues() {
       const sport = document.getElementById('map-sport-filter').value;
@@ -400,6 +449,7 @@
         if (city && v.city !== city) return false;
         return true;
       });
+      updateMapMarkers();
       renderMapVenues();
     }
 
@@ -420,8 +470,10 @@
 
       container.innerHTML = filteredVenues.map(venue => {
         const price = new Intl.NumberFormat('vi-VN').format(venue.basePrice);
+        const hasCoords = venue.lat != null && venue.lng != null;
+        const onCardClick = hasCoords ? `onclick="focusMapOnVenue(${venue.id})"` : '';
         return `
-          <article class="map-venue-card" data-venue-id="${venue.id}">
+          <article class="map-venue-card" data-venue-id="${venue.id}" ${onCardClick}>
             <div class="map-venue-name">${venue.name}</div>
             <div class="map-venue-address">📍 ${venue.address}</div>
             <div class="map-venue-meta">

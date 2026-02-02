@@ -266,3 +266,55 @@ function markNotificationRead(notificationId) {
   }
   return Promise.resolve();
 }
+
+// ========== PAYMENT METHODS API ==========
+
+function getPaymentMethods(userId) {
+  const list = JSON.parse(localStorage.getItem('sportfield_paymentMethods') || '[]');
+  return Promise.resolve(list.filter(p => p.userId === userId));
+}
+
+function addPaymentMethod(data) {
+  const currentUser = JSON.parse(localStorage.getItem('sportfield_currentUser') || 'null');
+  if (!currentUser) return Promise.reject({ message: 'Vui lòng đăng nhập' });
+  const list = JSON.parse(localStorage.getItem('sportfield_paymentMethods') || '[]');
+  const newId = list.length > 0 ? Math.max(...list.map(p => p.id)) + 1 : 1;
+  const isFirst = list.filter(p => p.userId === currentUser.id).length === 0;
+  const type = data.type || 'card';
+  let newMethod = { id: newId, userId: currentUser.id, type, isDefault: isFirst };
+  if (type === 'card') {
+    newMethod = { ...newMethod, brand: data.brand || 'Visa', last4: data.last4, holderName: data.holderName || '', expiry: data.expiry || '' };
+  } else if (type === 'ewallet') {
+    newMethod = { ...newMethod, provider: data.provider || 'Momo', last4: data.last4 || '' };
+  } else if (type === 'bank') {
+    newMethod = { ...newMethod, bankName: data.bankName || '', last4: data.last4 || '', accountHolder: data.accountHolder || '' };
+  }
+  list.push(newMethod);
+  localStorage.setItem('sportfield_paymentMethods', JSON.stringify(list));
+  return Promise.resolve(newMethod);
+}
+
+function updatePaymentMethod(id, data) {
+  const list = JSON.parse(localStorage.getItem('sportfield_paymentMethods') || '[]');
+  const idx = list.findIndex(p => p.id === parseInt(id));
+  if (idx === -1) return Promise.reject({ message: 'Không tìm thấy thẻ' });
+  if (data.isDefault === true) {
+    list.forEach(p => { if (p.userId === list[idx].userId) p.isDefault = false; });
+  }
+  list[idx] = { ...list[idx], ...data };
+  localStorage.setItem('sportfield_paymentMethods', JSON.stringify(list));
+  return Promise.resolve(list[idx]);
+}
+
+function deletePaymentMethod(id) {
+  const list = JSON.parse(localStorage.getItem('sportfield_paymentMethods') || '[]');
+  const filtered = list.filter(p => p.id !== parseInt(id));
+  if (filtered.length === list.length) return Promise.reject({ message: 'Không tìm thấy thẻ' });
+  const deleted = list.find(p => p.id === parseInt(id));
+  if (deleted && deleted.isDefault && filtered.some(p => p.userId === deleted.userId)) {
+    const firstOther = filtered.find(p => p.userId === deleted.userId);
+    if (firstOther) firstOther.isDefault = true;
+  }
+  localStorage.setItem('sportfield_paymentMethods', JSON.stringify(filtered));
+  return Promise.resolve();
+}

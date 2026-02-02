@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tất cả đánh giá - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .page-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .reviews-list {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .review-card {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+
+    .review-card:last-child {
+      border-bottom: none;
+    }
+
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .review-author {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .venue-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      color: #f59e0b;
+      font-size: 14px;
+    }
+
+    .review-date {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .review-comment {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      color: var(--green-dark);
+    }
+
+    .empty-reviews {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .empty-reviews-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .summary-rating {
+      font-size: 24px;
+      font-weight: 700;
+      color: #f59e0b;
+    }
+
+    .summary-count {
+      font-size: 14px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="ban-do-san.html">Bản đồ sân</a>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
+        <a href="dang-ky.html" class="btn">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" style="margin-bottom: 12px; font-size: 13px;">
+          <a href="index.html">Trang chủ</a> /
+          <a href="danh-sach-san.html">Danh sách sân</a> /
+          <a href="#" id="breadcrumb-venue-link">Chi tiết sân</a> /
+          <span style="color: rgba(255,255,255,0.9);">Tất cả đánh giá</span>
+        </nav>
+        <div class="page-title" id="page-title">Tất cả đánh giá</div>
+        <div class="page-subtitle" id="page-subtitle">Đang tải...</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <a href="#" id="back-to-venue" class="back-link">← Quay lại chi tiết sân</a>
+
+      <div id="content-area">
+        <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải đánh giá...</div>
+      </div>
+    </div>
+  </main>
+
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
+  <script>
+    let venueId = null;
+    let venue = null;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('id')) {
+      venueId = parseInt(urlParams.get('id'));
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      if (!venueId) {
+        document.getElementById('content-area').innerHTML = `
+          <div class="empty-reviews">
+            <div class="empty-reviews-icon">⚠️</div>
+            <p style="font-size: 16px; margin-bottom: 8px;">Không tìm thấy sân.</p>
+            <a href="danh-sach-san.html" class="btn" style="margin-top: 16px; display: inline-block;">Xem danh sách sân</a>
+          </div>
+        `;
+        document.getElementById('page-subtitle').textContent = '';
+        return;
+      }
+
+      venue = await getVenueById(venueId);
+      const reviews = await getVenueReviews(venueId);
+
+      document.getElementById('page-title').textContent = venue ? `Tất cả đánh giá - ${venue.name}` : 'Tất cả đánh giá';
+      document.getElementById('page-subtitle').textContent = venue ? `${reviews.length} đánh giá` : '';
+      document.getElementById('breadcrumb-venue-link').textContent = venue ? venue.name : 'Chi tiết sân';
+      document.getElementById('breadcrumb-venue-link').href = venue ? `chi-tiet-san.html?id=${venueId}` : 'danh-sach-san.html';
+      document.getElementById('back-to-venue').href = venue ? `chi-tiet-san.html?id=${venueId}` : 'danh-sach-san.html';
+
+      if (!venue) {
+        document.getElementById('content-area').innerHTML = `
+          <div class="empty-reviews">
+            <div class="empty-reviews-icon">⚠️</div>
+            <p style="font-size: 16px; margin-bottom: 8px;">Không tìm thấy sân.</p>
+            <a href="danh-sach-san.html" class="btn" style="margin-top: 16px; display: inline-block;">Xem danh sách sân</a>
+          </div>
+        `;
+        return;
+      }
+
+      if (reviews.length === 0) {
+        document.getElementById('content-area').innerHTML = `
+          <div class="empty-reviews">
+            <div class="empty-reviews-icon">💬</div>
+            <p style="font-size: 16px; margin-bottom: 8px;">Chưa có đánh giá nào cho sân này.</p>
+            <a href="chi-tiet-san.html?id=${venueId}" class="btn" style="margin-top: 16px; display: inline-block;">Quay lại chi tiết sân</a>
+          </div>
+        `;
+        return;
+      }
+
+      const avgRating = (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1);
+      const summaryHtml = `
+        <div class="summary-row">
+          <span class="summary-rating">★ ${avgRating}</span>
+          <span class="summary-count">${reviews.length} đánh giá</span>
+        </div>
+      `;
+
+      const reviewsHtml = reviews.map(review => {
+        const date = new Date(review.date);
+        const dateStr = date.toLocaleDateString('vi-VN');
+        const daysAgo = Math.floor((new Date() - date) / (1000 * 60 * 60 * 24));
+        const timeAgo = daysAgo === 0 ? 'Hôm nay' : daysAgo === 1 ? 'Hôm qua' : daysAgo < 7 ? `${daysAgo} ngày trước` : dateStr;
+
+        return `
+          <div class="review-card">
+            <div class="review-header">
+              <div>
+                <div class="review-author">${review.userName}</div>
+                <div class="venue-rating">★ ${review.rating}</div>
+              </div>
+              <div class="review-date">${timeAgo}</div>
+            </div>
+            <p class="review-comment">${review.comment}</p>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('content-area').innerHTML = summaryHtml + `<div class="reviews-list">${reviewsHtml}</div>`;
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
