@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bản đồ sân - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .page-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .map-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 32px;
+    }
+
+    .map-wrap {
+      position: sticky;
+      top: 90px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      background: var(--bg);
+      min-height: 480px;
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 480px;
+      border: none;
+      display: block;
+    }
+
+    .map-venue-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .map-venue-list-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .map-venue-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .map-venue-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      border-color: var(--green);
+    }
+
+    .map-venue-card.active {
+      border-color: var(--green);
+      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+    }
+
+    .map-venue-name {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .map-venue-address {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .map-venue-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .map-venue-rating {
+      font-weight: 600;
+      color: #f59e0b;
+    }
+
+    .map-venue-price {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .map-venue-cta {
+      margin-top: 12px;
+    }
+
+    .map-venue-cta .btn {
+      width: 100%;
+      padding: 10px 16px;
+      font-size: 14px;
+    }
+
+    .map-filter-bar {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .map-filter-bar label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .map-filter-bar select {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      background: var(--white);
+      min-width: 140px;
+    }
+
+    .map-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 16px;
+      padding: 12px;
+      background: #f0fdf4;
+      border-radius: 8px;
+      border: 1px solid #bbf7d0;
+    }
+
+    @media (max-width: 1024px) {
+      .map-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .map-wrap {
+        position: static;
+        min-height: 400px;
+      }
+
+      .map-wrap iframe {
+        height: 400px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-header {
+        padding: 24px 0;
+      }
+
+      .page-title {
+        font-size: 24px;
+      }
+
+      .map-wrap iframe {
+        height: 320px;
+      }
+
+      .map-venue-card {
+        padding: 14px;
+      }
+
+      .map-venue-name {
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .map-filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .map-filter-bar select {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
+        <a href="dang-ky.html" class="btn">Đăng ký</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" style="margin-bottom: 12px; font-size: 13px;">
+          <a href="index.html">Trang chủ</a> /
+          <a href="danh-sach-san.html">Danh sách sân</a> /
+          <span style="color: rgba(255,255,255,0.9);">Bản đồ sân</span>
+        </nav>
+        <div class="page-title">Bản đồ sân thể thao</div>
+        <div class="page-subtitle">Xem vị trí các sân trên bản đồ và chọn sân phù hợp với bạn</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="map-layout">
+        <div>
+          <div class="map-filter-bar">
+            <label for="map-sport-filter">Môn thể thao:</label>
+            <select id="map-sport-filter" onchange="filterMapVenues()">
+              <option value="">Tất cả</option>
+              <option value="football">Bóng đá</option>
+              <option value="badminton">Cầu lông</option>
+              <option value="tennis">Tennis</option>
+            </select>
+            <label for="map-city-filter">Khu vực:</label>
+            <select id="map-city-filter" onchange="filterMapVenues()">
+              <option value="">Tất cả</option>
+              <option value="TP.HCM">TP.HCM</option>
+              <option value="Hà Nội">Hà Nội</option>
+              <option value="Đà Nẵng">Đà Nẵng</option>
+            </select>
+          </div>
+
+          <div class="map-wrap">
+            <iframe
+              id="map-iframe"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=106.6519%2C10.7626%2C106.8100%2C10.8550&layer=mapnik&marker=10.8088%2C106.7309"
+              title="Bản đồ sân thể thao SportField"
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+
+          <div class="map-note">
+            📍 Bản đồ hiển thị khu vực TP.HCM. Các sân thể thao được liệt kê bên cạnh — bấm <strong>Xem chi tiết</strong> để xem thông tin và đặt sân.
+          </div>
+        </div>
+
+        <div class="map-venue-list">
+          <div class="map-venue-list-title">Sân gần bạn (<span id="map-venue-count">0</span>)</div>
+          <div id="map-venue-list">
+            <div style="padding: 24px; text-align: center; color: var(--muted);">Đang tải...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
+  <script>
+    let allVenues = [];
+    let filteredVenues = [];
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      allVenues = await getVenues({});
+      filteredVenues = [...allVenues];
+      renderMapVenues();
+    });
+
+    function filterMapVenues() {
+      const sport = document.getElementById('map-sport-filter').value;
+      const city = document.getElementById('map-city-filter').value;
+
+      filteredVenues = allVenues.filter(v => {
+        if (sport && v.sportType !== sport) return false;
+        if (city && v.city !== city) return false;
+        return true;
+      });
+      renderMapVenues();
+    }
+
+    function renderMapVenues() {
+      const container = document.getElementById('map-venue-list');
+      const countEl = document.getElementById('map-venue-count');
+      countEl.textContent = filteredVenues.length;
+
+      if (filteredVenues.length === 0) {
+        container.innerHTML = `
+          <div style="padding: 24px; text-align: center; color: var(--muted); background: var(--white); border-radius: 12px; border: 1px solid var(--border);">
+            <p style="margin-bottom: 12px;">Không có sân nào phù hợp bộ lọc.</p>
+            <button type="button" class="btn-outline" onclick="document.getElementById('map-sport-filter').value=''; document.getElementById('map-city-filter').value=''; filterMapVenues();">Xóa bộ lọc</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filteredVenues.map(venue => {
+        const price = new Intl.NumberFormat('vi-VN').format(venue.basePrice);
+        return `
+          <article class="map-venue-card" data-venue-id="${venue.id}">
+            <div class="map-venue-name">${venue.name}</div>
+            <div class="map-venue-address">📍 ${venue.address}</div>
+            <div class="map-venue-meta">
+              <span class="map-venue-rating">★ ${venue.rating}</span>
+              <span>${venue.totalReviews} đánh giá</span>
+              <span>•</span>
+              <span>${venue.sportTypeName}</span>
+            </div>
+            <div class="map-venue-price">Từ ${price}₫/giờ</div>
+            <div class="map-venue-cta">
+              <a href="chi-tiet-san.html?id=${venue.id}" class="btn">Xem chi tiết</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
