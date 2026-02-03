@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Tất cả đánh giá - SportField</title>
+  <title>Chi tiết đơn đặt sân - SportField</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
@@ -24,55 +24,105 @@
       opacity: 0.9;
     }
 
-    .reviews-list {
+    .order-card {
       background: var(--white);
       border-radius: 16px;
       border: 1px solid var(--border);
-      overflow: hidden;
+      padding: 24px;
       margin-bottom: 24px;
     }
 
-    .review-card {
-      border-bottom: 1px solid var(--border);
-      padding: 20px 24px;
-    }
-
-    .review-card:last-child {
-      border-bottom: none;
-    }
-
-    .review-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .review-author {
+    .order-id {
+      background: #f3f4f6;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-family: monospace;
       font-weight: 600;
+      margin-bottom: 24px;
       font-size: 15px;
     }
 
-    .venue-rating {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-weight: 600;
-      color: #f59e0b;
-      font-size: 14px;
+    .order-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
     }
 
-    .review-date {
+    .order-row:last-child {
+      border-bottom: none;
+    }
+
+    .order-label {
       font-size: 13px;
       color: var(--muted);
+      flex-shrink: 0;
     }
 
-    .review-comment {
+    .order-value {
+      font-weight: 600;
+      text-align: right;
+    }
+
+    .order-value a {
+      color: var(--green-dark);
+      text-decoration: none;
+    }
+
+    .order-value a:hover {
+      text-decoration: underline;
+    }
+
+    .order-status {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .order-status.confirmed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .order-status.completed {
+      background: #e0e7ff;
+      color: #3730a3;
+    }
+
+    .order-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .order-actions .btn,
+    .order-actions .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      text-decoration: none;
+      padding: 10px 20px;
       font-size: 14px;
-      line-height: 1.6;
-      color: var(--text);
+      font-weight: 600;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .order-actions .btn-outline {
+      background: transparent;
+      color: var(--green-dark);
+      border: 1.5px solid rgba(22, 163, 74, 0.5);
+    }
+
+    .order-actions .btn-outline:hover {
+      background: rgba(22, 163, 74, 0.08);
+      border-color: var(--green);
     }
 
     .back-link {
@@ -87,39 +137,6 @@
 
     .back-link:hover {
       color: var(--green-dark);
-    }
-
-    .empty-reviews {
-      text-align: center;
-      padding: 48px 24px;
-      color: var(--muted);
-      background: var(--white);
-      border-radius: 16px;
-      border: 1px solid var(--border);
-    }
-
-    .empty-reviews-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
-
-    .summary-row {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .summary-rating {
-      font-size: 24px;
-      font-weight: 700;
-      color: #f59e0b;
-    }
-
-    .summary-count {
-      font-size: 14px;
-      color: var(--muted);
     }
   </style>
 </head>
@@ -169,8 +186,7 @@
       </nav>
 
       <div class="header-cta">
-        <a href="dang-nhap.html" class="btn-outline">Đăng nhập</a>
-        <a href="dang-ky.html" class="btn">Đăng ký</a>
+        <a href="tai-khoan.html" class="btn-outline">Tài khoản</a>
       </div>
     </div>
   </header>
@@ -180,20 +196,20 @@
       <div class="container">
         <nav class="breadcrumb" style="margin-bottom: 12px; font-size: 13px;">
           <a href="index.html">Trang chủ</a> /
-          <a href="danh-sach-san.html">Danh sách sân</a> /
-          <a href="#" id="breadcrumb-venue-link">Chi tiết sân</a> /
-          <span style="color: rgba(255,255,255,0.9);">Tất cả đánh giá</span>
+          <a href="tai-khoan.html">Tài khoản</a> /
+          <a href="lich-su-dat.html">Lịch sử đặt sân</a> /
+          <span style="color: rgba(255,255,255,0.9);">Chi tiết đơn</span>
         </nav>
-        <div class="page-title" id="page-title">Tất cả đánh giá</div>
-        <div class="page-subtitle" id="page-subtitle">Đang tải...</div>
+        <div class="page-title" id="page-title">Chi tiết đơn đặt sân</div>
+        <div class="page-subtitle" id="page-subtitle">Thông tin đơn đặt sân của bạn</div>
       </div>
     </div>
 
     <div class="container">
-      <a href="#" id="back-to-venue" class="back-link">← Quay lại chi tiết sân</a>
+      <a href="lich-su-dat.html" class="back-link">← Quay lại Lịch sử đặt sân</a>
 
       <div id="content-area">
-        <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải đánh giá...</div>
+        <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải...</div>
       </div>
     </div>
   </main>
@@ -257,87 +273,95 @@
   <script src="assets/js/header.js"></script>
   <script src="assets/js/backToTop.js"></script>
   <script>
-    let venueId = null;
-    let venue = null;
-
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('id')) {
-      venueId = parseInt(urlParams.get('id'));
-    }
-
     document.addEventListener('DOMContentLoaded', async function() {
-      if (!venueId) {
-        document.getElementById('content-area').innerHTML = `
-          <div class="empty-reviews">
-            <div class="empty-reviews-icon">⚠️</div>
-            <p style="font-size: 16px; margin-bottom: 8px;">Không tìm thấy sân.</p>
-            <a href="danh-sach-san.html" class="btn" style="margin-top: 16px; display: inline-block;">Xem danh sách sân</a>
-          </div>
-        `;
-        document.getElementById('page-subtitle').textContent = '';
-        return;
-      }
+      const urlParams = new URLSearchParams(window.location.search);
+      const bookingId = urlParams.get('id');
+      const content = document.getElementById('content-area');
 
-      venue = await getVenueById(venueId);
-      const reviews = await getVenueReviews(venueId);
-
-      document.getElementById('page-title').textContent = venue ? `Tất cả đánh giá - ${venue.name}` : 'Tất cả đánh giá';
-      document.getElementById('page-subtitle').textContent = venue ? `${reviews.length} đánh giá` : '';
-      document.getElementById('breadcrumb-venue-link').textContent = venue ? venue.name : 'Chi tiết sân';
-      document.getElementById('breadcrumb-venue-link').href = venue ? `chi-tiet-san.html?id=${venueId}` : 'danh-sach-san.html';
-      document.getElementById('back-to-venue').href = venue ? `chi-tiet-san.html?id=${venueId}` : 'danh-sach-san.html';
-
-      if (!venue) {
-        document.getElementById('content-area').innerHTML = `
-          <div class="empty-reviews">
-            <div class="empty-reviews-icon">⚠️</div>
-            <p style="font-size: 16px; margin-bottom: 8px;">Không tìm thấy sân.</p>
-            <a href="danh-sach-san.html" class="btn" style="margin-top: 16px; display: inline-block;">Xem danh sách sân</a>
+      if (!bookingId) {
+        content.innerHTML = `
+          <div class="order-card">
+            <p style="text-align: center; color: var(--muted); margin-bottom: 16px;">Không tìm thấy đơn đặt sân.</p>
+            <a href="lich-su-dat.html" class="btn">Xem lịch sử đặt sân</a>
           </div>
         `;
         return;
       }
 
-      if (reviews.length === 0) {
-        document.getElementById('content-area').innerHTML = `
-          <div class="empty-reviews">
-            <div class="empty-reviews-icon">💬</div>
-            <p style="font-size: 16px; margin-bottom: 8px;">Chưa có đánh giá nào cho sân này.</p>
-            <a href="chi-tiet-san.html?id=${venueId}" class="btn" style="margin-top: 16px; display: inline-block;">Quay lại chi tiết sân</a>
+      const user = await getCurrentUser();
+      const booking = await getBookingById(bookingId);
+
+      if (!booking) {
+        content.innerHTML = `
+          <div class="order-card">
+            <p style="text-align: center; color: var(--muted); margin-bottom: 16px;">Không tìm thấy đơn đặt sân.</p>
+            <a href="lich-su-dat.html" class="btn">Xem lịch sử đặt sân</a>
           </div>
         `;
         return;
       }
 
-      const avgRating = (reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1);
-      const summaryHtml = `
-        <div class="summary-row">
-          <span class="summary-rating">★ ${avgRating}</span>
-          <span class="summary-count">${reviews.length} đánh giá</span>
+      if (user && booking.userId !== user.id) {
+        content.innerHTML = `
+          <div class="order-card">
+            <p style="text-align: center; color: var(--muted); margin-bottom: 16px;">Bạn không có quyền xem đơn này.</p>
+            <a href="lich-su-dat.html" class="btn">Xem lịch sử đặt sân</a>
+          </div>
+        `;
+        return;
+      }
+
+      const date = new Date(booking.date);
+      const dateStr = date.toLocaleDateString('vi-VN');
+      const timeRange = booking.timeSlots && booking.timeSlots.length
+        ? `${booking.timeSlots[0]} - ${booking.timeSlots[booking.timeSlots.length - 1]}`
+        : '-';
+      const hours = booking.timeSlots ? booking.timeSlots.length : 0;
+      const totalStr = new Intl.NumberFormat('vi-VN').format(booking.totalPrice) + '₫';
+      const codeStr = 'SF-2025-' + String(booking.id).padStart(6, '0');
+      const now = new Date();
+      const isPast = date < now;
+      const statusText = isPast ? 'Đã hoàn thành' : 'Đã xác nhận';
+      const statusClass = isPast ? 'completed' : 'confirmed';
+
+      content.innerHTML = `
+        <div class="order-card">
+          <div class="order-id">Mã đặt sân: ${codeStr}</div>
+          <div class="order-row">
+            <span class="order-label">Sân</span>
+            <span class="order-value"><a href="chi-tiet-san.html?id=${booking.venueId}">${booking.venueName}</a></span>
+          </div>
+          <div class="order-row">
+            <span class="order-label">Sân con</span>
+            <span class="order-value">${booking.field || 'Sân 1'}</span>
+          </div>
+          <div class="order-row">
+            <span class="order-label">Ngày</span>
+            <span class="order-value">${dateStr}</span>
+          </div>
+          <div class="order-row">
+            <span class="order-label">Khung giờ</span>
+            <span class="order-value">${timeRange}</span>
+          </div>
+          <div class="order-row">
+            <span class="order-label">Số giờ</span>
+            <span class="order-value">${hours} giờ</span>
+          </div>
+          <div class="order-row">
+            <span class="order-label">Tổng thanh toán</span>
+            <span class="order-value">${totalStr}</span>
+          </div>
+          <div class="order-row">
+            <span class="order-label">Trạng thái</span>
+            <span class="order-value"><span class="order-status ${statusClass}">${statusText}</span></span>
+          </div>
+          <div class="order-actions">
+            <a href="bang-lich-trong.html?venue=${booking.venueId}" class="btn">Đặt lại sân này</a>
+            <a href="chi-tiet-san.html?id=${booking.venueId}" class="btn-outline">Xem chi tiết sân</a>
+            ${isPast ? `<a href="danh-gia-san.html?id=${booking.venueId}" class="btn-outline">Đánh giá sân</a>` : ''}
+          </div>
         </div>
       `;
-
-      const reviewsHtml = reviews.map(review => {
-        const date = new Date(review.date);
-        const dateStr = date.toLocaleDateString('vi-VN');
-        const daysAgo = Math.floor((new Date() - date) / (1000 * 60 * 60 * 24));
-        const timeAgo = daysAgo === 0 ? 'Hôm nay' : daysAgo === 1 ? 'Hôm qua' : daysAgo < 7 ? `${daysAgo} ngày trước` : dateStr;
-
-        return `
-          <div class="review-card">
-            <div class="review-header">
-              <div>
-                <div class="review-author">${review.userName}</div>
-                <div class="venue-rating">★ ${review.rating}</div>
-              </div>
-              <div class="review-date">${timeAgo}</div>
-            </div>
-            <p class="review-comment">${review.comment}</p>
-          </div>
-        `;
-      }).join('');
-
-      document.getElementById('content-area').innerHTML = summaryHtml + `<div class="reviews-list">${reviewsHtml}</div>`;
     });
 
     function scrollToTop() {

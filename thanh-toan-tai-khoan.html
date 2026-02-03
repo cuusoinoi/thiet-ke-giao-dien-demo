@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thanh toán - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .page-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .section-block {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-block h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      background: var(--bg);
+    }
+
+    .card-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .card-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .card-brand-icon {
+      width: 56px;
+      height: 36px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .card-brand-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .card-details .card-brand {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .card-details .card-number {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .card-details .card-meta {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .card-badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: var(--green-dark);
+      font-weight: 600;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .card-actions .btn-outline,
+    .card-actions .btn-danger-outline {
+      padding: 6px 12px;
+      font-size: 13px;
+      border-radius: 999px;
+    }
+
+    .btn-danger-outline {
+      background: transparent;
+      border: 1px solid var(--error);
+      color: var(--error);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .btn-danger-outline:hover {
+      background: #fef2f2;
+      border-color: #b91c1c;
+      color: #b91c1c;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(185, 28, 28, 0.25);
+    }
+
+    .add-card-btn {
+      margin-top: 16px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 16px;
+      max-width: 440px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 0;
+      line-height: 1;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+    }
+
+    .payment-type-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .payment-type-tab {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 13px;
+      text-align: left;
+      transition: border-color 0.2s, background 0.2s;
+      min-width: 0;
+    }
+
+    .payment-type-tab:has(input:checked) {
+      border-color: var(--green);
+      background: #f0fdf4;
+    }
+
+    .payment-type-tab:focus,
+    .payment-type-tab:focus-within {
+      outline: none;
+    }
+
+    .payment-type-tab input {
+      margin: 0;
+      flex-shrink: 0;
+      outline: none;
+      box-shadow: none;
+    }
+
+    .payment-type-tab input:focus,
+    .payment-type-tab input:focus-visible {
+      outline: none !important;
+      outline-width: 0;
+      box-shadow: none !important;
+    }
+
+    .payment-type-tab-icon {
+      width: 40px;
+      height: 28px;
+      flex-shrink: 0;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .payment-type-tab-icon svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .payment-type-tab-icons {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .payment-type-tab-icons .payment-type-tab-icon {
+      width: 36px;
+      height: 24px;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .txn-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .txn-table th,
+    .txn-table td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .txn-table th {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .txn-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .txn-desc {
+      font-weight: 500;
+    }
+
+    .txn-date {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .txn-amount {
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+
+    .txn-status {
+      font-size: 13px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .txn-status.completed {
+      background: #dcfce7;
+      color: var(--green-dark);
+    }
+
+    .txn-status.pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 24px;
+      color: var(--muted);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .txn-table th:nth-child(1),
+      .txn-table td:nth-child(1) { display: none; }
+      .card-item {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs>
+              <linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#16a34a" />
+                <stop offset="100%" stop-color="#15803d" />
+              </linearGradient>
+            </defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4" />
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="ban-do-san.html">Bản đồ sân</a>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-cta">
+        <a href="tai-khoan.html" class="btn-outline">Tài khoản</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" style="margin-bottom: 12px; font-size: 13px;">
+          <a href="index.html">Trang chủ</a> /
+          <a href="tai-khoan.html">Tài khoản</a> /
+          <span style="color: rgba(255,255,255,0.9);">Thanh toán</span>
+        </nav>
+        <div class="page-title">Thanh toán</div>
+        <div class="page-subtitle">Quản lý phương thức thanh toán và xem lịch sử giao dịch</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <a href="tai-khoan.html" class="back-link" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px; color: var(--green); font-weight: 600; font-size: 14px;">← Quay lại Tài khoản</a>
+
+      <div id="content-area">
+        <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải...</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Thêm phương thức thanh toán -->
+  <div id="modal-add-card" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-add-card')">
+    <div class="modal" onclick="event.stopPropagation()" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>Thêm phương thức thanh toán</h3>
+        <button type="button" class="modal-close" onclick="closeModal('modal-add-card')" aria-label="Đóng">&times;</button>
+      </div>
+      <form id="form-add-card" onsubmit="return saveNewPaymentMethod(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Loại phương thức</label>
+            <div class="payment-type-tabs">
+              <label class="payment-type-tab">
+                <input type="radio" name="add-type" value="card" checked onchange="toggleAddForm('card')" />
+                <span class="payment-type-tab-icons">
+                  <span class="payment-type-tab-icon"><svg viewBox="0 0 50 32" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="32" rx="4" fill="#1A1F71"/><text x="25" y="21" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-weight="700" font-size="11">VISA</text></svg></span>
+                  <span class="payment-type-tab-icon"><svg viewBox="0 0 32 20" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="10" r="8" fill="#EB001B"/><circle cx="21" cy="10" r="8" fill="#F79E1B"/></svg></span>
+                </span>
+                <span>Thẻ Visa/Mastercard</span>
+              </label>
+              <label class="payment-type-tab">
+                <input type="radio" name="add-type" value="ewallet" onchange="toggleAddForm('ewallet')" />
+                <span class="payment-type-tab-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#A50064"/><text x="20" y="21" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">Momo</text></svg></span>
+                <span>Ví điện tử</span>
+              </label>
+              <label class="payment-type-tab">
+                <input type="radio" name="add-type" value="bank" onchange="toggleAddForm('bank')" />
+                <span class="payment-type-tab-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#0f766e"/><path d="M8 14h4v6H8v-6zm8 0h4v6h-4v-6zm8 0h4v6h-4v-6zM6 22h28v2H6v-2zm2-12l10-6 10 6H8z" fill="#fff"/></svg></span>
+                <span>Ngân hàng</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="add-form-card">
+            <div class="form-group">
+              <label for="add-card-number">Số thẻ (16 số)</label>
+              <input type="text" id="add-card-number" placeholder="1234 5678 9012 3456" maxlength="19" />
+            </div>
+            <div class="form-group">
+              <label for="add-holder">Tên in trên thẻ</label>
+              <input type="text" id="add-holder" placeholder="NGUYEN VAN A" />
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+              <div class="form-group">
+                <label for="add-expiry">Hết hạn (MM/YY)</label>
+                <input type="text" id="add-expiry" placeholder="12/27" maxlength="5" />
+              </div>
+              <div class="form-group">
+                <label for="add-cvv">CVV (3 số)</label>
+                <input type="password" id="add-cvv" placeholder="***" maxlength="4" />
+              </div>
+            </div>
+            <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">Thông tin thẻ được mã hóa và lưu trữ theo chuẩn bảo mật PCI DSS.</p>
+          </div>
+
+          <div id="add-form-ewallet" style="display: none;">
+            <div class="form-group">
+              <label for="add-ewallet-provider">Ví điện tử</label>
+              <select id="add-ewallet-provider" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;">
+                <option value="Momo">Momo</option>
+                <option value="ZaloPay">ZaloPay</option>
+                <option value="VNPay">VNPay</option>
+                <option value="ViettelPay">ViettelPay</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="add-ewallet-phone">Số điện thoại liên kết (10 số)</label>
+              <input type="tel" id="add-ewallet-phone" placeholder="0901234567" maxlength="10" />
+            </div>
+            <p style="font-size: 12px; color: var(--muted);">Dữ liệu ví điện tử được bảo vệ theo chuẩn bảo mật thanh toán điện tử.</p>
+          </div>
+
+          <div id="add-form-bank" style="display: none;">
+            <div class="form-group">
+              <label for="add-bank-name">Ngân hàng</label>
+              <select id="add-bank-name" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;">
+                <option value="Vietcombank">Vietcombank</option>
+                <option value="Techcombank">Techcombank</option>
+                <option value="BIDV">BIDV</option>
+                <option value="Agribank">Agribank</option>
+                <option value="MB Bank">MB Bank</option>
+                <option value="VPBank">VPBank</option>
+                <option value="ACB">ACB</option>
+                <option value="TPBank">TPBank</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="add-bank-account">Số tài khoản</label>
+              <input type="text" id="add-bank-account" placeholder="Số tài khoản ngân hàng" maxlength="20" />
+            </div>
+            <div class="form-group">
+              <label for="add-bank-holder">Chủ tài khoản</label>
+              <input type="text" id="add-bank-holder" placeholder="NGUYEN VAN A" />
+            </div>
+            <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">Thông tin tài khoản được bảo vệ theo quy định Ngân hàng Nhà nước và chuẩn bảo mật PCI DSS.</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" onclick="closeModal('modal-add-card')">Hủy</button>
+          <button type="submit" class="btn">Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Cập nhật phương thức -->
+  <div id="modal-edit-card" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-edit-card')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Cập nhật phương thức</h3>
+        <button type="button" class="modal-close" onclick="closeModal('modal-edit-card')" aria-label="Đóng">&times;</button>
+      </div>
+      <form id="form-edit-card" onsubmit="return saveEditPaymentMethod(event)">
+        <div class="modal-body">
+          <input type="hidden" id="edit-card-id" />
+          <input type="hidden" id="edit-type" />
+          <div id="edit-form-card">
+            <div class="form-group">
+              <label for="edit-holder">Tên in trên thẻ</label>
+              <input type="text" id="edit-holder" placeholder="NGUYEN VAN A" />
+            </div>
+            <div class="form-group">
+              <label for="edit-expiry">Hết hạn (MM/YY)</label>
+              <input type="text" id="edit-expiry" placeholder="12/27" maxlength="5" />
+            </div>
+          </div>
+          <div id="edit-form-ewallet" style="display: none;">
+            <div class="form-group">
+              <label for="edit-ewallet-last4">Mã hiển thị (số cuối SĐT liên kết)</label>
+              <input type="text" id="edit-ewallet-last4" placeholder="1234" maxlength="4" />
+            </div>
+          </div>
+          <div id="edit-form-bank" style="display: none;">
+            <div class="form-group">
+              <label for="edit-bank-holder">Chủ tài khoản</label>
+              <input type="text" id="edit-bank-holder" placeholder="NGUYEN VAN A" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-outline" onclick="closeModal('modal-edit-card')">Hủy</button>
+          <button type="submit" class="btn">Cập nhật</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Xác nhận xóa -->
+  <div id="modal-delete-card" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-delete-card')">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Xóa phương thức thanh toán</h3>
+        <button type="button" class="modal-close" onclick="closeModal('modal-delete-card')" aria-label="Đóng">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="delete-card-message">Bạn có chắc muốn xóa thẻ này?</p>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" id="delete-card-id" />
+        <button type="button" class="btn-outline" onclick="closeModal('modal-delete-card')">Hủy</button>
+        <button type="button" class="btn" style="background: var(--error);" onclick="confirmDeleteCard()">Xóa</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+              <defs>
+                <linearGradient id="sf-pin-footer" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#16a34a" />
+                  <stop offset="100%" stop-color="#15803d" />
+                </linearGradient>
+              </defs>
+              <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin-footer)" stroke-width="4" />
+              <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round" />
+              <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">
+            Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
+          </p>
+        </div>
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
+            <a href="ho-tro.html">Hướng dẫn đặt sân</a>
+            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Email: support@sportfield.vn</span>
+            <span>Hotline: 0900 000 000</span>
+            <span>Giờ làm việc: 8:00 – 22:00</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2025 SportField. All rights reserved.</span>
+        <span>Made with ❤️ for sport lovers.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
+  <script>
+    function getPaymentIcon(method) {
+      const type = method.type || 'card';
+      if (type === 'card') {
+        const isMaster = (method.brand || '').toLowerCase().includes('master');
+        if (isMaster) {
+          return '<div class="card-brand-icon" aria-hidden="true"><svg viewBox="0 0 32 20" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="10" r="8" fill="#EB001B"/><circle cx="21" cy="10" r="8" fill="#F79E1B"/></svg></div>';
+        }
+        return '<div class="card-brand-icon" aria-hidden="true"><svg viewBox="0 0 50 32" xmlns="http://www.w3.org/2000/svg"><rect width="50" height="32" rx="4" fill="#1A1F71"/><text x="25" y="21" text-anchor="middle" fill="#fff" font-family="Arial,sans-serif" font-weight="700" font-size="11">VISA</text></svg></div>';
+      }
+      if (type === 'ewallet') {
+        const p = (method.provider || '').toLowerCase();
+        const colors = { momo: '#A50064', zalopay: '#0068FF', vnpay: '#0066CC', viettelpay: '#E31837' };
+        const color = colors.momo;
+        if (p.includes('zalo')) return '<div class="card-brand-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#0068FF"/><text x="20" y="21" text-anchor="middle" fill="#fff" font-weight="700" font-size="10">ZaloPay</text></svg></div>';
+        if (p.includes('vnpay')) return '<div class="card-brand-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#0066CC"/><text x="20" y="21" text-anchor="middle" fill="#fff" font-weight="700" font-size="9">VNPay</text></svg></div>';
+        if (p.includes('viettel')) return '<div class="card-brand-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#E31837"/><text x="20" y="20" text-anchor="middle" fill="#fff" font-weight="700" font-size="8">ViettelPay</text></svg></div>';
+        return '<div class="card-brand-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#A50064"/><text x="20" y="21" text-anchor="middle" fill="#fff" font-weight="700" font-size="11">Momo</text></svg></div>';
+      }
+      if (type === 'bank') {
+        return '<div class="card-brand-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#0f766e"/><path d="M8 14h4v6H8v-6zm8 0h4v6h-4v-6zm8 0h4v6h-4v-6zM6 22h28v2H6v-2zm2-12l10-6 10 6H8z" fill="#fff"/></svg></div>';
+      }
+      return '<div class="card-brand-icon"><svg viewBox="0 0 40 32" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="32" rx="6" fill="#6b7280"/></svg></div>';
+    }
+
+    function getPaymentMethodLabel(method) {
+      const type = method.type || 'card';
+      if (type === 'card') return (method.brand || 'Thẻ') + ' •••• ' + (method.last4 || '');
+      if (type === 'ewallet') return (method.provider || 'Ví') + ' ***' + (method.last4 || '');
+      if (type === 'bank') return (method.bankName || 'Ngân hàng') + ' ***' + (method.last4 || '');
+      return '•••• ' + (method.last4 || '');
+    }
+
+    function toggleAddForm(type) {
+      ['card', 'ewallet', 'bank'].forEach(t => {
+        var el = document.getElementById('add-form-' + t);
+        if (el) el.style.display = t === type ? 'block' : 'none';
+      });
+      var form = document.getElementById('form-add-card');
+      if (form) form.querySelectorAll('input[required]').forEach(i => i.removeAttribute('required'));
+      if (type === 'card') {
+        var n = document.getElementById('add-card-number'); if (n) n.setAttribute('required', '');
+        var h = document.getElementById('add-holder'); if (h) h.setAttribute('required', '');
+        var e = document.getElementById('add-expiry'); if (e) e.setAttribute('required', '');
+        var c = document.getElementById('add-cvv'); if (c) c.setAttribute('required', '');
+      }
+      if (type === 'ewallet') { var ph = document.getElementById('add-ewallet-phone'); if (ph) ph.setAttribute('required', ''); }
+      if (type === 'bank') {
+        var acc = document.getElementById('add-bank-account'); if (acc) acc.setAttribute('required', '');
+        var bh = document.getElementById('add-bank-holder'); if (bh) bh.setAttribute('required', '');
+      }
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function detectBrandFromNumber(num) {
+      const n = (num || '').replace(/\s/g, '');
+      if (n.charAt(0) === '4') return 'Visa';
+      if (n.charAt(0) === '5' && /^[1-5]/.test(n.substring(0, 2))) return 'Mastercard';
+      return 'Visa';
+    }
+
+    function saveNewPaymentMethod(e) {
+      e.preventDefault();
+      function afterAdd() {
+        closeModal('modal-add-card');
+        document.getElementById('form-add-card').reset();
+        toggleAddForm('card');
+        loadContent();
+      }
+      const typeEl = document.querySelector('input[name="add-type"]:checked');
+      const type = typeEl ? typeEl.value : 'card';
+
+      if (type === 'card') {
+        const num = (document.getElementById('add-card-number').value || '').replace(/\s/g, '');
+        if (num.length < 13) { alert('Số thẻ không hợp lệ.'); return false; }
+        const last4 = num.slice(-4);
+        const brand = detectBrandFromNumber(num);
+        const holderName = (document.getElementById('add-holder').value || '').trim().toUpperCase();
+        const expiry = (document.getElementById('add-expiry').value || '').trim();
+        addPaymentMethod({ type: 'card', brand, last4, holderName, expiry }).then(afterAdd).catch(err => alert(err.message || 'Có lỗi xảy ra.'));
+      } else if (type === 'ewallet') {
+        const phone = (document.getElementById('add-ewallet-phone').value || '').replace(/\D/g, '');
+        if (phone.length < 10) { alert('Số điện thoại không hợp lệ.'); return false; }
+        const last4 = phone.slice(-4);
+        const provider = document.getElementById('add-ewallet-provider').value || 'Momo';
+        addPaymentMethod({ type: 'ewallet', provider, last4 }).then(afterAdd).catch(err => alert(err.message || 'Có lỗi xảy ra.'));
+      } else if (type === 'bank') {
+        const acc = (document.getElementById('add-bank-account').value || '').replace(/\D/g, '');
+        if (acc.length < 4) { alert('Số tài khoản không hợp lệ.'); return false; }
+        const last4 = acc.slice(-4);
+        const bankName = document.getElementById('add-bank-name').value || '';
+        const accountHolder = (document.getElementById('add-bank-holder').value || '').trim().toUpperCase();
+        addPaymentMethod({ type: 'bank', bankName, last4, accountHolder }).then(afterAdd).catch(err => alert(err.message || 'Có lỗi xảy ra.'));
+      }
+      return false;
+    }
+
+    function saveEditPaymentMethod(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-card-id').value;
+      const editType = document.getElementById('edit-type').value;
+
+      let data = {};
+      if (editType === 'card') {
+        data.holderName = (document.getElementById('edit-holder').value || '').trim().toUpperCase();
+        data.expiry = (document.getElementById('edit-expiry').value || '').trim();
+      } else if (editType === 'ewallet') {
+        data.last4 = (document.getElementById('edit-ewallet-last4').value || '').replace(/\D/g, '').slice(-4);
+      } else if (editType === 'bank') {
+        data.accountHolder = (document.getElementById('edit-bank-holder').value || '').trim().toUpperCase();
+      }
+      updatePaymentMethod(id, data)
+        .then(() => { closeModal('modal-edit-card'); loadContent(); })
+        .catch(err => alert(err.message || 'Có lỗi xảy ra.'));
+      return false;
+    }
+
+    function openEditCardFromBtn(btn) {
+      var d = btn.dataset;
+      openEditCard(d.editId, d.editType || 'card', d.editHolder || '', d.editExpiry || '', d.editLast4 || '', d.editAccount || '');
+    }
+
+    function openEditCard(id, editType, holderName, expiry, last4, accountHolder) {
+      document.getElementById('edit-card-id').value = id;
+      document.getElementById('edit-type').value = editType || 'card';
+      ['card', 'ewallet', 'bank'].forEach(t => {
+        var el = document.getElementById('edit-form-' + t);
+        if (el) el.style.display = t === (editType || 'card') ? 'block' : 'none';
+      });
+      if (editType === 'card') {
+        document.getElementById('edit-holder').value = holderName || '';
+        document.getElementById('edit-expiry').value = expiry || '';
+      } else if (editType === 'ewallet') {
+        document.getElementById('edit-ewallet-last4').value = last4 || '';
+      } else if (editType === 'bank') {
+        document.getElementById('edit-bank-holder').value = accountHolder || '';
+      }
+      openModal('modal-edit-card');
+    }
+
+    function openDeleteCard(id, last4) {
+      document.getElementById('delete-card-id').value = id;
+      document.getElementById('delete-card-message').textContent = 'Bạn có chắc muốn xóa phương thức thanh toán •••• ' + last4 + '?';
+      openModal('modal-delete-card');
+    }
+
+    function confirmDeleteCard() {
+      const id = document.getElementById('delete-card-id').value;
+      deletePaymentMethod(id)
+        .then(() => {
+          closeModal('modal-delete-card');
+          loadContent();
+        })
+        .catch(err => alert(err.message || 'Có lỗi xảy ra.'));
+    }
+
+    function setDefaultCard(id) {
+      updatePaymentMethod(id, { isDefault: true })
+        .then(() => loadContent())
+        .catch(err => alert(err.message || 'Có lỗi xảy ra.'));
+    }
+
+    function loadContent() {
+      if (typeof getCurrentUser === 'function' && typeof renderContent === 'function') {
+        getCurrentUser().then(u => { if (u) renderContent(u); });
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      const user = await getCurrentUser();
+      const content = document.getElementById('content-area');
+
+      if (!user) {
+        content.innerHTML = `
+          <div class="section-block">
+            <div class="empty-state">
+              <div class="empty-state-icon">🔒</div>
+              <p style="font-size: 16px; margin-bottom: 16px;">Vui lòng đăng nhập để xem phương thức thanh toán và lịch sử giao dịch</p>
+              <a href="dang-nhap.html" class="btn">Đăng nhập</a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      window.renderContent = async function(u) {
+        const user = u || await getCurrentUser();
+        if (!user) return;
+        const [methods, bookings] = await Promise.all([
+          getPaymentMethods(user.id),
+          getUserBookings(user.id)
+        ]);
+
+        let methodsHtml = '';
+        if (methods.length === 0) {
+          methodsHtml = `
+            <div class="empty-state">
+              <div class="empty-state-icon">💳</div>
+              <p style="margin-bottom: 16px;">Chưa có phương thức thanh toán nào.</p>
+              <p style="font-size: 14px; margin-bottom: 16px;">Thêm thẻ, ví điện tử hoặc tài khoản ngân hàng để thanh toán nhanh.</p>
+              <button type="button" class="btn" onclick="openModal('modal-add-card')">+ Thêm phương thức thanh toán</button>
+            </div>
+          `;
+        } else {
+          methodsHtml = methods.map(pm => {
+            const icon = getPaymentIcon(pm);
+            const label = getPaymentMethodLabel(pm);
+            const type = pm.type || 'card';
+            let meta = '';
+            if (type === 'card') meta = [pm.holderName, pm.expiry].filter(Boolean).join(' · ') || '';
+            else if (type === 'bank' && pm.accountHolder) meta = pm.accountHolder;
+            return `
+              <div class="card-item" data-card-id="${pm.id}">
+                <div class="card-info">
+                  ${icon}
+                  <div class="card-details">
+                    <div class="card-brand">${label}</div>
+                    ${meta ? `<div class="card-meta">${meta}</div>` : ''}
+                  </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                  ${pm.isDefault ? '<span class="card-badge">Mặc định</span>' : ''}
+                  <div class="card-actions">
+                    ${!pm.isDefault ? '<button type="button" class="btn-outline" onclick="setDefaultCard(' + pm.id + ')">Đặt mặc định</button>' : ''}
+                    <button type="button" class="btn-outline" onclick="openEditCardFromBtn(this)" data-edit-id="${pm.id}" data-edit-type="${type}" data-edit-holder="${(pm.holderName || '').replace(/"/g, '&quot;')}" data-edit-expiry="${pm.expiry || ''}" data-edit-last4="${pm.last4 || ''}" data-edit-account="${(pm.accountHolder || '').replace(/"/g, '&quot;')}">Cập nhật</button>
+                    <button type="button" class="btn-danger-outline" onclick="openDeleteCard(' + pm.id + ',\'' + (pm.last4 || '') + '\')">Xóa</button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('') + `
+          <button type="button" class="btn-outline add-card-btn" onclick="openModal('modal-add-card')">+ Thêm phương thức thanh toán</button>
+        `;
+        }
+
+        let historyHtml = '';
+        if (bookings.length === 0) {
+          historyHtml = `
+            <div class="empty-state">
+              <div class="empty-state-icon">📋</div>
+              <p>Chưa có giao dịch nào.</p>
+              <a href="danh-sach-san.html" class="btn" style="margin-top: 16px; display: inline-block;">Đặt sân ngay</a>
+            </div>
+          `;
+        } else {
+          const rows = bookings.map(b => {
+            const date = new Date(b.date);
+            const dateStr = date.toLocaleDateString('vi-VN');
+            const timeRange = b.timeSlots && b.timeSlots.length ? `${b.timeSlots[0]} - ${b.timeSlots[b.timeSlots.length - 1]}` : '';
+            const amount = new Intl.NumberFormat('vi-VN').format(b.totalPrice) + '₫';
+            const status = (b.status === 'completed' || b.status === 'confirmed') ? 'Hoàn thành' : 'Đã xác nhận';
+            const statusClass = b.status === 'completed' ? 'completed' : 'pending';
+            const bookingId = `SF-2025-${String(b.id).padStart(6, '0')}`;
+            return `
+              <tr>
+                <td class="txn-date">${dateStr}</td>
+                <td>
+                  <div class="txn-desc">${b.venueName}</div>
+                  <div class="txn-date">${bookingId} · ${dateStr} ${timeRange}</div>
+                </td>
+                <td class="txn-amount">${amount}</td>
+                <td><span class="txn-status ${statusClass}">${status}</span></td>
+              </tr>
+            `;
+          }).join('');
+          historyHtml = `
+            <table class="txn-table">
+              <thead>
+                <tr>
+                  <th>Ngày</th>
+                  <th>Mô tả</th>
+                  <th>Số tiền</th>
+                  <th>Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          `;
+        }
+
+        document.getElementById('content-area').innerHTML = `
+          <div class="section-block">
+            <h2>💳 Phương thức thanh toán</h2>
+            ${methodsHtml}
+          </div>
+          <div class="section-block">
+            <h2>📋 Lịch sử giao dịch</h2>
+            ${historyHtml}
+          </div>
+        `;
+      };
+
+      renderContent(user);
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var addNum = document.getElementById('add-card-number');
+      var addExp = document.getElementById('add-expiry');
+      if (addNum) addNum.addEventListener('input', function() {
+        var v = this.value.replace(/\D/g, '');
+        if (v.length > 16) v = v.slice(0, 16);
+        this.value = v.replace(/(.{4})/g, '$1 ').trim();
+      });
+      if (addExp) addExp.addEventListener('input', function() {
+        var v = this.value.replace(/\D/g, '');
+        if (v.length >= 2) this.value = v.slice(0, 2) + '/' + v.slice(2, 4);
+        else this.value = v;
+      });
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
     .auth-container {
-      max-width: 480px;
+      max-width: 560px;
       margin: 48px auto;
       padding: 0 16px;
     }
@@ -88,7 +88,7 @@
       <div class="auth-card">
         <h1 class="auth-title">Xác thực OTP</h1>
         <p class="auth-subtitle">Chúng tôi đã gửi mã xác thực đến số điện thoại của bạn</p>
-        <p style="font-size: 14px; color: var(--muted); margin-top: 8px;">0912345678</p>
+        <p style="font-size: 14px; color: var(--muted); margin-top: 8px;" id="otp-phone">0912345678</p>
 
         <div class="otp-inputs">
           <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" />
@@ -118,6 +118,13 @@
 
   <script src="assets/js/alert.js"></script>
   <script>
+    // Hiển thị SĐT người dùng vừa nhập (từ quên mật khẩu / đăng nhập OTP)
+    (function () {
+      var phone = sessionStorage.getItem('otpPhone');
+      var el = document.getElementById('otp-phone');
+      if (el && phone) el.textContent = phone;
+    })();
+
     // Auto-focus next input
     document.querySelectorAll('.otp-input').forEach((input, index) => {
       input.addEventListener('input', (e) => {

@@ -2,56 +2,196 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Thông báo - SportField</title>
+  <title>Video hướng dẫn - SportField</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
-    .notification-item {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid var(--border);
-      margin-bottom: 12px;
-      display: flex;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .notification-item:hover {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .notification-item.unread {
-      background: #f0fdf4;
-      border-color: #86efac;
-    }
-
-    .notification-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--green);
+    .page-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
       color: white;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .video-section {
+      width: 100%;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .video-grid-single {
+      display: inline-block;
+      text-align: left;
+      max-width: 1200px;
+      width: 95%;
+      min-width: 280px;
+      margin: 0 auto;
+    }
+
+    .video-card {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .video-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      transform: translateY(-2px);
+    }
+
+    .video-thumb {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      background: #111;
+    }
+
+    .video-thumb a {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .video-thumb img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-thumb .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(22, 163, 74, 0.95);
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      font-size: 20px;
+      color: white;
+      font-size: 32px;
+      pointer-events: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      transition: transform 0.2s, background 0.2s;
     }
 
-    .notification-content {
-      flex: 1;
+    .video-thumb:hover .play-overlay {
+      transform: translate(-50%, -50%) scale(1.08);
+      background: var(--green);
     }
 
-    .notification-title {
-      font-weight: 600;
-      margin-bottom: 4px;
+    .video-thumb iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
-    .notification-time {
-      font-size: 12px;
+    .video-thumb-placeholder {
+      color: rgba(255,255,255,0.9);
+      text-align: center;
+      padding: 20px;
+    }
+
+    .video-thumb-placeholder .play-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .video-card-body {
+      padding: 20px;
+    }
+
+    .video-card-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .video-card-desc {
+      font-size: 14px;
       color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      color: var(--green-dark);
+    }
+
+    .video-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .video-tabs a {
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .video-tabs a:hover,
+    .video-tabs a.active {
+      background: #dcfce7;
+      border-color: var(--green);
+      color: var(--green-dark);
     }
   </style>
 </head>
@@ -107,45 +247,36 @@
   </header>
 
   <main>
-    <div class="container" style="padding-top: 24px;">
-      <h1 class="section-title" style="margin-bottom: 24px;">Thông báo</h1>
-
-      <div class="notification-item unread">
-        <div class="notification-icon">✓</div>
-        <div class="notification-content">
-          <div class="notification-title">Đặt sân thành công!</div>
-          <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px;">
-            Đặt sân của bạn tại Sân cỏ nhân tạo Riverside đã được xác nhận.
-          </p>
-          <div class="notification-time">5 phút trước</div>
-        </div>
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" style="margin-bottom: 12px; font-size: 13px;">
+          <a href="index.html">Trang chủ</a> /
+          <a href="ho-tro.html">Hỗ trợ</a> /
+          <span style="color: rgba(255,255,255,0.9);">Video hướng dẫn</span>
+        </nav>
+        <div class="page-title">Video hướng dẫn</div>
+        <div class="page-subtitle">Xem hướng dẫn đặt sân, thanh toán và sử dụng SportField</div>
       </div>
+    </div>
 
-      <div class="notification-item">
-        <div class="notification-icon">🎁</div>
-        <div class="notification-content">
-          <div class="notification-title">Ưu đãi mới dành cho bạn</div>
-          <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px;">
-            Giảm 30% cho lần đặt sân tiếp theo. Áp dụng đến hết tháng này.
-          </p>
-          <div class="notification-time">2 giờ trước</div>
-        </div>
-      </div>
+    <div class="container">
+      <a href="ho-tro.html" class="back-link">← Quay lại Hỗ trợ</a>
 
-      <div class="notification-item">
-        <div class="notification-icon">⭐</div>
-        <div class="notification-content">
-          <div class="notification-title">Đánh giá sân của bạn</div>
-          <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px;">
-            Bạn có muốn đánh giá sân Nhà thi đấu Ngôi Sao Xanh không?
-          </p>
-          <div class="notification-time">1 ngày trước</div>
+      <div class="video-section">
+        <div class="video-grid video-grid-single">
+          <article class="video-card">
+            <div class="video-thumb">
+              <a href="https://www.youtube.com/watch?v=ytjD4f_I0sc" target="_blank" rel="noopener noreferrer" title="Xem video trên YouTube">
+                <img src="https://img.youtube.com/vi/ytjD4f_I0sc/maxresdefault.jpg" alt="Video hướng dẫn" onerror="this.src='https://img.youtube.com/vi/ytjD4f_I0sc/hqdefault.jpg'" />
+                <span class="play-overlay" aria-hidden="true">▶</span>
+              </a>
+            </div>
+          </article>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Back to Top Button -->
   <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M18 15l-6-6-6 6"/>
@@ -175,17 +306,15 @@
             Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
           </p>
         </div>
-
         <div>
           <div class="footer-title">Quy định & hỗ trợ</div>
           <div class="footer-links">
             <a href="dieu-khoan.html">Điều khoản sử dụng</a>
             <a href="dieu-khoan.html#privacy">Chính sách bảo mật</a>
             <a href="ho-tro.html">Hướng dẫn đặt sân</a>
-            <a href="ho-tro.html">Hỗ trợ khách hàng</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
           </div>
         </div>
-
         <div>
           <div class="footer-title">Liên hệ</div>
           <div class="footer-links">
@@ -195,16 +324,19 @@
           </div>
         </div>
       </div>
-
       <div class="footer-bottom">
         <span>© 2025 SportField. All rights reserved.</span>
         <span>Made with ❤️ for sport lovers.</span>
       </div>
     </div>
   </footer>
-  <script src="assets/js/api.js"></script>
+
   <script src="assets/js/header.js"></script>
   <script src="assets/js/backToTop.js"></script>
+  <script>
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
-

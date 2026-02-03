@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
     .auth-container {
-      max-width: 480px;
+      max-width: 560px;
       margin: 48px auto;
       padding: 0 16px;
     }
@@ -95,6 +95,8 @@
   <script>
     function handleForgotPassword(e) {
       e.preventDefault();
+      const phone = e.target.querySelector('input[type="tel"]').value.trim();
+      if (phone) sessionStorage.setItem('otpPhone', phone);
       alert('Đã gửi mã OTP đến số điện thoại của bạn');
       window.location.href = 'xac-thuc.html?type=reset';
     }

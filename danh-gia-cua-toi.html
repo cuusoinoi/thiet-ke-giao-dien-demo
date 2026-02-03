@@ -2,56 +2,114 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Thông báo - SportField</title>
+  <title>Đánh giá của tôi - SportField</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
-    .notification-item {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 16px;
-      border: 1px solid var(--border);
-      margin-bottom: 12px;
-      display: flex;
-      gap: 12px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .notification-item:hover {
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .notification-item.unread {
-      background: #f0fdf4;
-      border-color: #86efac;
-    }
-
-    .notification-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--green);
+    .page-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
       color: white;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .reviews-list {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .review-card {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+
+    .review-card:last-child {
+      border-bottom: none;
+    }
+
+    .review-header {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      font-size: 20px;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
-    .notification-content {
-      flex: 1;
-    }
-
-    .notification-title {
+    .review-venue {
       font-weight: 600;
-      margin-bottom: 4px;
+      font-size: 15px;
     }
 
-    .notification-time {
-      font-size: 12px;
+    .review-venue a {
+      color: var(--green-dark);
+      text-decoration: none;
+    }
+
+    .review-venue a:hover {
+      text-decoration: underline;
+    }
+
+    .venue-rating {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 600;
+      color: #f59e0b;
+      font-size: 14px;
+    }
+
+    .review-date {
+      font-size: 13px;
       color: var(--muted);
+    }
+
+    .review-comment {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+      color: var(--green);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .back-link:hover {
+      color: var(--green-dark);
+    }
+
+    .empty-reviews {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .empty-reviews-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
     }
   </style>
 </head>
@@ -107,45 +165,27 @@
   </header>
 
   <main>
-    <div class="container" style="padding-top: 24px;">
-      <h1 class="section-title" style="margin-bottom: 24px;">Thông báo</h1>
-
-      <div class="notification-item unread">
-        <div class="notification-icon">✓</div>
-        <div class="notification-content">
-          <div class="notification-title">Đặt sân thành công!</div>
-          <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px;">
-            Đặt sân của bạn tại Sân cỏ nhân tạo Riverside đã được xác nhận.
-          </p>
-          <div class="notification-time">5 phút trước</div>
-        </div>
-      </div>
-
-      <div class="notification-item">
-        <div class="notification-icon">🎁</div>
-        <div class="notification-content">
-          <div class="notification-title">Ưu đãi mới dành cho bạn</div>
-          <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px;">
-            Giảm 30% cho lần đặt sân tiếp theo. Áp dụng đến hết tháng này.
-          </p>
-          <div class="notification-time">2 giờ trước</div>
-        </div>
-      </div>
-
-      <div class="notification-item">
-        <div class="notification-icon">⭐</div>
-        <div class="notification-content">
-          <div class="notification-title">Đánh giá sân của bạn</div>
-          <p style="font-size: 13px; color: var(--muted); margin-bottom: 4px;">
-            Bạn có muốn đánh giá sân Nhà thi đấu Ngôi Sao Xanh không?
-          </p>
-          <div class="notification-time">1 ngày trước</div>
-        </div>
-      </div>
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" style="margin-bottom: 12px; font-size: 13px;">
+        <a href="index.html">Trang chủ</a> /
+        <a href="tai-khoan.html">Tài khoản</a> /
+        <span style="color: rgba(255,255,255,0.9);">Đánh giá của tôi</span>
+      </nav>
+      <div class="page-title">Đánh giá của tôi</div>
+      <div class="page-subtitle" id="page-subtitle">Các đánh giá bạn đã viết</div>
     </div>
+  </div>
+
+  <div class="container">
+    <a href="tai-khoan.html" class="back-link">← Quay lại Tài khoản</a>
+
+    <div id="content-area">
+      <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải...</div>
+    </div>
+  </div>
   </main>
 
-  <!-- Back to Top Button -->
   <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M18 15l-6-6-6 6"/>
@@ -175,7 +215,6 @@
             Nền tảng đặt sân thể thao đa môn, giúp bạn kết nối dễ dàng với hàng trăm sân tập trên toàn quốc.
           </p>
         </div>
-
         <div>
           <div class="footer-title">Quy định & hỗ trợ</div>
           <div class="footer-links">
@@ -185,7 +224,6 @@
             <a href="ho-tro.html">Hỗ trợ khách hàng</a>
           </div>
         </div>
-
         <div>
           <div class="footer-title">Liên hệ</div>
           <div class="footer-links">
@@ -195,16 +233,85 @@
           </div>
         </div>
       </div>
-
       <div class="footer-bottom">
         <span>© 2025 SportField. All rights reserved.</span>
         <span>Made with ❤️ for sport lovers.</span>
       </div>
     </div>
   </footer>
+
+  <script src="assets/js/mockData.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
   <script src="assets/js/backToTop.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const user = await getCurrentUser();
+      const content = document.getElementById('content-area');
+      const subtitle = document.getElementById('page-subtitle');
+
+      if (!user) {
+        content.innerHTML = `
+          <div class="empty-reviews">
+            <div class="empty-reviews-icon">🔒</div>
+            <p style="font-size: 16px; margin-bottom: 8px;">Vui lòng đăng nhập để xem đánh giá của bạn.</p>
+            <a href="dang-nhap.html" class="btn" style="margin-top: 16px; display: inline-block;">Đăng nhập</a>
+          </div>
+        `;
+        subtitle.textContent = '';
+        return;
+      }
+
+      const reviews = await getUserReviews(user.id);
+
+      if (reviews.length === 0) {
+        subtitle.textContent = 'Chưa có đánh giá nào';
+        content.innerHTML = `
+          <div class="empty-reviews">
+            <div class="empty-reviews-icon">⭐</div>
+            <p style="font-size: 16px; margin-bottom: 8px;">Bạn chưa viết đánh giá nào.</p>
+            <p style="font-size: 14px; margin-bottom: 16px;">Đặt sân và trải nghiệm để viết đánh giá giúp người chơi khác.</p>
+            <a href="danh-sach-san.html" class="btn" style="margin-top: 8px; display: inline-block;">Xem danh sách sân</a>
+          </div>
+        `;
+        return;
+      }
+
+      subtitle.textContent = `${reviews.length} đánh giá`;
+
+      const venueIds = [...new Set(reviews.map(r => r.venueId))];
+      const venueMap = {};
+      await Promise.all(venueIds.map(async id => {
+        const v = await getVenueById(id);
+        if (v) venueMap[id] = v.name;
+      }));
+
+      const reviewsHtml = reviews.map(review => {
+        const date = new Date(review.date);
+        const dateStr = date.toLocaleDateString('vi-VN');
+        const venueName = venueMap[review.venueId] || 'Sân';
+        const venueUrl = `chi-tiet-san.html?id=${review.venueId}`;
+
+        return `
+          <div class="review-card">
+            <div class="review-header">
+              <div>
+                <div class="review-venue"><a href="${venueUrl}">${venueName}</a></div>
+                <div class="venue-rating">★ ${review.rating}</div>
+              </div>
+              <div class="review-date">${dateStr}</div>
+            </div>
+            <p class="review-comment">${review.comment}</p>
+          </div>
+        `;
+      }).join('');
+
+      content.innerHTML = `<div class="reviews-list">${reviewsHtml}</div>`;
+    });
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
-

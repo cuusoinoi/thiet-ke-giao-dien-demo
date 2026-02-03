@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="assets/css/styles.css" />
   <style>
     .success-container {
-      max-width: 600px;
+      max-width: 640px;
       margin: 48px auto;
       padding: 0 16px;
       text-align: center;
@@ -74,23 +74,18 @@
     <div class="success-container">
       <div class="success-icon">✓</div>
       
-      <div class="success-card">
+      <div class="success-card" id="success-card">
         <h1 style="font-size: 28px; margin-bottom: 12px; color: var(--green-dark);">Đặt sân thành công!</h1>
         <p style="color: var(--muted); margin-bottom: 24px;">Chúng tôi đã gửi xác nhận đến email và số điện thoại của bạn</p>
         
-        <div class="booking-id">Mã đặt sân: SF-2025-001234</div>
+        <div class="booking-id" id="booking-id">Mã đặt sân: -</div>
 
-        <div class="booking-details" style="text-align: left; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
-          <div style="margin-bottom: 12px;"><strong>Sân cỏ nhân tạo Riverside</strong></div>
-          <div style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">📅 Ngày 15/01/2025</div>
-          <div style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">⏰ 18:00 - 21:00</div>
-          <div style="font-size: 14px; color: var(--muted);">💰 1.050.000₫</div>
+        <div class="booking-details" id="booking-details" style="text-align: left; margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+          <div style="text-align: center; color: var(--muted);">Đang tải...</div>
         </div>
 
         <div style="margin-top: 32px; display: flex; gap: 12px; flex-direction: column;">
-          <button class="btn btn-large btn-block" onclick="window.location.href='tai-khoan.html'">
-            Xem chi tiết đặt sân
-          </button>
+          <a href="#" id="btn-detail" class="btn btn-large btn-block" style="text-align: center; text-decoration: none;">Xem chi tiết đơn đặt sân</a>
           <button class="btn-outline btn-block" onclick="window.location.href='danh-sach-san.html'">
             Đặt sân tiếp
           </button>
@@ -160,9 +155,52 @@
       </div>
     </div>
   </footer>
+  <script src="assets/js/mockData.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
   <script src="assets/js/backToTop.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const lastId = sessionStorage.getItem('lastBookingId');
+      const detailsEl = document.getElementById('booking-details');
+      const idEl = document.getElementById('booking-id');
+      const btnDetail = document.getElementById('btn-detail');
+
+      if (!lastId) {
+        idEl.textContent = 'Mã đặt sân: -';
+        detailsEl.innerHTML = '<div style="font-size: 14px; color: var(--muted);">Không có thông tin đơn. <a href="lich-su-dat.html">Xem lịch sử đặt sân</a></div>';
+        btnDetail.href = 'lich-su-dat.html';
+        btnDetail.textContent = 'Xem lịch sử đặt sân';
+        return;
+      }
+
+      const booking = await getBookingById(lastId);
+      if (!booking) {
+        idEl.textContent = 'Mã đặt sân: -';
+        detailsEl.innerHTML = '<div style="font-size: 14px; color: var(--muted);">Không tìm thấy đơn. <a href="lich-su-dat.html">Xem lịch sử đặt sân</a></div>';
+        btnDetail.href = 'lich-su-dat.html';
+        btnDetail.textContent = 'Xem lịch sử đặt sân';
+        return;
+      }
+
+      const date = new Date(booking.date);
+      const dateStr = date.toLocaleDateString('vi-VN');
+      const timeRange = booking.timeSlots && booking.timeSlots.length
+        ? booking.timeSlots[0] + ' - ' + booking.timeSlots[booking.timeSlots.length - 1]
+        : '-';
+      const totalStr = new Intl.NumberFormat('vi-VN').format(booking.totalPrice) + '₫';
+      const codeStr = 'SF-2025-' + String(booking.id).padStart(6, '0');
+
+      idEl.textContent = 'Mã đặt sân: ' + codeStr;
+      detailsEl.innerHTML = `
+        <div style="margin-bottom: 12px;"><strong>${booking.venueName}</strong></div>
+        <div style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">📅 Ngày ${dateStr}</div>
+        <div style="font-size: 14px; color: var(--muted); margin-bottom: 8px;">⏰ ${timeRange}</div>
+        <div style="font-size: 14px; color: var(--muted);">💰 ${totalStr}</div>
+      `;
+      btnDetail.href = 'chi-tiet-don.html?id=' + booking.id;
+    });
+  </script>
 </body>
 </html>
 

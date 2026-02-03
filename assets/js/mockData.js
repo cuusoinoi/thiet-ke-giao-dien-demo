@@ -180,6 +180,13 @@ const MOCK_DATA = {
       read: false,
       date: "2025-01-19T09:00:00Z"
     }
+  ],
+
+  // Tin nhắn chat với chủ sân (userId, venueId, sender: 'user'|'venue', text, createdAt)
+  chatMessages: [
+    { id: 1, userId: 1, venueId: 1, sender: 'venue', text: 'Chào bạn, sân còn trống các khung 18h-19h ngày mai. Bạn có muốn đặt không?', createdAt: '2025-01-14T10:00:00Z' },
+    { id: 2, userId: 1, venueId: 1, sender: 'user', text: 'Dạ mình muốn đặt 18h-20h ạ.', createdAt: '2025-01-14T10:05:00Z' },
+    { id: 3, userId: 1, venueId: 1, sender: 'venue', text: 'Đã giữ chỗ. Bạn thanh toán trên app hoặc tại sân nhé.', createdAt: '2025-01-14T10:08:00Z' }
   ]
 };
 
@@ -205,6 +212,9 @@ function initMockData() {
   }
   if (!localStorage.getItem('sportfield_paymentMethods')) {
     localStorage.setItem('sportfield_paymentMethods', JSON.stringify(MOCK_DATA.paymentMethods));
+  }
+  if (!localStorage.getItem('sportfield_chatMessages')) {
+    localStorage.setItem('sportfield_chatMessages', JSON.stringify(MOCK_DATA.chatMessages));
   }
 }
 

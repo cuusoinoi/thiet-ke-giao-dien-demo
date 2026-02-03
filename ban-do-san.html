@@ -159,11 +159,14 @@
     .map-note {
       font-size: 13px;
       color: var(--muted);
-      margin-top: 16px;
-      padding: 12px;
+      margin-bottom: 12px;
+      padding: 12px 16px;
       background: #f0fdf4;
       border-radius: 8px;
       border: 1px solid #bbf7d0;
+      position: relative;
+      z-index: 10;
+      flex-shrink: 0;
     }
 
     @media (max-width: 1024px) {
@@ -254,6 +257,7 @@
           <a href="ho-tro.html">Hỗ trợ</a>
           <div class="dropdown-menu">
             <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
             <a href="dieu-khoan.html">Điều khoản sử dụng</a>
           </div>
         </div>
@@ -299,12 +303,12 @@
             </select>
           </div>
 
-          <div class="map-wrap">
-            <div id="map" aria-label="Bản đồ sân thể thao"></div>
-          </div>
-
           <div class="map-note">
             📍 Bấm vào marker trên bản đồ hoặc card bên cạnh để xem thông tin sân. Chọn <strong>Xem chi tiết</strong> để đặt sân.
+          </div>
+
+          <div class="map-wrap">
+            <div id="map" aria-label="Bản đồ sân thể thao"></div>
           </div>
         </div>
 

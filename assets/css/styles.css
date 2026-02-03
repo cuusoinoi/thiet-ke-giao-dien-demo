@@ -123,6 +123,7 @@ nav a {
   position: relative;
   transition: all 0.3s ease;
   overflow: visible;
+  white-space: nowrap;
 }
 
 /* Dropdown Menu */
@@ -264,6 +265,11 @@ nav a.active::after {
   gap: 10px;
 }
 
+.header-cta .btn,
+.header-cta .btn-outline {
+  white-space: nowrap;
+}
+
 /* Mobile Menu - Disabled for web interface */
 .mobile-menu-btn {
   display: none !important;
@@ -274,6 +280,15 @@ nav a.active::after {
 }
 
 /* BUTTONS */
+.btn,
+.btn-outline {
+  box-sizing: border-box;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
 .btn {
   border-radius: 999px;
   padding: 8px 18px;
@@ -297,11 +312,19 @@ nav a.active::after {
 }
 
 .btn-outline {
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 999px;
+  border: 1.5px solid rgba(22, 163, 74, 0.3);
   background: transparent;
   color: var(--green-dark);
-  border-color: rgba(22, 163, 74, 0.3);
-  border-radius: 999px;
-  border-width: 1.5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 .btn-outline:hover {
@@ -311,6 +334,13 @@ nav a.active::after {
   box-shadow: 0 2px 8px rgba(22, 163, 74, 0.2);
 }
 
+/* Nút dạng link (a.btn, a.btn-outline) giữ chữ trong viền */
+a.btn,
+a.btn-outline {
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
 .btn-large {
   padding: 12px 24px;
   font-size: 16px;
@@ -318,6 +348,26 @@ nav a.active::after {
 
 .btn-block {
   width: 100%;
+}
+
+/* Phân trang: nút cùng kích thước */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pagination .btn,
+.pagination .btn-outline {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
 }
 
 .btn-secondary {

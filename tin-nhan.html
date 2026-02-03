@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tin nhắn - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .page-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 32px 0;
+      margin-bottom: 24px;
+    }
+
+    .page-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+    .page-subtitle { font-size: 14px; opacity: 0.9; }
+
+    .chat-list {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .chat-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: background 0.2s;
+    }
+
+    .chat-item:last-child { border-bottom: none; }
+    .chat-item:hover { background: #f9fafb; }
+
+    .chat-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .chat-body { flex: 1; min-width: 0; }
+    .chat-name { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+    .chat-preview { font-size: 14px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-time { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
+      color: var(--green); font-weight: 600; font-size: 14px;
+    }
+    .back-link:hover { color: var(--green-dark); }
+
+    .empty-chat {
+      text-align: center; padding: 48px 24px; color: var(--muted);
+      background: var(--white); border-radius: 16px; border: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs><linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#16a34a"/><stop offset="100%" stop-color="#15803d"/></linearGradient></defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4"/>
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="ban-do-san.html">Bản đồ sân</a>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-cta"><a href="tai-khoan.html" class="btn-outline">Tài khoản</a></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <nav class="breadcrumb" style="margin-bottom: 12px; font-size: 13px;">
+          <a href="index.html">Trang chủ</a> / <a href="tai-khoan.html">Tài khoản</a> / <span style="color: rgba(255,255,255,0.9);">Tin nhắn</span>
+        </nav>
+        <div class="page-title">Tin nhắn</div>
+        <div class="page-subtitle">Chat với chủ sân</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <a href="tai-khoan.html" class="back-link">← Quay lại Tài khoản</a>
+      <div id="content-area">
+        <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải...</div>
+      </div>
+    </div>
+  </main>
+
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">
+            <svg class="logo-icon" viewBox="0 0 64 64"><path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="#16a34a" stroke-width="4"/><path d="M18 26h28" stroke="#16a34a" stroke-width="3"/><path d="M32 26v16" stroke="#16a34a" stroke-width="3"/></svg>
+            <span class="brand-name">SportField</span>
+          </div>
+          <p class="section-sub">Nền tảng đặt sân thể thao đa môn.</p>
+        </div>
+        <div>
+          <div class="footer-title">Quy định & hỗ trợ</div>
+          <div class="footer-links">
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+            <a href="ho-tro.html">Hỗ trợ</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-title">Liên hệ</div>
+          <div class="footer-links">
+            <span>Hotline: 0900 000 000</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom"><span>© 2025 SportField.</span></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      const user = await getCurrentUser();
+      const content = document.getElementById('content-area');
+
+      if (!user) {
+        content.innerHTML = `
+          <div class="empty-chat">
+            <div style="font-size: 48px; margin-bottom: 16px;">🔒</div>
+            <p style="margin-bottom: 16px;">Vui lòng đăng nhập để xem tin nhắn.</p>
+            <a href="dang-nhap.html" class="btn">Đăng nhập</a>
+          </div>
+        `;
+        return;
+      }
+
+      const conversations = await getChatConversations(user.id);
+
+      if (conversations.length === 0) {
+        content.innerHTML = `
+          <div class="empty-chat">
+            <div style="font-size: 48px; margin-bottom: 16px;">💬</div>
+            <p style="margin-bottom: 8px;">Chưa có tin nhắn nào.</p>
+            <p style="font-size: 14px; margin-bottom: 16px;">Bạn có thể nhắn với chủ sân từ trang chi tiết sân.</p>
+            <a href="danh-sach-san.html" class="btn">Xem danh sách sân</a>
+          </div>
+        `;
+        return;
+      }
+
+      const list = conversations.map(c => {
+        const initial = (c.venueName || 'S').charAt(0).toUpperCase();
+        const time = c.lastAt ? new Date(c.lastAt).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : '';
+        return `
+          <a href="chat.html?venue=${c.venueId}" class="chat-item">
+            <div class="chat-avatar">${initial}</div>
+            <div class="chat-body">
+              <div class="chat-name">${c.venueName}</div>
+              <div class="chat-preview">${c.lastMessage || 'Chưa có tin nhắn'}</div>
+            </div>
+            <div class="chat-time">${time}</div>
+          </a>
+        `;
+      }).join('');
+
+      content.innerHTML = '<div class="chat-list">' + list + '</div>';
+    });
+
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  </script>
+</body>
+</html>

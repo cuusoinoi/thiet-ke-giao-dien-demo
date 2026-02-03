@@ -210,12 +210,74 @@ function getUserBookings(userId) {
   return Promise.resolve(bookings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
 }
 
+// Lấy chi tiết một đơn đặt sân theo id
+function getBookingById(bookingId) {
+  const userBookings = JSON.parse(localStorage.getItem('sportfield_userBookings') || '[]');
+  const booking = userBookings.find(b => b.id === parseInt(bookingId));
+  return Promise.resolve(booking || null);
+}
+
+// ========== CHAT API ==========
+
+// Lấy danh sách hội thoại (theo venue) của user
+function getChatConversations(userId) {
+  const messages = JSON.parse(localStorage.getItem('sportfield_chatMessages') || '[]');
+  const venues = JSON.parse(localStorage.getItem('sportfield_venues') || '[]');
+  const userMessages = messages.filter(m => m.userId === userId);
+  const venueIds = [...new Set(userMessages.map(m => m.venueId))];
+  const conversations = venueIds.map(venueId => {
+    const convMessages = userMessages.filter(m => m.venueId === venueId).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const last = convMessages[0];
+    const venue = venues.find(v => v.id === venueId);
+    return {
+      venueId,
+      venueName: venue ? venue.name : 'Sân',
+      lastMessage: last ? last.text : '',
+      lastAt: last ? last.createdAt : ''
+    };
+  });
+  conversations.sort((a, b) => new Date(b.lastAt) - new Date(a.lastAt));
+  return Promise.resolve(conversations);
+}
+
+// Lấy tin nhắn giữa user và venue
+function getChatMessages(userId, venueId) {
+  const messages = JSON.parse(localStorage.getItem('sportfield_chatMessages') || '[]');
+  const list = messages.filter(m => m.userId === userId && m.venueId === parseInt(venueId));
+  return Promise.resolve(list.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
+}
+
+// Gửi tin nhắn (user gửi)
+function sendChatMessage(userId, venueId, text) {
+  const messages = JSON.parse(localStorage.getItem('sportfield_chatMessages') || '[]');
+  const newId = messages.length ? Math.max(...messages.map(m => m.id)) + 1 : 1;
+  const newMsg = {
+    id: newId,
+    userId,
+    venueId: parseInt(venueId),
+    sender: 'user',
+    text: (text || '').trim(),
+    createdAt: new Date().toISOString()
+  };
+  messages.push(newMsg);
+  localStorage.setItem('sportfield_chatMessages', JSON.stringify(messages));
+  return Promise.resolve(newMsg);
+}
+
 // ========== REVIEW API ==========
 
 // Lấy đánh giá của sân
 function getVenueReviews(venueId) {
   const reviews = JSON.parse(localStorage.getItem('sportfield_reviews') || '[]');
   return Promise.resolve(reviews.filter(r => r.venueId === parseInt(venueId)));
+}
+
+// Lấy đánh giá do user đã viết
+function getUserReviews(userId) {
+  const reviews = JSON.parse(localStorage.getItem('sportfield_reviews') || '[]');
+  return Promise.resolve(
+    reviews.filter(r => r.userId === userId).sort((a, b) => new Date(b.date) - new Date(a.date))
+  );
 }
 
 // Tạo đánh giá

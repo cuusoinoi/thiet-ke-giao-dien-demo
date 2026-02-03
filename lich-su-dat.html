@@ -108,6 +108,7 @@
           <a href="ho-tro.html">Hỗ trợ</a>
           <div class="dropdown-menu">
             <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
             <a href="dieu-khoan.html">Điều khoản sử dụng</a>
           </div>
         </div>
@@ -265,8 +266,9 @@
               <div style="font-size: 14px;">💰 ${price}₫</div>
             </div>
             <div class="history-actions">
-              <button class="btn" onclick="window.location.href='bang-lich-trong.html?venue=${booking.venueId}'">Đặt lại</button>
-              ${isPast ? `<button class="btn-outline" onclick="window.location.href='danh-gia-san.html?id=${booking.venueId}'">Đánh giá</button>` : ''}
+              <a href="chi-tiet-don.html?id=${booking.id}" class="btn">Xem chi tiết</a>
+              <button class="btn-outline" onclick="window.location.href='bang-lich-trong.html?venue=${booking.venueId}'">Đặt lại</button>
+              ${isPast ? `<a href="danh-gia-san.html?id=${booking.venueId}" class="btn-outline">Đánh giá</a>` : ''}
             </div>
           </div>
         `;

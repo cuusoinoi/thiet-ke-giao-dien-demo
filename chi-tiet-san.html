@@ -378,6 +378,7 @@
           <a href="ho-tro.html">Hỗ trợ</a>
           <div class="dropdown-menu">
             <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
             <a href="dieu-khoan.html">Điều khoản sử dụng</a>
           </div>
         </div>
@@ -455,9 +456,9 @@
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
               <div style="font-size: 13px; margin-bottom: 8px; font-weight: 600;">Thông tin liên hệ</div>
               <div style="font-size: 13px; color: var(--muted); margin-bottom: 4px;" id="venue-phone">📞 Đang tải...</div>
-              <button class="btn-outline" style="width: 100%; margin-top: 8px;">
+              <a href="#" id="chat-venue-btn" class="btn-outline" style="width: 100%; margin-top: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; padding: 10px 20px; border: 1.5px solid rgba(22, 163, 74, 0.5); border-radius: 999px; font-weight: 600; font-size: 14px; color: var(--green-dark); cursor: pointer;">
                 💬 Chat với chủ sân
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -552,6 +553,9 @@
         document.getElementById('venue-title').textContent = 'Không tìm thấy sân';
         return;
       }
+
+      const chatBtn = document.getElementById('chat-venue-btn');
+      if (chatBtn) chatBtn.href = 'chat.html?venue=' + venueId;
 
       // Update breadcrumb
       document.getElementById('breadcrumb-venue').textContent = currentVenue.name;

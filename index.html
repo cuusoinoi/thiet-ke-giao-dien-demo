@@ -123,6 +123,7 @@
       position: relative;
       transition: all 0.3s ease;
       overflow: visible;
+      white-space: nowrap;
     }
 
     /* Dropdown Menu */
@@ -264,6 +265,13 @@
       gap: 10px;
     }
 
+    .header-cta .btn,
+    .header-cta .btn-outline {
+      white-space: nowrap;
+      flex-shrink: 0;
+      min-width: fit-content;
+    }
+
     .btn {
       border-radius: 999px;
       padding: 8px 18px;
@@ -278,6 +286,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      white-space: nowrap;
     }
 
     .btn:hover {
@@ -289,9 +298,15 @@
     .btn-outline {
       background: transparent;
       color: var(--green-dark);
-      border-color: rgba(22, 163, 74, 0.3);
+      border: 1.5px solid rgba(22, 163, 74, 0.5);
       border-radius: 999px;
-      border-width: 1.5px;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
     }
 
     .btn-outline:hover {
@@ -376,6 +391,12 @@
       gap: 10px;
       flex-wrap: wrap;
       margin-bottom: 18px;
+    }
+
+    .hero-cta .btn,
+    .hero-cta .btn-outline {
+      min-width: 140px;
+      padding: 10px 20px;
     }
 
     .store-btn {
@@ -1092,6 +1113,7 @@
           <a href="ho-tro.html">Hỗ trợ</a>
           <div class="dropdown-menu">
             <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
             <a href="dieu-khoan.html">Điều khoản sử dụng</a>
           </div>
         </div>
@@ -1131,7 +1153,7 @@
 
           <div class="hero-cta">
             <button class="btn" onclick="window.location.href='danh-sach-san.html'">Đặt sân ngay</button>
-            <button class="btn-outline" onclick="window.location.href='ho-tro.html'">Xem video hướng dẫn</button>
+            <button class="btn-outline" onclick="window.location.href='huong-dan.html'">Xem video hướng dẫn</button>
           </div>
 
           <div class="hero-stats">

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat - SportField</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <style>
+    .page-header {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+      padding: 24px 0;
+      margin-bottom: 0;
+    }
+
+    .chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header-back {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+
+    .chat-header-back:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .chat-header-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .chat-container {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: 16px 16px 0 0;
+      border: 1px solid var(--border);
+      border-bottom: none;
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-bubble {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .chat-bubble.user {
+      align-self: flex-end;
+      background: #dcfce7;
+      color: #166534;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-bubble.venue {
+      align-self: flex-start;
+      background: #f3f4f6;
+      color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-bubble-time {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .chat-input-wrap {
+      padding: 16px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .chat-input-wrap input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 14px;
+    }
+
+    .chat-input-wrap input:focus {
+      outline: none;
+      border-color: var(--green);
+    }
+
+    .chat-input-wrap .btn {
+      flex-shrink: 0;
+      padding: 12px 20px;
+    }
+
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px;
+      color: var(--green); font-weight: 600; font-size: 14px;
+    }
+    .back-link:hover { color: var(--green-dark); }
+
+    .chat-empty {
+      text-align: center; padding: 40px 20px; color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <div class="logo-wrap">
+        <a href="index.html">
+          <svg class="logo-icon" viewBox="0 0 64 64" aria-hidden="true">
+            <defs><linearGradient id="sf-pin" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#16a34a"/><stop offset="100%" stop-color="#15803d"/></linearGradient></defs>
+            <path d="M32 4C22 4 14 12 14 22.2c0 11.2 9.7 22.3 16.2 30 1 1.2 2.7 1.2 3.7 0C40.3 44.5 50 33.4 50 22.2 50 12 42 4 32 4Z" fill="none" stroke="url(#sf-pin)" stroke-width="4"/>
+            <path d="M18 26h28" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 26v16" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>
+            <path d="M24 18l5 5 9-9" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="brand-name">SportField</div>
+        </a>
+      </div>
+      <nav>
+        <a href="index.html">Trang chủ</a>
+        <div class="nav-dropdown">
+          <a href="danh-sach-san.html">Môn thể thao</a>
+          <div class="dropdown-menu">
+            <a href="danh-sach-san.html?sportType=football">Bóng đá</a>
+            <a href="danh-sach-san.html?sportType=badminton">Cầu lông</a>
+            <a href="danh-sach-san.html?sportType=tennis">Tennis</a>
+          </div>
+        </div>
+        <a href="ban-do-san.html">Bản đồ sân</a>
+        <a href="uu-dai.html">Ưu đãi</a>
+        <a href="doi-tac.html">Dành cho đối tác</a>
+        <a href="tin-tuc.html">Tin tức</a>
+        <div class="nav-dropdown">
+          <a href="ho-tro.html">Hỗ trợ</a>
+          <div class="dropdown-menu">
+            <a href="ho-tro.html">Hỗ trợ & FAQ</a>
+            <a href="huong-dan.html">Video hướng dẫn</a>
+            <a href="dieu-khoan.html">Điều khoản sử dụng</a>
+          </div>
+        </div>
+      </nav>
+      <div class="header-cta"><a href="tai-khoan.html" class="btn-outline">Tài khoản</a></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-header">
+      <div class="container">
+        <div class="chat-header">
+          <a href="tin-nhan.html" class="chat-header-back" aria-label="Quay lại">←</a>
+          <div class="chat-header-title" id="chat-venue-name">Chat</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="content-area">
+        <div style="text-align: center; padding: 40px; color: var(--muted);">Đang tải...</div>
+      </div>
+    </div>
+  </main>
+
+  <button id="back-to-top" class="back-to-top" onclick="scrollToTop()" aria-label="Lên đầu trang">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg>
+  </button>
+
+  <footer>
+    <div class="container">
+      <div class="footer-bottom"><span>© 2025 SportField.</span></div>
+    </div>
+  </footer>
+
+  <script src="assets/js/mockData.js"></script>
+  <script src="assets/js/api.js"></script>
+  <script src="assets/js/header.js"></script>
+  <script src="assets/js/backToTop.js"></script>
+  <script>
+    let currentUser = null;
+    let venueId = null;
+    let venueName = '';
+
+    document.addEventListener('DOMContentLoaded', async function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      venueId = urlParams.get('venue');
+      const content = document.getElementById('content-area');
+
+      currentUser = await getCurrentUser();
+
+      if (!venueId) {
+        content.innerHTML = '<div class="chat-empty">Không tìm thấy cuộc trò chuyện. <a href="tin-nhan.html">Quay lại tin nhắn</a></div>';
+        return;
+      }
+
+      const venue = await getVenueById(venueId);
+      venueName = venue ? venue.name : 'Chủ sân';
+      document.getElementById('chat-venue-name').textContent = venueName;
+
+      if (!currentUser) {
+        content.innerHTML = `
+          <div class="chat-empty">
+            <p>Vui lòng đăng nhập để nhắn tin với chủ sân.</p>
+            <a href="dang-nhap.html" class="btn" style="margin-top: 16px; display: inline-block;">Đăng nhập</a>
+          </div>
+        `;
+        return;
+      }
+
+      renderChat();
+    });
+
+    function renderChat() {
+      const container = document.getElementById('content-area');
+      const messagesEl = document.createElement('div');
+      messagesEl.className = 'chat-messages';
+      messagesEl.id = 'chat-messages';
+
+      const inputWrap = document.createElement('div');
+      inputWrap.className = 'chat-input-wrap';
+      inputWrap.innerHTML = `
+        <input type="text" id="chat-input" placeholder="Nhập tin nhắn..." autocomplete="off" />
+        <button type="button" class="btn" id="chat-send">Gửi</button>
+      `;
+
+      const wrap = document.createElement('div');
+      wrap.className = 'chat-container';
+      wrap.appendChild(messagesEl);
+      wrap.appendChild(inputWrap);
+      container.innerHTML = '';
+      container.appendChild(wrap);
+
+      loadMessages();
+      document.getElementById('chat-send').addEventListener('click', sendMessage);
+      document.getElementById('chat-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMessage();
+      });
+    }
+
+    async function loadMessages() {
+      const list = await getChatMessages(currentUser.id, venueId);
+      const el = document.getElementById('chat-messages');
+      if (!el) return;
+
+      if (list.length === 0) {
+        el.innerHTML = '<div class="chat-empty">Chưa có tin nhắn. Hãy gửi lời chào!</div>';
+        return;
+      }
+
+      el.innerHTML = list.map(m => {
+        const time = new Date(m.createdAt).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+        const isUser = m.sender === 'user';
+        const safeText = (function(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; })(m.text);
+        return '<div class="chat-bubble ' + (isUser ? 'user' : 'venue') + '"><div>' + safeText + '</div><div class="chat-bubble-time">' + time + '</div></div>';
+      }).join('');
+
+      el.scrollTop = el.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = (input && input.value || '').trim();
+      if (!text) return;
+
+      await sendChatMessage(currentUser.id, venueId, text);
+      input.value = '';
+      await loadMessages();
+    }
+
+    function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  </script>
+</body>
+</html>
