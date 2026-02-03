@@ -461,6 +461,12 @@
       margin-bottom: 8px;
     }
 
+    .hero-card-content {
+      position: relative;
+      z-index: 2;
+      padding-right: 130px;
+      min-height: 1px;
+    }
     .hero-card-sub {
       font-size: 13px;
       opacity: 0.9;
@@ -916,6 +922,10 @@
         display: none;
       }
 
+      .hero-card-content {
+        padding-right: 0;
+      }
+
       .search-card {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1133,11 +1143,10 @@
         <div>
           <div class="hero-kicker">Ứng dụng đặt sân thể thao</div>
           <h1 class="hero-title">
-            Đặt sân <span>nhanh chóng</span>, chơi thể thao <span>mọi lúc</span>.
+            Đặt sân <span>nhanh chóng</span>,<br>chơi thể thao <span>mọi lúc</span>.
           </h1>
           <p class="hero-sub">
-            SportField giúp bạn tìm và đặt sân bóng đá, cầu lông, tennis, pickleball
-            chỉ trong vài chạm. Chủ động lịch tập, không lo hết sân.
+            SportField giúp bạn tìm và đặt sân thể thao chỉ trong vài chạm. Chủ động lịch tập, không lo hết sân.
           </p>
 
           <div class="hero-badges">
@@ -1173,12 +1182,12 @@
         </div>
 
         <div class="hero-card">
-          <div class="hero-card-title">Đặt sân ngay trên điện thoại</div>
-          <div class="hero-card-sub">
-            Chọn môn – chọn khu vực – chọn khung giờ. SportField gợi ý sân phù hợp
-            và giữ chỗ cho bạn trong vài giây.
-          </div>
-          <div class="hero-metrics">
+          <div class="hero-card-content">
+            <div class="hero-card-title">Đặt sân ngay trên điện thoại</div>
+            <div class="hero-card-sub">
+              Chọn môn – chọn khu vực – chọn khung giờ. SportField gợi ý sân phù hợp và giữ chỗ cho bạn trong vài giây.
+            </div>
+            <div class="hero-metrics">
             <div>
               <strong>+320</strong>
               sân bóng đá
@@ -1187,6 +1196,7 @@
               <strong>+210</strong>
               sân cầu lông &amp; tennis
             </div>
+          </div>
           </div>
 
           <div class="hero-phone">
@@ -1395,11 +1405,12 @@
               Đăng ký email để không bỏ lỡ khuyến mãi, giải đấu và sân mới trên SportField.
             </div>
           </div>
-          <form class="newsletter-form">
+          <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
             <input
               type="email"
               class="newsletter-input"
               placeholder="Nhập email của bạn"
+              required
             />
             <button class="btn" type="submit">Đăng ký</button>
           </form>
@@ -1492,6 +1503,7 @@
   <script src="assets/js/mockData.js"></script>
   <script src="assets/js/api.js"></script>
   <script src="assets/js/header.js"></script>
+  <script src="assets/js/alert.js"></script>
   <script>
     let allVenues = [];
     let currentSportFilter = '';
@@ -1649,6 +1661,13 @@
     // Format price helper
     function formatPrice(price) {
       return new Intl.NumberFormat('vi-VN').format(price);
+    }
+
+    // Newsletter đăng ký nhận ưu đãi
+    function subscribeNewsletter(e) {
+      e.preventDefault();
+      alert('Cảm ơn bạn đã đăng ký! Bạn sẽ nhận được ưu đãi mới mỗi tuần qua email.');
+      e.target.reset();
     }
   </script>
   <script src="assets/js/backToTop.js"></script>
