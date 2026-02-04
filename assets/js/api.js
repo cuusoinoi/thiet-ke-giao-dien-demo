@@ -333,7 +333,8 @@ function markNotificationRead(notificationId) {
 
 function getPaymentMethods(userId) {
   const list = JSON.parse(localStorage.getItem('sportfield_paymentMethods') || '[]');
-  return Promise.resolve(list.filter(p => p.userId === userId));
+  const uid = userId == null ? '' : String(userId);
+  return Promise.resolve(list.filter(p => String(p.userId) === uid));
 }
 
 function addPaymentMethod(data) {
@@ -358,7 +359,9 @@ function addPaymentMethod(data) {
 
 function updatePaymentMethod(id, data) {
   const list = JSON.parse(localStorage.getItem('sportfield_paymentMethods') || '[]');
-  const idx = list.findIndex(p => p.id === parseInt(id));
+  const numId = parseInt(String(id), 10);
+  if (isNaN(numId)) return Promise.reject({ message: 'ID phương thức thanh toán không hợp lệ' });
+  const idx = list.findIndex(p => Number(p.id) === numId);
   if (idx === -1) return Promise.reject({ message: 'Không tìm thấy thẻ' });
   if (data.isDefault === true) {
     list.forEach(p => { if (p.userId === list[idx].userId) p.isDefault = false; });
@@ -370,10 +373,12 @@ function updatePaymentMethod(id, data) {
 
 function deletePaymentMethod(id) {
   const list = JSON.parse(localStorage.getItem('sportfield_paymentMethods') || '[]');
-  const filtered = list.filter(p => p.id !== parseInt(id));
-  if (filtered.length === list.length) return Promise.reject({ message: 'Không tìm thấy thẻ' });
-  const deleted = list.find(p => p.id === parseInt(id));
-  if (deleted && deleted.isDefault && filtered.some(p => p.userId === deleted.userId)) {
+  const numId = parseInt(String(id), 10);
+  if (isNaN(numId)) return Promise.reject({ message: 'ID phương thức thanh toán không hợp lệ' });
+  const deleted = list.find(p => Number(p.id) === numId);
+  if (!deleted) return Promise.reject({ message: 'Không tìm thấy thẻ' });
+  const filtered = list.filter(p => Number(p.id) !== numId);
+  if (deleted.isDefault && filtered.some(p => p.userId === deleted.userId)) {
     const firstOther = filtered.find(p => p.userId === deleted.userId);
     if (firstOther) firstOther.isDefault = true;
   }

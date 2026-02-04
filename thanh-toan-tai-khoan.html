@@ -561,7 +561,7 @@
 
   <!-- Modal Cập nhật phương thức -->
   <div id="modal-edit-card" class="modal-overlay" onclick="if(event.target===this) closeModal('modal-edit-card')">
-    <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal" onclick="event.stopPropagation()" style="max-width: 480px;">
       <div class="modal-header">
         <h3>Cập nhật phương thức</h3>
         <button type="button" class="modal-close" onclick="closeModal('modal-edit-card')" aria-label="Đóng">&times;</button>
@@ -571,6 +571,7 @@
           <input type="hidden" id="edit-card-id" />
           <input type="hidden" id="edit-type" />
           <div id="edit-form-card">
+            <p id="edit-card-display-info" style="font-size: 13px; color: var(--muted); margin-bottom: 12px;"></p>
             <div class="form-group">
               <label for="edit-holder">Tên in trên thẻ</label>
               <input type="text" id="edit-holder" placeholder="NGUYEN VAN A" />
@@ -579,14 +580,43 @@
               <label for="edit-expiry">Hết hạn (MM/YY)</label>
               <input type="text" id="edit-expiry" placeholder="12/27" maxlength="5" />
             </div>
+            <p style="font-size: 12px; color: var(--muted);">Không thể thay đổi số thẻ. Để đổi số thẻ, vui lòng xóa và thêm thẻ mới.</p>
           </div>
           <div id="edit-form-ewallet" style="display: none;">
+            <input type="hidden" id="edit-ewallet-current-last4" />
             <div class="form-group">
-              <label for="edit-ewallet-last4">Mã hiển thị (số cuối SĐT liên kết)</label>
-              <input type="text" id="edit-ewallet-last4" placeholder="1234" maxlength="4" />
+              <label for="edit-ewallet-provider">Ví điện tử</label>
+              <select id="edit-ewallet-provider" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;">
+                <option value="Momo">Momo</option>
+                <option value="ZaloPay">ZaloPay</option>
+                <option value="VNPay">VNPay</option>
+                <option value="ViettelPay">ViettelPay</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-ewallet-phone">Số điện thoại liên kết (10 số)</label>
+              <input type="tel" id="edit-ewallet-phone" placeholder="0901234567" maxlength="11" />
             </div>
           </div>
           <div id="edit-form-bank" style="display: none;">
+            <input type="hidden" id="edit-bank-current-last4" />
+            <div class="form-group">
+              <label for="edit-bank-name">Ngân hàng</label>
+              <select id="edit-bank-name" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px;">
+                <option value="Vietcombank">Vietcombank</option>
+                <option value="Techcombank">Techcombank</option>
+                <option value="BIDV">BIDV</option>
+                <option value="Agribank">Agribank</option>
+                <option value="MB Bank">MB Bank</option>
+                <option value="VPBank">VPBank</option>
+                <option value="ACB">ACB</option>
+                <option value="TPBank">TPBank</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="edit-bank-account">Số tài khoản</label>
+              <input type="text" id="edit-bank-account" placeholder="Số tài khoản ngân hàng" maxlength="20" />
+            </div>
             <div class="form-group">
               <label for="edit-bank-holder">Chủ tài khoản</label>
               <input type="text" id="edit-bank-holder" placeholder="NGUYEN VAN A" />
@@ -785,16 +815,24 @@
 
     function saveEditPaymentMethod(e) {
       e.preventDefault();
-      const id = document.getElementById('edit-card-id').value;
-      const editType = document.getElementById('edit-type').value;
+      const id = (document.getElementById('edit-card-id') && document.getElementById('edit-card-id').value) || '';
+      const editType = (document.getElementById('edit-type') && document.getElementById('edit-type').value) || 'card';
+      if (!id) { alert('Không xác định được phương thức thanh toán.'); return false; }
 
       let data = {};
       if (editType === 'card') {
         data.holderName = (document.getElementById('edit-holder').value || '').trim().toUpperCase();
         data.expiry = (document.getElementById('edit-expiry').value || '').trim();
       } else if (editType === 'ewallet') {
-        data.last4 = (document.getElementById('edit-ewallet-last4').value || '').replace(/\D/g, '').slice(-4);
+        data.provider = (document.getElementById('edit-ewallet-provider') && document.getElementById('edit-ewallet-provider').value) || 'Momo';
+        var phoneVal = (document.getElementById('edit-ewallet-phone') && document.getElementById('edit-ewallet-phone').value) || '';
+        var newLast4 = phoneVal.replace(/\D/g, '');
+        data.last4 = newLast4.length >= 4 ? newLast4.slice(-4) : (document.getElementById('edit-ewallet-current-last4') && document.getElementById('edit-ewallet-current-last4').value) || '';
       } else if (editType === 'bank') {
+        data.bankName = (document.getElementById('edit-bank-name') && document.getElementById('edit-bank-name').value) || '';
+        var accVal = (document.getElementById('edit-bank-account') && document.getElementById('edit-bank-account').value) || '';
+        var accLast4 = accVal.replace(/\D/g, '');
+        data.last4 = accLast4.length >= 4 ? accLast4.slice(-4) : (document.getElementById('edit-bank-current-last4') && document.getElementById('edit-bank-current-last4').value) || '';
         data.accountHolder = (document.getElementById('edit-bank-holder').value || '').trim().toUpperCase();
       }
       updatePaymentMethod(id, data)
@@ -805,35 +843,82 @@
 
     function openEditCardFromBtn(btn) {
       var d = btn.dataset;
-      openEditCard(d.editId, d.editType || 'card', d.editHolder || '', d.editExpiry || '', d.editLast4 || '', d.editAccount || '');
+      if (!d.editId) return;
+      openEditCard(
+        String(d.editId),
+        d.editType || 'card',
+        d.editHolder || '',
+        d.editExpiry || '',
+        d.editLast4 || '',
+        d.editAccount || '',
+        d.editProvider || '',
+        d.editBankName || '',
+        d.editBrand || ''
+      );
     }
 
-    function openEditCard(id, editType, holderName, expiry, last4, accountHolder) {
-      document.getElementById('edit-card-id').value = id;
+    function openEditCard(id, editType, holderName, expiry, last4, accountHolder, provider, bankName, brand) {
+      document.getElementById('edit-card-id').value = String(id);
       document.getElementById('edit-type').value = editType || 'card';
       ['card', 'ewallet', 'bank'].forEach(t => {
         var el = document.getElementById('edit-form-' + t);
         if (el) el.style.display = t === (editType || 'card') ? 'block' : 'none';
       });
       if (editType === 'card') {
+        var infoEl = document.getElementById('edit-card-display-info');
+        if (infoEl) infoEl.textContent = 'Đang sửa: Thẻ ' + (brand || 'Visa') + ' •••• ' + (last4 || '');
         document.getElementById('edit-holder').value = holderName || '';
         document.getElementById('edit-expiry').value = expiry || '';
-      } else if (editType === 'ewallet') {
-        document.getElementById('edit-ewallet-last4').value = last4 || '';
+      } else {
+        var infoEl = document.getElementById('edit-card-display-info');
+        if (infoEl) infoEl.textContent = '';
+      }
+      if (editType === 'ewallet') {
+        var provEl = document.getElementById('edit-ewallet-provider');
+        if (provEl) { provEl.value = provider || 'Momo'; }
+        var curLast4 = document.getElementById('edit-ewallet-current-last4');
+        if (curLast4) { curLast4.value = last4 || ''; }
+        var phoneEl = document.getElementById('edit-ewallet-phone');
+        if (phoneEl) { phoneEl.value = ''; phoneEl.placeholder = last4 ? 'Hiện tại ***' + last4 + '. Nhập 10 số mới nếu muốn đổi' : '0901234567'; }
       } else if (editType === 'bank') {
+        var bankEl = document.getElementById('edit-bank-name');
+        if (bankEl) {
+          bankEl.value = bankName || '';
+          if (!bankName) bankEl.selectedIndex = 0;
+          else if (bankEl.value !== bankName) {
+            var opt = document.createElement('option');
+            opt.value = bankName;
+            opt.textContent = bankName;
+            bankEl.appendChild(opt);
+            bankEl.value = bankName;
+          }
+        }
         document.getElementById('edit-bank-holder').value = accountHolder || '';
+        var curBank = document.getElementById('edit-bank-current-last4');
+        if (curBank) { curBank.value = last4 || ''; }
+        var accEl = document.getElementById('edit-bank-account');
+        if (accEl) { accEl.value = ''; accEl.placeholder = last4 ? 'Hiện tại ***' + last4 + '. Nhập số TK mới nếu muốn đổi' : 'Số tài khoản ngân hàng'; }
       }
       openModal('modal-edit-card');
     }
 
-    function openDeleteCard(id, last4) {
+    function openDeleteCard(btnOrId, last4) {
+      var id, label;
+      if (typeof btnOrId === 'object' && btnOrId && btnOrId.dataset) {
+        id = btnOrId.dataset.deleteId || '';
+        label = (btnOrId.dataset.deleteLast4 !== undefined && btnOrId.dataset.deleteLast4 !== '') ? '•••• ' + btnOrId.dataset.deleteLast4 : 'này';
+      } else {
+        id = String(btnOrId || '');
+        label = (last4 !== undefined && last4 !== '') ? '•••• ' + last4 : 'này';
+      }
       document.getElementById('delete-card-id').value = id;
-      document.getElementById('delete-card-message').textContent = 'Bạn có chắc muốn xóa phương thức thanh toán •••• ' + last4 + '?';
+      document.getElementById('delete-card-message').textContent = 'Bạn có chắc muốn xóa phương thức thanh toán ' + label + '?';
       openModal('modal-delete-card');
     }
 
     function confirmDeleteCard() {
       const id = document.getElementById('delete-card-id').value;
+      if (!id) return;
       deletePaymentMethod(id)
         .then(() => {
           closeModal('modal-delete-card');
@@ -910,8 +995,8 @@
                   ${pm.isDefault ? '<span class="card-badge">Mặc định</span>' : ''}
                   <div class="card-actions">
                     ${!pm.isDefault ? '<button type="button" class="btn-outline" onclick="setDefaultCard(' + pm.id + ')">Đặt mặc định</button>' : ''}
-                    <button type="button" class="btn-outline" onclick="openEditCardFromBtn(this)" data-edit-id="${pm.id}" data-edit-type="${type}" data-edit-holder="${(pm.holderName || '').replace(/"/g, '&quot;')}" data-edit-expiry="${pm.expiry || ''}" data-edit-last4="${pm.last4 || ''}" data-edit-account="${(pm.accountHolder || '').replace(/"/g, '&quot;')}">Cập nhật</button>
-                    <button type="button" class="btn-danger-outline" onclick="openDeleteCard(' + pm.id + ',\'' + (pm.last4 || '') + '\')">Xóa</button>
+                    <button type="button" class="btn-outline" onclick="openEditCardFromBtn(this)" data-edit-id="${pm.id}" data-edit-type="${type}" data-edit-holder="${(pm.holderName || '').replace(/"/g, '&quot;')}" data-edit-expiry="${pm.expiry || ''}" data-edit-last4="${pm.last4 || ''}" data-edit-account="${(pm.accountHolder || '').replace(/"/g, '&quot;')}" data-edit-provider="${(pm.provider || '').replace(/"/g, '&quot;')}" data-edit-bank-name="${(pm.bankName || '').replace(/"/g, '&quot;')}" data-edit-brand="${(pm.brand || 'Visa').replace(/"/g, '&quot;')}">Cập nhật</button>
+                    <button type="button" class="btn-danger-outline" onclick="openDeleteCard(this)" data-delete-id="${pm.id}" data-delete-last4="${pm.last4 || ''}">Xóa</button>
                   </div>
                 </div>
               </div>
@@ -990,6 +1075,12 @@
         this.value = v.replace(/(.{4})/g, '$1 ').trim();
       });
       if (addExp) addExp.addEventListener('input', function() {
+        var v = this.value.replace(/\D/g, '');
+        if (v.length >= 2) this.value = v.slice(0, 2) + '/' + v.slice(2, 4);
+        else this.value = v;
+      });
+      var editExp = document.getElementById('edit-expiry');
+      if (editExp) editExp.addEventListener('input', function() {
         var v = this.value.replace(/\D/g, '');
         if (v.length >= 2) this.value = v.slice(0, 2) + '/' + v.slice(2, 4);
         else this.value = v;
